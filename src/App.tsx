@@ -22,6 +22,7 @@ import Home from "./pages/Dashboard/Home";
 import OtpVerification from "./components/auth/OtpVerification";
 import AuthRedirect from "./components/auth/AuthRedirect";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Project from "./pages/Projects/Project";
 
 export default function App() {
   return (
@@ -65,7 +66,7 @@ export default function App() {
               <Route path="/bar-chart" element={<BarChart />} />
 
               {/* Project Page */}
-              <Route path="/projects" element={<BarChart />} />
+              <Route path="/projects" element={<Project />} />
             </Route>
           </Route>
 

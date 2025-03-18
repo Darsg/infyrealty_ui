@@ -36,12 +36,12 @@ export const logOut = async () => handleRequest(apiClient.post("bm_user/logout",
 export const getProjectList = async () => handleRequest(apiClient.get("bm_project/get_project_list"));
 
 export const getProjectDetails = async (
-  projectId: string,
-  towerId?: string,
-  wingId?: string,
-  floorId?: string,
-  flatId?: string,
-  shopId?: string
+  projectId: number,
+  towerId?: number,
+  wingId?: number,
+  floorId?: number,
+  flatId?: number,
+  shopId?: number
 ) =>
   handleRequest(
     apiClient.get("bm_project/get_project_details", {
@@ -53,7 +53,7 @@ export const createProject = async (formData: any) => handleRequest(apiClient.po
 
 export const updateProject = async (formData: any) => handleRequest(apiClient.put("bm_project/update_project", formData));
 
-export const deleteProject = async (project_id: string) => handleRequest(apiClient.delete(`bm_project/delete_project?project_id=${project_id}`));
+export const deleteProject = async (project_id: number) => handleRequest(apiClient.delete(`bm_project/delete_project?project_id=${project_id}`));
 
 export const fetchTowerList = async (project_id: string) => handleRequest(apiClient.get(`bm_project/get_tower_list?project_id=${project_id}`));
 
