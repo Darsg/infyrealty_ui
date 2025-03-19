@@ -24,6 +24,9 @@ import AuthRedirect from "./components/auth/AuthRedirect";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Project from "./pages/Projects/Project";
 import ProjectDocs from "./pages/Projects/Documents/ProjectDocs";
+import SettingProfile from "./pages/Setting/Profile/SettingProfile";
+import SettingRoleManage from "./pages/Setting/RoleManagement/SettingRoleManage";
+import ResetPassword from "./pages/AuthPages/ResetPassword";
 
 export default function App() {
   return (
@@ -69,6 +72,10 @@ export default function App() {
               {/* Project Page */}
               <Route path="/projects" element={<Project />} />
               <Route path="/project/documents" element={<ProjectDocs />} />
+
+              {/* Setting Page */}
+              <Route path="/setting/profile" element={<SettingProfile />} />
+              <Route path="/setting/role-management" element={<SettingRoleManage />} />
             </Route>
           </Route>
 
@@ -77,6 +84,7 @@ export default function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/otp-verification" element={<OtpVerification />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
           </Route>         
 
           {/* Fallback Route */}
