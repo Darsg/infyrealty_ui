@@ -23,6 +23,7 @@ import OtpVerification from "./components/auth/OtpVerification";
 import AuthRedirect from "./components/auth/AuthRedirect";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Project from "./pages/Projects/Project";
+import ProjectDocs from "./pages/Projects/Documents/ProjectDocs";
 
 export default function App() {
   return (
@@ -67,6 +68,7 @@ export default function App() {
 
               {/* Project Page */}
               <Route path="/projects" element={<Project />} />
+              <Route path="/project/documents" element={<ProjectDocs />} />
             </Route>
           </Route>
 

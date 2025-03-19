@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "../../icons";
 import Label from "../form/Label";
 import Input from "../form/input/InputField";
-import Button from "../ui/button/Button";
 import { login } from "../../service/apis/AuthService";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -26,7 +25,7 @@ export default function SignInForm() {
 
       if (response.status_code === 200) {
         console.log("Sign In Response:", response);
-        toast(response.msg, { type: response.status});
+        toast(response.msg, { type: response.alert});
         localStorage.setItem("token", response.jwtToken);
         navigate("/dashboard", { replace: true });
       } else {
@@ -71,7 +70,7 @@ export default function SignInForm() {
           </div>
           <div>
             {/* Form Submission */}
-            <form>
+            <form onSubmit={handleSignIn}>
               <div className="space-y-6">
                 {/* Email Field */}
                 <div>
@@ -123,9 +122,9 @@ export default function SignInForm() {
 
                 {/* Submit Button */}
                 <div>
-                  <Button className="w-full" size="sm" onClick={handleSignIn}>
+                  <button className="flex items-center justify-center w-full px-4 py-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600">
                     Sign in
-                  </Button>
+                  </button>
                 </div>
               </div>
             </form>

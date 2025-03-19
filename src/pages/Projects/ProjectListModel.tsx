@@ -3,6 +3,7 @@ import Badge from "../../components/ui/badge/Badge";
 import Project from "./Project";
 import { HeartIcon, PencilIcon } from "../../icons";
 import { Dropdown } from "../../components/ui/dropdown/Dropdown";
+import { useNavigate } from "react-router";
 
 interface Project {
   id: number;
@@ -28,6 +29,11 @@ interface ProjectListModelProps {
 
 export default function ProjectListModel({ project, onEdit, onDelete }: ProjectListModelProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleDocumentClick = () => {
+    navigate(`/project/documents?project_id=${project.id}`);
+  }
 
   return (
     <div className="border border-gray-200 rounded-2xl dark:border-gray-800">
@@ -83,7 +89,10 @@ export default function ProjectListModel({ project, onEdit, onDelete }: ProjectL
                   <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                     View Details
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                  <li 
+                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                    onClick={handleDocumentClick}
+                  >
                     Documents
                   </li>
                 </ul>
