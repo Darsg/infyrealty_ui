@@ -4,8 +4,8 @@ import ProjectList from "./ProjectList";
 import ComponentCardWithButton from "../../components/common/ComponentCardWithButton";
 import { deleteProject, getProjectList } from "../../service/apis/AuthService";
 import ProjectForm from "./Form/ProjectForm";
-import ConfirmationDialog from "../../components/common/ConformationDialog";
 import { toast } from "react-toastify";
+import BoxAlerts from "../UiElements/BoxAlerts";
 
 interface Project {
   id: number;
@@ -61,7 +61,6 @@ export default function Project() {
   };
 
   const handleDelete = async () => {
-    setConfirmDialogOpen(false);
     
     try {
       const response = await deleteProject(projectId!);
@@ -71,6 +70,7 @@ export default function Project() {
       }
 
       toast(response.msg, { type: response.alert });
+      setConfirmDialogOpen(false);
     } catch (error) {
       console.error("Error deleting project:", error);
     }
@@ -97,12 +97,13 @@ export default function Project() {
       )}
 
       {/* Confirmation Dialog for Delete */}
-      <ConfirmationDialog
-        isOpen={isConfirmDialogOpen}
-        onClose={() => setConfirmDialogOpen(false)}
-        onConfirm={handleDelete}
+      <BoxAlerts
         title="Delete Project"
         description="Are you sure you want to delete this project?"
+        boxType="error"
+        isOpen={isConfirmDialogOpen}
+        onCancel={() => setConfirmDialogOpen(false)}
+        onConfirm={handleDelete}
       />
     </div>
   );
