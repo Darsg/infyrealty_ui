@@ -4,6 +4,7 @@ import PageMeta from "../../../components/common/PageMeta";
 import { getProjectDetails, getProjectDocuments } from "../../../service/apis/AuthService";
 import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
 import ProjectDocsList from "./ProjectDocsList";
+import DocGroup from "./Form/DocGroup";
 
 interface ProjectDetail {
     id: number;
@@ -25,6 +26,7 @@ export default function ProjectDocs() {
     const [searchParams] = useSearchParams();
     const projectId = searchParams.get("project_id");
     const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         if (!projectId) {
@@ -42,7 +44,12 @@ export default function ProjectDocs() {
 
         const fetchProjectDetails = async () => {
             try {
-                const response = await getProjectDetails(Number(projectId), Number(null), Number(null), Number(null), Number(null), Number(null));
+                const response = await getProjectDetails(Number(projectId), 
+                    null as unknown as number, 
+                    null as unknown as number, 
+                    null as unknown as number, 
+                    null as unknown as number, 
+                    null as unknown as number);
 
                 if (response.status_code === 200 && response?.records?.[0]) {
                     setProjectDetail(response.records[0]);
@@ -57,6 +64,7 @@ export default function ProjectDocs() {
     }, [projectId]);
 
     const handleAddDocGroup = () => {
+        setIsOpen(true);
         console.log("Add Group button clicked");
     };
 
@@ -79,6 +87,15 @@ export default function ProjectDocs() {
                     </div>
                 )}
             </div>
+
+            {isOpen && (
+                <DocGroup
+                    isOpen={isOpen}
+                    onClose={() => console.log("Document group not changed")}
+                    onSave={() => console.log("Document group saved")}
+                    setIsOpen={setIsOpen}
+                />
+            )}
         </div>
     );
 }

@@ -71,7 +71,7 @@ const navItems: NavItem[] = [
     icon: <SettingIcon />,
     subItems: [
       { name: "Profile", path: "/setting/profile", pro: false },
-      { name: "Role Management", path: "/setting/role-management", pro: false },
+      { name: "Staff Management", path: "/setting/staff-management", pro: false },
     ]
   }
 ];

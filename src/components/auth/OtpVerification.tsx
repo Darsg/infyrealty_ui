@@ -80,7 +80,7 @@ export default function OtpVerification() {
                         Open your email and enter the OTP to verify your account.
                     </p>
                 </div>
-                <form className="flex flex-col">
+                <form className="flex flex-col" onSubmit={handleSave}>
                     <div className="px-2 pb-3">
                         <div className="mt-7">
                             <Label>OTP</Label>
@@ -105,7 +105,7 @@ export default function OtpVerification() {
                         </p>
                     </div>
                     <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                        <Button size="sm" onClick={handleSave} disabled={otp.length !== 6}>
+                        <Button size="sm" disabled={otp.length !== 6}>
                             Verify
                         </Button>
                     </div>

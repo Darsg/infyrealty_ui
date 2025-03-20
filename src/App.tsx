@@ -25,7 +25,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import Project from "./pages/Projects/Project";
 import ProjectDocs from "./pages/Projects/Documents/ProjectDocs";
 import SettingProfile from "./pages/Setting/Profile/SettingProfile";
-import SettingRoleManage from "./pages/Setting/RoleManagement/SettingRoleManage";
+import SettingStaffManage from "./pages/Setting/StaffManagement/SettingStaffManage";
 import ResetPassword from "./pages/AuthPages/ResetPassword";
 
 export default function App() {
@@ -75,7 +75,7 @@ export default function App() {
 
               {/* Setting Page */}
               <Route path="/setting/profile" element={<SettingProfile />} />
-              <Route path="/setting/role-management" element={<SettingRoleManage />} />
+              <Route path="/setting/staff-management" element={<SettingStaffManage />} />
             </Route>
           </Route>
 

@@ -82,7 +82,7 @@ export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: Proj
     e.preventDefault();
 
     if (Object.entries(formData).some(([, value]) => value !== null && value?.toString().trim() === "")) {
-        toast.error("Please fill in all required fields.");
+        toast.info("Please fill all fields.");
         return;
     }
     
@@ -182,7 +182,7 @@ export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: Proj
           </div>
           <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
             <Button size="sm" variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
-            <Button size="sm" type="submit">{project ? "Update Project" : "Create Project"}</Button>
+            <Button size="sm" >{project ? "Update Project" : "Create Project"}</Button>
           </div>
         </form>
       </div>

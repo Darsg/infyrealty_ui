@@ -7,6 +7,8 @@ interface ComponentCardProps {
   className?: string; // Additional custom classes for styling
   buttonTitle?: string;
   onButtonClick?: () => void; // Callback when button is clicked
+  buttonTwoTitle?: string;
+  onSecondButtonClick?: () => void;
 }
 
 const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
@@ -15,6 +17,8 @@ const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
   className = "",
   buttonTitle,
   onButtonClick, // Receive callback function
+  buttonTwoTitle,
+  onSecondButtonClick
 }) => {
   return (
     <div className={`rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] ${className}`}>
@@ -27,9 +31,16 @@ const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
           </h3>
           
           {/* Button on the right */}
-          <Button size="sm" variant="outline" onClick={onButtonClick}>
-            {buttonTitle}
-          </Button>
+          <div className="flex gap-2">
+            {buttonTwoTitle && (
+              <Button size="sm" variant="outline" onClick={onSecondButtonClick}>
+                {buttonTwoTitle}
+              </Button>
+            )}
+            <Button size="sm" variant="outline" onClick={onButtonClick}>
+              {buttonTitle}
+            </Button>
+          </div>
         </div>
       </div>
 
