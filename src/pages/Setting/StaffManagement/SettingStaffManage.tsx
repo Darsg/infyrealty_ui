@@ -3,6 +3,7 @@ import ComponentCardWithButton from "../../../components/common/ComponentCardWit
 import PageMeta from "../../../components/common/PageMeta";
 import StaffManageTable from "./StaffManageTable";
 import StaffManageForm from "./StaffManageForm";
+import { useNavigate } from "react-router";
 
 interface StaffForm {
     id?: number,
@@ -17,6 +18,7 @@ interface StaffForm {
 export default function SettingStaffManage () {
 
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
     const [selectedStaff, setSelectedStaff] = useState<StaffForm | null>(null);
 
     const handleSave = () => {
@@ -40,6 +42,10 @@ export default function SettingStaffManage () {
         console.log("Deleting Staff:", staff);
     };
 
+    const handleRoleManage = () => {
+        navigate("/setting/role-management", { replace: true })
+    }
+
     return (
         <>
             <PageMeta
@@ -48,7 +54,7 @@ export default function SettingStaffManage () {
             />
             <ComponentCardWithButton title="Staff Management" 
                 buttonTitle="Add Staff" onButtonClick={() => setIsOpen(true)} 
-                buttonTwoTitle="View Role" onSecondButtonClick={() => console.log("Role Management")}
+                buttonTwoTitle="View Role" onSecondButtonClick={handleRoleManage}
             >
                 <div className="space-y-6">
                     <StaffManageTable onEdit={handleEdit} onDelete={handleDelete}/>

@@ -27,6 +27,7 @@ import ProjectDocs from "./pages/Projects/Documents/ProjectDocs";
 import SettingProfile from "./pages/Setting/Profile/SettingProfile";
 import SettingStaffManage from "./pages/Setting/StaffManagement/SettingStaffManage";
 import ResetPassword from "./pages/AuthPages/ResetPassword";
+import SettingRoleManage from "./pages/Setting/StaffManagement/RoleManagement.tsx/SettingRoleManage";
 
 export default function App() {
   return (
@@ -76,6 +77,7 @@ export default function App() {
               {/* Setting Page */}
               <Route path="/setting/profile" element={<SettingProfile />} />
               <Route path="/setting/staff-management" element={<SettingStaffManage />} />
+              <Route path="/setting/role-management" element={<SettingRoleManage />} />
             </Route>
           </Route>
 
