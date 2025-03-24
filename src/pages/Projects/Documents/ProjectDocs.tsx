@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PageMeta from "../../../components/common/PageMeta";
 import { getProjectDetails, getProjectDocuments } from "../../../service/apis/AuthService";
 import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
@@ -24,6 +24,7 @@ interface ProjectDetail {
 
 export default function ProjectDocs() {
     const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const projectId = searchParams.get("project_id");
     const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +64,10 @@ export default function ProjectDocs() {
         fetchProjectDetails();
     }, [projectId]);
 
+    const handleBackPress = () => {
+        navigate("/projects", { replace: true })
+    };
+
     const handleAddDocGroup = () => {
         setIsOpen(true);
         console.log("Add Group button clicked");
@@ -76,6 +81,7 @@ export default function ProjectDocs() {
                 {projectDetail ? (
                     <ComponentCardWithButton 
                         title={projectDetail?.name} 
+                        backButton={true} onBackButtonClick={handleBackPress}
                         buttonTitle="Add Group" 
                         onButtonClick={handleAddDocGroup}
                     >
