@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PageMeta from "../../../components/common/PageMeta";
 import { getProjectDetails, getProjectDocuments } from "../../../service/apis/AuthService";
 import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
@@ -22,51 +22,76 @@ interface ProjectDetail {
     project_type: string;
 }
 
+interface ProjectDocsLists {
+    photos: ProjectDocsDetails[];
+    video: ProjectDocsDetails[];
+    documents: ProjectDocsDetails[];
+    groups: ProjectDocsDetails[];
+}
+
+interface ProjectDocsDetails {
+    id: number;
+    org_id: number;
+    project_id: number;
+    group_name: string;
+    description: string;
+    created_by: number;
+    updated_by: number;
+    created_at: string;
+    updated_at: string;
+    document_list: DocsDetail[];
+}
+
+interface DocsDetail {
+    id: number;
+    org_id: number;
+    project_id: number;
+    group_id: number;
+    doc_name: string;
+    doc_description: string;
+    doc_path: string;
+}
+
 export default function ProjectDocs() {
     const [searchParams] = useSearchParams();
-    const projectId = searchParams.get("project_id");
+    const navigate = useNavigate();
+    const projectId = Number(searchParams.get("project_id"));
     const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
+    const [projectDocsList, setProjectDocsList] = useState<ProjectDocsLists | null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        if (!projectId) {
-            return;
-        }
-
-        const fetchProjectDocs = async () => {
-            try {
-                const response = await getProjectDocuments(projectId);
-                console.log(response);
-            } catch (error) {
-                console.log("Error while fetching docs: ", error);
+    const fetchProjectDocs = useCallback(async () => {
+        if (!projectId) return;
+        try {
+            const response = await getProjectDocuments(String(projectId));
+            if (response.status_code === 200) {
+                setProjectDocsList(response.records);
+            } else {
+                console.error("Failed to fetch documents, status:", response.status_code);
             }
+        } catch (error) {
+            console.error("Error while fetching project documents:", error);
         }
-
-        const fetchProjectDetails = async () => {
-            try {
-                const response = await getProjectDetails(Number(projectId), 
-                    null as unknown as number, 
-                    null as unknown as number, 
-                    null as unknown as number, 
-                    null as unknown as number, 
-                    null as unknown as number);
-
-                if (response.status_code === 200 && response?.records?.[0]) {
-                    setProjectDetail(response.records[0]);
-                    fetchProjectDocs()
-                }
-            } catch (err) {
-                console.error("Error fetching project:", err);
-            }
-        };
-
-        fetchProjectDetails();
     }, [projectId]);
 
-    const handleAddDocGroup = () => {
-        setIsOpen(true);
-        console.log("Add Group button clicked");
-    };
+    const fetchProjectDetails = useCallback(async () => {
+        if (!projectId) return;
+        try {
+            const response = await getProjectDetails(projectId, null as unknown as number, null as unknown as number, null as unknown as number, null as unknown as number, null as unknown as number);
+            if (response.status_code === 200 && response?.records?.length > 0) {
+                setProjectDetail(response.records[0]);
+            } else {
+                console.error("Project not found or API response issue.");
+            }
+        } catch (error) {
+            console.error("Error fetching project details:", error);
+        }
+    }, [projectId]);
+
+    useEffect(() => {
+        fetchProjectDetails();
+        fetchProjectDocs();
+    }, [fetchProjectDetails, fetchProjectDocs]);
 
     return (
         <div>
@@ -75,11 +100,13 @@ export default function ProjectDocs() {
             <div className="space-y-6">
                 {projectDetail ? (
                     <ComponentCardWithButton 
-                        title={projectDetail?.name} 
+                        title={projectDetail.name} 
                         buttonTitle="Add Group" 
-                        onButtonClick={handleAddDocGroup}
+                        onButtonClick={() => setIsOpen(true)}
+                        backButton={true} 
+                        onBackButtonClick={() => navigate("/projects", { replace: true })}
                     >
-                        <ProjectDocsList />
+                        <ProjectDocsList projectDocsList={projectDocsList} />
                     </ComponentCardWithButton>
                 ) : (
                     <div className="flex justify-center items-center h-64 text-gray-500 text-lg font-semibold">
@@ -90,9 +117,10 @@ export default function ProjectDocs() {
 
             {isOpen && (
                 <DocGroup
+                    projectId={projectDetail?.id}
                     isOpen={isOpen}
-                    onClose={() => console.log("Document group not changed")}
-                    onSave={() => console.log("Document group saved")}
+                    onClose={() => setIsOpen(false)}
+                    onSave={() => setIsOpen(false)}
                     setIsOpen={setIsOpen}
                 />
             )}

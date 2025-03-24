@@ -24,7 +24,6 @@ export default function SignInForm() {
       const response = await login(formData);
 
       if (response.status_code === 200) {
-        console.log("Sign In Response:", response);
         toast(response.msg, { type: response.alert});
         localStorage.setItem("token", response.jwtToken);
         navigate("/dashboard", { replace: true });
