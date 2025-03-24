@@ -31,6 +31,9 @@ interface ProjectFormProps {
 }
 
 export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: ProjectFormProps) {
+
+  const requiredFields = ["name", "email", "contact_no", "address1", "city", "state", "zipcode"];
+
   const [formData, setFormData] = useState<Project>({
     project_id: undefined,
     name: "",
@@ -81,9 +84,10 @@ export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: Proj
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (Object.entries(formData).some(([, value]) => value !== null && value?.toString().trim() === "")) {
-        toast.info("Please fill all fields.");
-        return;
+    if (requiredFields.some((field) => !formData[field as keyof Project]?.toString().trim())) {
+      console.log("Form Data:", formData);
+      toast.info("Please fill all required fields.");
+      return;
     }
     
     try {
