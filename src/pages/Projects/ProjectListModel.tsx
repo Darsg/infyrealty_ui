@@ -71,7 +71,7 @@ export default function ProjectListModel({ project, onEdit, onDelete }: ProjectL
               <Dropdown
                 isOpen={isOpen}
                 onClose={() => setIsOpen(false)}
-                className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
+                className="absolute right-0 mt-[32px] flex w-[200px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
               >
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-300">
                   <li
@@ -88,6 +88,9 @@ export default function ProjectListModel({ project, onEdit, onDelete }: ProjectL
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                     View Details
+                  </li>
+                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                    Permission
                   </li>
                   <li 
                     className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"

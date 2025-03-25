@@ -4,6 +4,7 @@ import PageMeta from "../../../components/common/PageMeta";
 import StaffManageTable from "./StaffManageTable";
 import StaffManageForm from "./StaffManageForm";
 import { useNavigate } from "react-router";
+import ProjectSelectionDropDown from "../../../components/infyrealty/ProjectSelectionDropDown";
 
 interface StaffForm {
     id?: number,
@@ -57,6 +58,7 @@ export default function SettingStaffManage () {
                 buttonTwoTitle="View Role" onSecondButtonClick={handleRoleManage}
             >
                 <div className="space-y-6">
+                    <ProjectSelectionDropDown />
                     <StaffManageTable onEdit={handleEdit} onDelete={handleDelete}/>
                 </div>
             </ComponentCardWithButton>
