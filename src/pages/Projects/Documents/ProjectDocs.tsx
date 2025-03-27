@@ -5,7 +5,6 @@ import { getProjectDetails, getProjectDocuments } from "../../../service/apis/Au
 import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
 import ProjectDocsList from "./ProjectDocsList";
 import DocGroup from "./Form/DocGroup";
-import NavBarRound from "../../../components/common/NavBarRound";
 
 interface ProjectDetail {
     id: number;
@@ -94,19 +93,11 @@ export default function ProjectDocs() {
         fetchProjectDocs();
     }, [fetchProjectDetails, fetchProjectDocs]);
 
-    const tabs = [
-        { name: "Overview", value: "overview" },
-        { name: "Notification", value: "notification" },
-        { name: "Analytics", value: "analytics" },
-        { name: "Customers", value: "customers" }
-    ];    
-
     return (
         <div>
             <PageMeta title="React.js Project Docs" description="Projects by InfyRealty" />
 
             <div className="space-y-6">
-                <NavBarRound tabs={tabs} onTabSelect={(tab) => console.log("Selected:", tab)} />
                 {projectDetail ? (
                     <ComponentCardWithButton 
                         title={projectDetail.name} 
