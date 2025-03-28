@@ -134,7 +134,7 @@ export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: Proj
               </div>
               <div>
                 <Label>Project Type</Label>
-                <select name="project_type" value={formData.project_type} onChange={handleChange} className="w-full p-2 border rounded-md" disabled={!!project}>
+                <select name="project_type" value={formData.project_type} onChange={handleChange} className="w-full p-2 border rounded-md mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-400" disabled={!!project}>
                   <option value="Residentials">Residentials</option>
                   <option value="Commercials">Commercials</option>
                 </select>

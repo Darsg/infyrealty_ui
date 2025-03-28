@@ -37,4 +37,46 @@ apiClient.interceptors.request.use(
   }
 );
 
+// Response Interceptor: Handle Errors Globally
+apiClient.interceptors.response.use(
+  (response) => {
+    
+    const { status_code } = response.data;
+
+    if (status_code === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/signin';
+    } else if (status_code === 400) {
+      localStorage.removeItem('token');
+      window.location.href = '/signin';
+    }
+
+    return response;
+  },
+  (error) => {
+    if (error.response) {
+      const { status } = error.response;
+
+      console.log("Error Response:", error.response); 
+
+      if (status === 40) {
+        localStorage.removeItem('token');
+        window.location.href = '/signin';
+      } else if (status === 400) {
+        localStorage.removeItem('token');
+        window.location.href = '/signin';
+      } else if (status === 500) {
+        console.log('Server error. Please try again later.');
+      } else {
+        console.log('An error occurred');
+      }
+    } else if (error.request) {
+      toast.error('Network error. Please check your connection.');
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+
 export default apiClient;

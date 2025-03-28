@@ -18,9 +18,10 @@ interface DocGroupProps {
     onSave: () => void;
     setIsOpen: (isOpen: boolean) => void;
     docGroup?: DocGroupDetail | null;
+    projectId?: number;
 }
 
-export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup }: DocGroupProps) {
+export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup, projectId }: DocGroupProps) {
     const [groupName, setGroupName] = useState("");
     const [description, setDescription] = useState("");
 
@@ -39,10 +40,12 @@ export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup 
         onClose();
     };
 
-    const handleSave = async () => {
+    const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         try {
             const formData = new FormData();
-            formData.append("name", groupName);
+            formData.append("project_id", String(projectId))
+            formData.append("group_name", groupName);
             formData.append("description", description);
 
             let response;
@@ -67,13 +70,13 @@ export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup 
             <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                 <div className="px-2 pr-14">
                     <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-                        Document
+                        {document ? "Edit" : "Add"} Document Group
                     </h4>
                     <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
                         Enter the details for the document group.
                     </p>
                 </div>
-                <form className="flex flex-col">
+                <form onSubmit={handleSave} className="flex flex-col">
                     <div className="px-2 pb-3">
                         <div className="mt-7">
                             <Label>Group Name</Label>
@@ -97,8 +100,8 @@ export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup 
                         </div>
                     </div>
                     <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                        <Button size="sm" onClick={handleSave}>
-                            Add
+                        <Button size="sm">
+                            {docGroup ? "Update" : "Add"}
                         </Button>
                     </div>
                 </form>
