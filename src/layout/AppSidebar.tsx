@@ -16,6 +16,8 @@ import {
   TableIcon,
   UserCircleIcon,
   SettingIcon,
+  CallIcon,
+  TicketIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
@@ -73,6 +75,16 @@ const navItems: NavItem[] = [
       { name: "Profile", path: "/setting/profile", pro: false },
       { name: "Staff Management", path: "/setting/staff-management", pro: false },
     ]
+  },
+  {
+    name: "Support",
+    icon: <CallIcon />,
+    path: "/support",
+  },
+  {
+    name: "Ticket",
+    icon: <TicketIcon />,
+    path: "/ticket",
   }
 ];
 
