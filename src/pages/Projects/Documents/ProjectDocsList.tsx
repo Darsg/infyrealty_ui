@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
 import DocDetails from "./Form/DocDetails";
+import ProjectPhotoModal from "./ProjectPhotoModal";
+import ProjectDocsTable from "./ProjectDocsTable";
 
 interface ProjectDocsProps {
     projectDocsList: ProjectDocsLists | null;
@@ -55,11 +57,24 @@ export default function ProjectDocsList({ projectDocsList }: ProjectDocsProps) {
         <div>
             <div className="space-y-6 flex flex-col">
             <ComponentCardWithButton 
-                            title="Images" 
-                            buttonTitle="Add Image" 
-                            onButtonClick={handleAddClick("Image")}
+                title="Images" 
+                buttonTitle="Add Image" 
+                onButtonClick={handleAddClick("Image")}
             >
-                Add Image here
+                <div className="flex flex-nowrap gap-4 overflow-x-auto rounded-2xl p-4 border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] scrollbar-thin scrollbar-thumb-gray-400">
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                    <ProjectPhotoModal />
+                </div>
             </ComponentCardWithButton>
 
             <ComponentCardWithButton 
@@ -75,8 +90,19 @@ export default function ProjectDocsList({ projectDocsList }: ProjectDocsProps) {
                             buttonTitle="Add Doc" 
                             onButtonClick={handleAddClick("Document")}
             >
-                Add Docs here
+                <ProjectDocsTable />
             </ComponentCardWithButton>
+
+            {projectDocsList?.groups.map((group) => (
+                <ComponentCardWithButton 
+                    key={group.id}
+                    title={group.group_name} 
+                    buttonTitle="Add Doc" 
+                    onButtonClick={handleAddClick("Document")}
+                >
+                    <ProjectDocsTable />
+                </ComponentCardWithButton>
+            ))}
 
             <pre className="whitespace-pre-wrap break-words p-4 bg-gray-100 opacity-90 rounded-md text-sm">
                 {JSON.stringify(projectDocsList, null, 2)}

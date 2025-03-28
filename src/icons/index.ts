@@ -57,6 +57,8 @@ import { ReactComponent as DocumentIcon } from "./documents.svg?react";
 import { ReactComponent as HeartIcon } from "./heart-normal.svg?react";
 import { ReactComponent as HeartSelectedIcon } from "./heart-selected.svg?react";
 import { ReactComponent as SettingIcon } from "./setting.svg?react"
+import { ReactComponent as CallIcon } from "./call.svg?react"
+import { ReactComponent as TicketIcon } from "./ticket.svg?react"
 
 export {
   ErrorHexaIcon,
@@ -117,5 +119,7 @@ export {
   HeartIcon,
   HeartSelectedIcon,
   DocumentIcon,
-  SettingIcon
+  SettingIcon,
+  CallIcon,
+  TicketIcon
 };

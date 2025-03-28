@@ -28,6 +28,9 @@ import SettingProfile from "./pages/Setting/Profile/SettingProfile";
 import SettingStaffManage from "./pages/Setting/StaffManagement/SettingStaffManage";
 import ResetPassword from "./pages/AuthPages/ResetPassword";
 import SettingRoleManage from "./pages/Setting/StaffManagement/RoleManagement.tsx/SettingRoleManage";
+import DynamicForm from "./pages/HiddenPages/DynamicForm/DynamicForm";
+import Support from "./pages/Support/Support";
+import Ticket from "./pages/Ticket/Ticket";
 
 export default function App() {
   return (
@@ -78,6 +81,15 @@ export default function App() {
               <Route path="/setting/profile" element={<SettingProfile />} />
               <Route path="/setting/staff-management" element={<SettingStaffManage />} />
               <Route path="/setting/role-management" element={<SettingRoleManage />} />
+
+              {/* Ticket Page */}
+              <Route path="/ticket" element={<Ticket />} />
+
+              {/* Support Page */}
+              <Route path="/support" element={<Support />} />
+
+              {/* Hidden Page */}
+              <Route path="/setting/dynamic-form" element={<DynamicForm />} />
             </Route>
           </Route>
 
