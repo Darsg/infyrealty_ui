@@ -54,9 +54,11 @@ const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
                 {buttonTwoTitle}
               </Button>
             )}
-            <Button size="sm" variant="outline" onClick={onButtonClick}>
-              {buttonTitle}
-            </Button>
+            {buttonTitle && (
+              <Button size="sm" variant="outline" onClick={onButtonClick}>
+                {buttonTitle}
+              </Button>
+            )}
           </div>
 
           {/* Dropdown Button for Small Screens */}

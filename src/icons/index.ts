@@ -59,6 +59,8 @@ import { ReactComponent as HeartSelectedIcon } from "./heart-selected.svg?react"
 import { ReactComponent as SettingIcon } from "./setting.svg?react"
 import { ReactComponent as CallIcon } from "./call.svg?react"
 import { ReactComponent as TicketIcon } from "./ticket.svg?react"
+import { ReactComponent as AcceptIcon } from "./accept.svg?react"
+import { ReactComponent as AcceptAllIcon } from "./accept-all.svg?react"
 
 export {
   ErrorHexaIcon,
@@ -121,5 +123,7 @@ export {
   DocumentIcon,
   SettingIcon,
   CallIcon,
-  TicketIcon
+  TicketIcon,
+  AcceptIcon,
+  AcceptAllIcon
 };

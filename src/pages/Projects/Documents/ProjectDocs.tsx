@@ -82,6 +82,7 @@ export default function ProjectDocs() {
         setIsOpen(true);
         console.log("Add Group button clicked");
     };
+
     const fetchProjectDetails = useCallback(async () => {
         if (!projectId) return;
         try {
