@@ -1,0 +1,121 @@
+WebHook implementation line by line(One to many communication)
+
+Step 1 : Create a new project in springBoot and add the following dependencies in the build.gradle file
+--------- build.gradle file ---------
+implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+
+Step 2 : Create WebConfig.java file for connect frontend and backend
+--------- WebConfig.java file ---------
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // Allow CORS for the specific origin
+        registry.addMapping("/**")  // Allow all paths
+                .allowedOrigins("http://localhost:5173")  // React app URL
+                .allowedMethods("GET", "POST", "PUT", "DELETE")  // Allowed methods
+                .allowedHeaders("*");  // Allow any headers
+    }
+}
+
+
+Step 3 : Create WebhookService.java file for handle webhook request
+--------- WebhookService.java ---------
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+@Service
+public class WebhookService {
+
+    private final RestTemplate restTemplate = new RestTemplate();
+
+    public void sendWebhook(String targetUrl, String payload) {
+        ResponseEntity<String> response = restTemplate.postForEntity(targetUrl, payload, String.class);
+        System.out.println("Webhook sent. Response: " + response.getBody());
+    }
+}
+
+
+Step 4 : Create WebhookController.java file for handle webhook request
+--------- WebhookController.java ---------
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import java.io.IOException;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+@RestController
+@RequestMapping("/api/webhook")
+public class WebHookController {
+
+    private final CopyOnWriteArrayList<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @PostMapping("/receive")
+    public String receiveWebhookPayload(@RequestBody String payload) {
+        System.out.println("Received webhook payload: " + payload);
+
+        // Notify all active SSE clients
+        for (SseEmitter emitter : emitters) {
+            try {
+                emitter.send(payload); // Send the received payload to all clients
+            } catch (IOException e) {
+                emitter.complete(); // Close and remove dead connections
+                emitters.remove(emitter);
+            }
+        }
+
+        return "Webhook received successfully!";
+    }
+
+    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping(value = "/receive", produces = "text/event-stream")
+    public SseEmitter subscribeToWebhook() {
+        SseEmitter emitter = new SseEmitter(10 * 60 * 1000L); // Keep the connection alive for 10 minutes
+        emitters.add(emitter);
+
+        emitter.onCompletion(() -> emitters.remove(emitter)); // Remove when the connection closes
+        emitter.onTimeout(() -> emitters.remove(emitter));
+
+        return emitter;
+    }
+}
+
+
+Step 5 : Create React application add below code in one of your component and run it
+const [message, setMessage] = useState("");
+
+useEffect(() => {
+    const eventSource = new EventSource("http://localhost:8080/api/webhook/receive");
+
+    eventSource.onmessage = (event) => {
+        console.log("Received new message:", event.data);
+        setMessage(event.data);  // Update the state with the new message
+    };
+
+    eventSource.onerror = (error) => {
+        console.error("Error with SSE connection:", error);
+        eventSource.close();
+    };
+
+    return () => {
+        eventSource.close();  // Cleanup the connection when the component unmounts
+    };
+}, []);
+
+<div>Updated msg: {message || "Waiting for webhook..."}</div>
+
+
+Step 6 : Hit below request in your postman to test the application
+curl --location 'http://localhost:8080/api/webhook/receive' \
+--header 'Content-Type: application/json' \
+--data '{"user": "John", "message": " Hellcsco world!"}'
+
+
+Step 7 : Verify the message in your react application
