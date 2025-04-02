@@ -55,7 +55,7 @@ interface DocsDetail {
 export default function ProjectDocs() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const projectId = Number(searchParams.get("project_id"));
+    const projectId = searchParams.get("project_id");
     const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
     const [projectDocsList, setProjectDocsList] = useState<ProjectDocsLists | null>(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -74,10 +74,18 @@ export default function ProjectDocs() {
         }
     }, [projectId]);
 
+    const handleBackPress = () => {
+        navigate("/projects", { replace: true })
+    };
+
+    const handleAddDocGroup = () => {
+        setIsOpen(true);
+        console.log("Add Group button clicked");
+    };
     const fetchProjectDetails = useCallback(async () => {
         if (!projectId) return;
         try {
-            const response = await getProjectDetails(projectId, null as unknown as number, null as unknown as number, null as unknown as number, null as unknown as number, null as unknown as number);
+            const response = await getProjectDetails(Number(projectId), null as unknown as number, null as unknown as number, null as unknown as number, null as unknown as number, null as unknown as number);
             if (response.status_code === 200 && response?.records?.length > 0) {
                 setProjectDetail(response.records[0]);
             } else {
@@ -100,11 +108,11 @@ export default function ProjectDocs() {
             <div className="space-y-6">
                 {projectDetail ? (
                     <ComponentCardWithButton 
-                        title={projectDetail.name} 
+                        title={projectDetail?.name} 
+                        backButton={true} 
+                        onBackButtonClick={handleBackPress}
                         buttonTitle="Add Group" 
                         onButtonClick={() => setIsOpen(true)}
-                        backButton={true} 
-                        onBackButtonClick={() => navigate("/projects", { replace: true })}
                     >
                         <ProjectDocsList projectDocsList={projectDocsList} />
                     </ComponentCardWithButton>
