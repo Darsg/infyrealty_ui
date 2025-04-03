@@ -1,0 +1,35 @@
+----- Created Date : 3 Apr 2025 -----
+*  @author :  Darsh Dobariya
+*  @email :  darshdobariya@gmail.com
+*  @company :  Infyrealty
+*  @website :  https://infyrealty.com
+*  @aim : Goal to start this in at least in 2 organization 
+*  @version :  1.0.0
+*  @last modified :  3 Apr 2025
+*  @last modified by :  Darsh Dobariya
+
+Task 1:
+- Complete staff and role managment before 15th April 2025.
+- dependencies - Darsh, Avadhish
+
+Task 2:
+- Complete profile section in setting before 7th April 2025.
+- dependencies - Darsh, Dhruvil
+
+Task 3:
+- Start visitor section and Dynamic form section using dynamic link and dynamic form look like google form.
+- Start Date : 15th April
+- Expected End Date : 30th April
+- dependencies - Darsh, Avadhish 
+
+Task 4:
+- Complete Help and support section for organization and admin.
+- Start Date : 10th April
+- Expected End Date : 30th April
+- dependencies - Darsh, Dhruvil
+
+Task 5:
+- complete all section as working and testing.
+- Start Date : 1st May
+- Expected End Date : 15th May
+- dependencies - Darsh, Avadhish, Dhruvil, Mumux

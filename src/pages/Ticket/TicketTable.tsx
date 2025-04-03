@@ -81,11 +81,11 @@ export default function TicketTable() {
                         <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                             {documentList.map((document) => (
                                 <TableRow key={document.id}>
-                                    <TableCell className="w-20 px-4 py-3 text-gray-500 text-center text-theme-sm dark:text-gray-400">
+                                    <TableCell className="w-20 px-4 py-3 text-gray-700 text-center text-theme-sm dark:text-gray-400 font-medium">
                                         {document.id}
                                     </TableCell>
                                     <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400 whitespace-nowrap">
-                                        <div>
+                                        <div className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
                                             {document.name}
                                         </div>
                                         <div>
