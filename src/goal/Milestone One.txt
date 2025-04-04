@@ -33,3 +33,10 @@ Task 5:
 - Start Date : 1st May
 - Expected End Date : 15th May
 - dependencies - Darsh, Avadhish, Dhruvil, Mumux
+
+
+
+
+Funny task:
+- Hit below API in postman and get response
+- https://github-contributions-api.jogruber.de/v4/darsg?y=last
