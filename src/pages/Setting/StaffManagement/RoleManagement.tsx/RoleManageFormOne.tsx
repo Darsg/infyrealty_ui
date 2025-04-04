@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { ArrowDownIcon, ArrowRightIcon } from "../../../../icons";
 import Checkbox from "../../../../components/form/input/Checkbox";
+import { Modal } from "../../../../components/ui/modal";
+import Label from "../../../../components/form/Label";
+import Input from "../../../../components/form/input/InputField";
+import Button from "../../../../components/ui/button/Button";
 
 export interface PermissionResponse {
   status_code: number;
@@ -59,165 +63,21 @@ export interface SubModule2Permission extends BasePermission {
 
 interface Props {
   data: PermissionResponse;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
-const RoleManageFormOne: React.FC<Props> = ({ data }) => {
+const RoleManageFormOne: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
   const [permissionData, setPermissionData] = useState(data);
   const [expandedModules, setExpandedModules] = useState<number[]>([]);
 
-  const isViewPermission = (label: string = "") =>
+  const isViewPermission = (label = "") =>
     label.toLowerCase().includes("view");
 
   const toggleExpand = (id: number) => {
     setExpandedModules((prev) =>
       prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
     );
-  };
-
-  const renderPermissions = (
-    permissions: (Permission | SubModule1Permission | SubModule2Permission)[],
-    path: string
-  ) => {
-    return permissions.map((perm, idx) => {
-      const label =
-        (perm as Permission).module_permission ||
-        (perm as SubModule1Permission).sub_module1_permission_name ||
-        (perm as SubModule2Permission).sub_module2_permission_name ||
-        "";
-
-      return (
-        <label key={perm.id} className="block ml-4 pt-2">
-          <Checkbox
-                checked={perm.is_set === 1}
-                onChange={(checked) => handlePermissionToggle(`${path}[${idx}]`, checked)}
-                label={label}
-            />
-        </label>
-      );
-    });
-  };
-
-  const renderSubModule2 = (sub2List: SubModule2[], path: string) => {
-    return sub2List.map((s2, i) => {
-      const s2Path = `${path}[${i}]`;
-      return (
-        <div key={s2.id} className="ml-6 border-gray-300 pl-4 pt-2">
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-          >
-            <strong>{s2.sub_module2_name}</strong>
-          </div>
-          {expandedModules.includes(s2.id) &&
-            renderPermissions(
-              s2.sub_module2_permissions,
-              `${s2Path}.sub_module2_permissions`
-            )}
-        </div>
-      );
-    });
-  };
-
-  const renderSubModule1 = (sub1List: SubModule1[], path: string) => {
-    return sub1List.map((s1, i) => {
-      const s1Path = `${path}[${i}]`;
-      return (
-        <div key={s1.id} className="ml-4 border-gray-400 pl-4 pt-2">
-            <div
-            className="flex items-center gap-2 cursor-pointer"
-            >
-            <strong>{s1.sub_module1_name}</strong>
-            </div>
-            {expandedModules.includes(s1.id) && (
-            <>
-                {renderPermissions(
-                s1.sub_module1_permissions,
-                `${s1Path}.sub_module1_permissions`
-                )}
-                {renderSubModule2(
-                s1.sub_module2_list,
-                `${s1Path}.sub_module2_list`
-                )}
-            </>
-            )}
-        </div>
-      );
-    });
-  };
-
-  const renderModuleTree = () => {
-    return permissionData.role.permission_list.map((mod, idx) => (
-        <div key={mod.id} className="mb-4 border p-2 rounded-md">
-          <div
-            className="flex items-center gap-2 cursor-pointer"
-            onClick={() => toggleExpand(mod.id)}
-          >
-            <div className="w-7 flex items-center justify-center">
-              {expandedModules.includes(mod.id) ? (
-                <ArrowDownIcon className="h-5 w-5 p-1 text-gray-500 text-gray-300" />
-              ) : (
-                <ArrowRightIcon className="h-5 w-5 p-1 text-gray-500 text-gray-300" />
-              )}
-            </div>
-            <strong>{mod.module_name}</strong>
-          </div>
-  
-          {expandedModules.includes(mod.id) && (
-            <>
-              {renderPermissions(
-                mod.module_permissions,
-                `role.permission_list[${idx}].module_permissions`
-              )}
-              {renderSubModule1(
-                mod.sub_modules1_list,
-                `role.permission_list[${idx}].sub_modules1_list`
-              )}
-            </>
-          )}
-        </div>
-    ));
-  };
-
-  const uncheckChildrenOnly = (mod: typeof permissionData.role.permission_list[0], path: string) => {
-    if (path.includes("sub_module2_permissions")) {
-      mod.sub_modules1_list.forEach((s1) => {
-        s1.sub_module2_list.forEach((s2) => {
-          s2.sub_module2_permissions.forEach((p) => {
-            p.is_set = 0;
-            p.autoChecked = false;
-          });
-        });
-      });
-    } else if (path.includes("sub_module1_permissions")) {
-      mod.sub_modules1_list.forEach((s1) => {
-        s1.sub_module1_permissions.forEach((p) => {
-          p.is_set = 0;
-          p.autoChecked = false;
-        });
-        s1.sub_module2_list.forEach((s2) => {
-          s2.sub_module2_permissions.forEach((p) => {
-            p.is_set = 0;
-            p.autoChecked = false;
-          });
-        });
-      });
-    } else if (path.includes("module_permissions")) {
-      mod.module_permissions.forEach((p) => {
-        p.is_set = 0;
-        p.autoChecked = false;
-      });
-      mod.sub_modules1_list.forEach((s1) => {
-        s1.sub_module1_permissions.forEach((p) => {
-          p.is_set = 0;
-          p.autoChecked = false;
-        });
-        s1.sub_module2_list.forEach((s2) => {
-          s2.sub_module2_permissions.forEach((p) => {
-            p.is_set = 0;
-            p.autoChecked = false;
-          });
-        });
-      });
-    }
   };
 
   const handlePermissionToggle = (path: string, autoCheckView = false) => {
@@ -249,12 +109,11 @@ const RoleManageFormOne: React.FC<Props> = ({ data }) => {
     permission.is_set = isChecking ? 1 : 0;
 
     const isView = isViewPermission(label);
-
     const moduleIdx = parseInt(
-      path.match(/role\.permission_list\[(\d+)\]/)?.[1] || "-1",
-      10
+      path.match(/role\.permission_list\[(\d+)\]/)?.[1] || "-1"
     );
     if (moduleIdx === -1) return;
+
     const module = updated.role.permission_list[moduleIdx];
 
     if (isChecking) {
@@ -286,28 +145,18 @@ const RoleManageFormOne: React.FC<Props> = ({ data }) => {
   };
 
   const checkParentViewPermissions = (keys: string[], updated: any) => {
-    const pathChain = [];
-
+    let current = updated.role;
     for (let i = 0; i < keys.length - 1; i++) {
       const match = keys[i].match(/(\w+)\[(\d+)\]/);
-      if (match) {
-        pathChain.push({ key: match[1], index: +match[2] });
-      }
-    }
+      if (!match) continue;
 
-    let current = updated.role;
-    for (let i = 0; i < pathChain.length; i++) {
-      const { key, index } = pathChain[i];
-      current = current[key][index];
+      const [, key, idx] = match;
+      current = current[key][+idx];
 
       let perms = [];
-      if (key === "permission_list") {
-        perms = current.module_permissions;
-      } else if (key === "sub_modules1_list") {
-        perms = current.sub_module1_permissions;
-      } else if (key === "sub_module2_list") {
-        perms = current.sub_module2_permissions;
-      }
+      if (key === "permission_list") perms = current.module_permissions;
+      else if (key === "sub_modules1_list") perms = current.sub_module1_permissions;
+      else if (key === "sub_module2_list") perms = current.sub_module2_permissions;
 
       const viewPerm = perms?.find((p: any) =>
         isViewPermission(
@@ -326,7 +175,182 @@ const RoleManageFormOne: React.FC<Props> = ({ data }) => {
     }
   };
 
-  return <div className="p-4">{renderModuleTree()}</div>;
+  const uncheckChildrenOnly = (mod: Module, path: string) => {
+    const uncheckPerms = (perms: BasePermission[]) =>
+      perms.forEach((p) => {
+        p.is_set = 0;
+        p.autoChecked = false;
+      });
+
+    if (path.includes("module_permissions")) {
+      uncheckPerms(mod.module_permissions);
+    }
+
+    mod.sub_modules1_list.forEach((s1) => {
+      if (path.includes("sub_module1_permissions") || path.includes("module_permissions")) {
+        uncheckPerms(s1.sub_module1_permissions);
+      }
+      s1.sub_module2_list.forEach((s2) => {
+        if (
+          path.includes("sub_module2_permissions") ||
+          path.includes("sub_module1_permissions") ||
+          path.includes("module_permissions")
+        ) {
+          uncheckPerms(s2.sub_module2_permissions);
+        }
+      });
+    });
+  };
+
+  const renderPermissions = (
+    permissions: (Permission | SubModule1Permission | SubModule2Permission)[],
+    path: string
+  ) =>
+    permissions.map((perm, idx) => {
+      const label =
+        (perm as Permission).module_permission ||
+        (perm as SubModule1Permission).sub_module1_permission_name ||
+        (perm as SubModule2Permission).sub_module2_permission_name ||
+        "";
+      return (
+        <label key={perm.id} className="block ml-4 pt-2">
+          <Checkbox
+            checked={perm.is_set === 1}
+            onChange={() =>
+              handlePermissionToggle(`${path}[${idx}]`, !isViewPermission(label))
+            }
+            label={label}
+          />
+        </label>
+      );
+    });
+
+  const renderSubModule2 = (sub2List: SubModule2[], path: string) =>
+    sub2List.map((s2, i) => {
+      const s2Path = `${path}[${i}]`;
+      return (
+        <div key={s2.id} className="ml-6 border-gray-300 pl-4 pt-2">
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => toggleExpand(s2.id)}
+          >
+            {expandedModules.includes(s2.id) ? (
+              <ArrowDownIcon className="h-5 w-5 p-1 text-gray-500" />
+            ) : (
+              <ArrowRightIcon className="h-5 w-5 p-1 text-gray-500" />
+            )}
+            <Label>{s2.sub_module2_name}</Label>
+          </div>
+          {expandedModules.includes(s2.id) &&
+            renderPermissions(s2.sub_module2_permissions, `${s2Path}.sub_module2_permissions`)}
+        </div>
+      );
+    });
+
+  const renderSubModule1 = (sub1List: SubModule1[], path: string) =>
+    sub1List.map((s1, i) => {
+      const s1Path = `${path}[${i}]`;
+      return (
+        <div key={s1.id} className="ml-4 border-gray-400 pl-4 pt-2">
+          <div
+            className="flex items-center gap-2 cursor-pointer"
+            onClick={() => toggleExpand(s1.id)}
+          >
+            {expandedModules.includes(s1.id) ? (
+              <ArrowDownIcon className="h-5 w-5 p-1 text-gray-500" />
+            ) : (
+              <ArrowRightIcon className="h-5 w-5 p-1 text-gray-500" />
+            )}
+            <Label>{s1.sub_module1_name}</Label>
+          </div>
+          {expandedModules.includes(s1.id) && (
+            <>
+              {renderPermissions(
+                s1.sub_module1_permissions,
+                `${s1Path}.sub_module1_permissions`
+              )}
+              {renderSubModule2(s1.sub_module2_list, `${s1Path}.sub_module2_list`)}
+            </>
+          )}
+        </div>
+      );
+    });
+
+  const renderModuleTree = () =>
+    permissionData.role.permission_list.map((mod, idx) => (
+      <div key={mod.id} className="mb-4 rounded-md">
+        <div
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => toggleExpand(mod.id)}
+        >
+          <div className="w-7 flex items-center justify-center">
+            {expandedModules.includes(mod.id) ? (
+              <ArrowDownIcon className="h-5 w-5 p-1 text-gray-500" />
+            ) : (
+              <ArrowRightIcon className="h-5 w-5 p-1 text-gray-500" />
+            )}
+          </div>
+          <Label>{mod.module_name}</Label>
+        </div>
+
+        {expandedModules.includes(mod.id) && (
+          <>
+            {renderPermissions(
+              mod.module_permissions,
+              `role.permission_list[${idx}].module_permissions`
+            )}
+            {renderSubModule1(
+              mod.sub_modules1_list,
+              `role.permission_list[${idx}].sub_modules1_list`
+            )}
+          </>
+        )}
+      </div>
+    ));
+
+    return (
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          isFullscreen={true}
+          className="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-900"
+        >
+          <div className="w-screen h-screen flex flex-col bg-white dark:bg-gray-900 rounded-3xl p-4 lg:p-11">
+            {/* ✅ Make Header Sticky at Top */}
+            <div className="sticky top-0 bg-white dark:bg-gray-900 z-10 px-2 pr-14 pb-2">
+              <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+                Role Management
+              </h4>
+              <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
+                Only admins can assign roles to staff members.
+              </p>
+              <div className="px-2">
+                <Label>Role Name*</Label>
+                <Input
+                  type="text"
+                  name="roleName"
+                  className="-full sm:max-w-sm"
+                  // value={formData.roleName}
+                  // onChange={(e) => setFormData({ ...formData, roleName: e.target.value })}
+                />
+              </div>
+            </div>
+      
+            <div className="flex-1 overflow-y-auto">
+              {renderModuleTree()}
+            </div>
+      
+            <div className="sticky bottom-0 left-0 w-full bg-white dark:bg-gray-900 py-4 px-2 flex justify-end gap-3 border-t">
+              <Button size="sm" variant="outline" onClick={() => setIsOpen(false)}>
+                Close
+              </Button>
+              <Button size="sm" onClick={() => setIsOpen(false)}>
+                Save Changes
+              </Button>
+            </div>
+          </div>
+        </Modal>
+    );
 };
 
 export default RoleManageFormOne;

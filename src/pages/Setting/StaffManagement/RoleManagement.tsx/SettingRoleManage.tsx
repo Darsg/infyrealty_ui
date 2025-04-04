@@ -2,7 +2,6 @@ import { useState } from "react";
 import ComponentCardWithButton from "../../../../components/common/ComponentCardWithButton";
 import PageMeta from "../../../../components/common/PageMeta";
 import { useNavigate } from "react-router";
-import RoleManageForm from "./RoleManageForm";
 import RoleManageTable from "./RoleManageTable";
 import RoleManageFormOne from "./RoleManageFormOne";
 import mockPermissionResponse from "../../../../service/utility/Utility";
@@ -17,11 +16,6 @@ export default function SettingRoleManage() {
         navigate("/setting/staff-management", { replace: true })
     }
 
-    const handleSave = () => {
-        setIsOpen(false);
-        console.log("Clicked on save and data will be saved here.");
-    }
-
     return (
         <>
             <PageMeta
@@ -34,8 +28,8 @@ export default function SettingRoleManage() {
             >
                 <div className="space-y-6">
                     <RoleManageTable onEdit={() => console.log("clicked...")}/>
-                    <RoleManageForm isOpen={isOpen} setIsOpen={setIsOpen} onCancel={() => setIsOpen(false)} onSave={handleSave} />
-                    <RoleManageFormOne data={mockPermissionResponse} />
+                    {/* <RoleManageForm isOpen={isOpen} setIsOpen={setIsOpen} onCancel={() => setIsOpen(false)} onSave={handleSave} /> */}
+                    <RoleManageFormOne data={mockPermissionResponse} isOpen={isOpen} setIsOpen={setIsOpen}/>
                 </div>
             </ComponentCardWithButton>
         </>
