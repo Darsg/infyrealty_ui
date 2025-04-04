@@ -1,5 +1,6 @@
 import ComponentCard from "../../../components/common/ComponentCard";
 import PageMeta from "../../../components/common/PageMeta";
+import GenerateView from "./GenerateView";
 
 // By Darsh
 // Instructions:
@@ -19,6 +20,7 @@ export default function DynamicForm() {
                 <div className="space-y-6">
                     NOTE: This is a hidden page. You can access this page by adding the path to the URL.
                 </div>
+                <GenerateView />
             </ComponentCard>
         </div>
     )
