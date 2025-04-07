@@ -308,6 +308,80 @@ const RoleManageFormOne: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
       </div>
     ));
 
+    const getSelectedPermissions = () => {
+      const payload = {
+        module_list: [] as any[],
+        module_permission: [] as any[],
+        sub_module1_list: [] as any[],
+        sub_module1_permission: [] as any[],
+        sub_module2_list: [] as any[],
+        sub_module2_permission: [] as any[],
+      };
+  
+      permissionData.role.permission_list.forEach((mod) => {
+        const { id: module_id } = mod;
+  
+        if (mod.is_set === 1) {
+          payload.module_list.push({ id: module_id });
+        }
+  
+        mod.module_permissions.forEach((perm) => {
+          if (perm.is_set === 1) {
+            payload.module_permission.push({
+              module_id,
+              id: perm.id,
+            });
+          }
+        });
+  
+        mod.sub_modules1_list.forEach((sub1) => {
+          const { id: sub_module1_id } = sub1;
+  
+          if (sub1.is_set === 1) {
+            payload.sub_module1_list.push({
+              module_id,
+              id: sub_module1_id,
+            });
+          }
+  
+          sub1.sub_module1_permissions.forEach((perm) => {
+            if (perm.is_set === 1) {
+              payload.sub_module1_permission.push({
+                module_id,
+                sub_module1_id,
+                id: perm.id,
+              });
+            }
+          });
+  
+          sub1.sub_module2_list.forEach((sub2) => {
+            const { id: sub_module2_id } = sub2;
+  
+            if (sub2.is_set === 1) {
+              payload.sub_module2_list.push({
+                module_id,
+                sub_module1_id,
+                id: sub_module2_id,
+              });
+            }
+  
+            sub2.sub_module2_permissions.forEach((perm) => {
+              if (perm.is_set === 1) {
+                payload.sub_module2_permission.push({
+                  module_id,
+                  sub_module1_id,
+                  sub_module2_id,
+                  id: perm.id,
+                });
+              }
+            });
+          });
+        });
+      });
+  
+      return payload;
+    };
+
     return (
         <Modal
           isOpen={isOpen}
@@ -344,7 +418,7 @@ const RoleManageFormOne: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
               <Button size="sm" variant="outline" onClick={() => setIsOpen(false)}>
                 Close
               </Button>
-              <Button size="sm" onClick={() => setIsOpen(false)}>
+              <Button size="sm" onClick={() => console.log(getSelectedPermissions())}>
                 Save Changes
               </Button>
             </div>
