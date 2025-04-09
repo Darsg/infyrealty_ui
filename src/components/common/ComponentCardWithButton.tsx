@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "../ui/button/Button";
-import { ChevronLeftIcon } from "../../icons";
+import { ArrowLeftIcon } from "../../icons";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
@@ -41,7 +41,7 @@ const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
                 className="p-2 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 flex gap-4 mr-2"
                 onClick={onBackButtonClick}
               >
-                <ChevronLeftIcon className="fill-gray-500 size-6 hover:cursor-pointer transition-all duration-200" />
+                <ArrowLeftIcon className="fill-gray-500 size-6 hover:cursor-pointer transition-all duration-200" />
               </button>
             )}
             {title}
