@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowDownIcon, ArrowRightIcon } from "../../../../icons";
 import Checkbox from "../../../../components/form/input/Checkbox";
 import { Modal } from "../../../../components/ui/modal";
 import Label from "../../../../components/form/Label";
 import Input from "../../../../components/form/input/InputField";
 import Button from "../../../../components/ui/button/Button";
+import { createRole, getAssignedRole, updateRole } from "../../../../service/apis/AuthService";
+import { toast } from "react-toastify";
 
 export interface PermissionResponse {
   status_code: number;
@@ -65,11 +67,30 @@ interface Props {
   data: PermissionResponse;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  roleId?: number | null;
+  onSave: () => void;
 }
 
-const RoleManageFormOne: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
+const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, onSave }) => {
   const [permissionData, setPermissionData] = useState(data);
   const [expandedModules, setExpandedModules] = useState<number[]>([]);
+
+  useEffect(() => {
+    const fetchRoleDetails = async () => {
+      if (roleId) {
+        try {
+          const response = await getAssignedRole(roleId);
+          if (response?.status_code === 200) {
+            setPermissionData(response);
+          }
+        } catch (error) {
+          console.error("Error fetching role details:", error);
+        }
+      }
+    };
+  
+    fetchRoleDetails();
+  }, [roleId]);
 
   const isViewPermission = (label = "") =>
     label.toLowerCase().includes("view");
@@ -79,6 +100,47 @@ const RoleManageFormOne: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
       prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
     );
   };
+
+  const handleSave = async () => {
+    if(!permissionData.role.role_name) {
+      toast("Please enter a role name", { type: "error" });
+      return;
+    }
+
+    try{
+      console.log("Saving permissions...", permissionData);
+      console.log("Saving permissions...", getSelectedPermissions());
+
+      const formData = new FormData();
+      const payload = getSelectedPermissions();
+      let response;
+
+      formData.append("role_name", permissionData.role.role_name);
+      formData.append('module_list', JSON.stringify(payload.module_list));
+      formData.append('module_permission', JSON.stringify(payload.module_permission));
+      formData.append('sub_module1_list', JSON.stringify(payload.sub_module1_list));
+      formData.append('sub_module1_permission', JSON.stringify(payload.sub_module1_permission));
+      formData.append('sub_module2_list', JSON.stringify(payload.sub_module2_list));
+      formData.append('sub_module2_permission', JSON.stringify(payload.sub_module2_permission));
+
+      if(roleId) {
+        formData.append("role_id", roleId.toString());
+        response = await updateRole(formData);
+      } else {
+        response = await createRole(formData);
+      }
+
+      toast(response.msg, { type: response.alert});
+      
+      if (response?.status_code === 200) {
+        setIsOpen(false);
+        onSave();
+      }
+    } catch (error) {
+      console.error("Error saving permissions:", error);
+      toast("Error saving permissions", { type: "error" });
+    }
+  }
 
   const handlePermissionToggle = (path: string, autoCheckView = false) => {
     const updated = JSON.parse(JSON.stringify(permissionData));
@@ -403,9 +465,17 @@ const RoleManageFormOne: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
                 <Input
                   type="text"
                   name="roleName"
-                  className="-full sm:max-w-sm"
-                  // value={formData.roleName}
-                  // onChange={(e) => setFormData({ ...formData, roleName: e.target.value })}
+                  className="w-full sm:max-w-sm"
+                  value={permissionData?.role?.role_name || ""}
+                  onChange={(e) =>
+                    setPermissionData((prev) => ({
+                      ...prev,
+                      role: {
+                        ...prev.role,
+                        role_name: e.target.value,
+                      },
+                    }))
+                  }
                 />
               </div>
             </div>
@@ -418,7 +488,7 @@ const RoleManageFormOne: React.FC<Props> = ({ data, isOpen, setIsOpen }) => {
               <Button size="sm" variant="outline" onClick={() => setIsOpen(false)}>
                 Close
               </Button>
-              <Button size="sm" onClick={() => console.log(getSelectedPermissions())}>
+              <Button size="sm" onClick={handleSave}>
                 Save Changes
               </Button>
             </div>
