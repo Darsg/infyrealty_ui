@@ -7,7 +7,7 @@ import SettingProfileForm from "./Setting/Profile/SettingProfileForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { AppDispatch, RootState } from "../service/store/store";
-import { fetchUserData } from "../service/reducer/userInfoReducer";
+import { fetchUserData } from "../service/reducer/UserInfoReducer";
 
 export default function UserProfiles() {
 

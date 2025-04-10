@@ -64,15 +64,14 @@ export interface SubModule2Permission extends BasePermission {
 }
 
 interface Props {
-  data: PermissionResponse;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   roleId: number | null; 
   onSave: () => void;
 }
 
-const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, onSave }) => {
-  const [permissionData, setPermissionData] = useState(data);
+const RoleManageFormOne: React.FC<Props> = ({ roleId, isOpen, setIsOpen, onSave }) => {
+  const [permissionData, setPermissionData] = useState<PermissionResponse>();
   const [expandedModules, setExpandedModules] = useState<number[]>([]);
 
   useEffect(() => {
@@ -102,14 +101,12 @@ const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, o
   };
 
   const handleSave = async () => {
-    if(!permissionData.role.role_name) {
+    if(!permissionData?.role.role_name) {
       toast("Please enter a role name", { type: "error" });
       return;
     }
 
     try{
-      console.log("Saving permissions...", permissionData);
-      console.log("Saving permissions...", getSelectedPermissions());
 
       const formData = new FormData();
       const payload = getSelectedPermissions();
@@ -340,7 +337,7 @@ const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, o
     });
 
   const renderModuleTree = () =>
-    permissionData.role.permission_list.map((mod, idx) => (
+    permissionData?.role.permission_list.map((mod, idx) => (
       <div key={mod.id} className="mb-4 rounded-md">
         <div
           className="flex items-center gap-2 cursor-pointer"
@@ -381,7 +378,7 @@ const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, o
         sub_module2_permission: [] as any[],
       };
   
-      permissionData.role.permission_list.forEach((mod) => {
+      permissionData?.role.permission_list.forEach((mod) => {
         const { id: module_id } = mod;
   
         if (mod.is_set === 1) {
@@ -470,12 +467,12 @@ const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, o
                   value={permissionData?.role?.role_name || ""}
                   onChange={(e) =>
                     setPermissionData((prev) => ({
-                      ...prev,
-                      role: {
-                        ...prev.role,
-                        role_name: e.target.value,
-                      },
-                    }))
+                                          ...prev!,
+                                          role: {
+                                            ...prev!.role,
+                                            role_name: e.target.value,
+                                          },
+                                        }))
                   }
                 />
               </div>

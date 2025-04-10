@@ -4,7 +4,6 @@ import PageMeta from "../../../../components/common/PageMeta";
 import { useNavigate } from "react-router";
 import RoleManageTable from "./RoleManageTable";
 import RoleManageFormOne from "./RoleManageFormOne";
-import mockPermissionResponse from "../../../../service/utility/Utility";
 
 export default function SettingRoleManage() {
 
@@ -29,7 +28,7 @@ export default function SettingRoleManage() {
                 <div className="space-y-6">
                     <RoleManageTable onEdit={() => console.log("clicked...")}/>
                     {/* <RoleManageForm isOpen={isOpen} setIsOpen={setIsOpen} onCancel={() => setIsOpen(false)} onSave={handleSave} /> */}
-                    <RoleManageFormOne roleId={25} data={mockPermissionResponse} isOpen={isOpen} setIsOpen={setIsOpen} onSave={() => console.log("Refresh role table")}/>
+                    <RoleManageFormOne roleId={29} isOpen={isOpen} setIsOpen={setIsOpen} onSave={() => console.log("Refresh role table")}/>
                 </div>
             </ComponentCardWithButton>
         </>

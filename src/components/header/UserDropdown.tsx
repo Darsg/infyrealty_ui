@@ -4,7 +4,7 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../service/store/store";
-import { fetchUserData } from "../../service/reducer/userInfoReducer";
+import { fetchUserData } from "../../service/reducer/UserInfoReducer";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);

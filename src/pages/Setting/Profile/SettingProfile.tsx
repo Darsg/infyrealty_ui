@@ -5,14 +5,14 @@ import PageMeta from "../../../components/common/PageMeta";
 import BMUserAddressCard from "../../../components/UserProfile/BuilderModule/BMUserAddressCard";
 import BMUserInfoCard from "../../../components/UserProfile/BuilderModule/BMUserInfoCard";
 import BmUserMetaCard from "../../../components/UserProfile/BuilderModule/BMUserMetaCard";
-import { fetchUserData } from "../../../service/reducer/userInfoReducer";
+import { fetchUserData } from "../../../service/reducer/UserInfoReducer";
 import SettingProfileForm from "./SettingProfileForm";
 
 export default function SettingProfile() {
   const dispatch = useDispatch<AppDispatch>();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data: userData, loading, error } = useSelector(
+  const { data: userData } = useSelector(
     (state: RootState) => state.userInfo
   );
 
@@ -31,9 +31,6 @@ export default function SettingProfile() {
         <h3 className="mb-5 text-lg font-semibold text-gray-800 dark:text-white/90 lg:mb-7">
           Profile
         </h3>
-
-        {loading && <p>Loading...</p>}
-        {error && <p className="text-red-500">Error: {error}</p>}
 
         {userData && (
           <div className="space-y-6">
