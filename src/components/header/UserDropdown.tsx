@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DropdownItem } from "../ui/dropdown/DropdownItem";
 import { Dropdown } from "../ui/dropdown/Dropdown";
 import { Link } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../service/store/store";
+import { fetchUserData } from "../../service/reducer/userInfoReducer";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +20,17 @@ export default function UserDropdown() {
   const handleSignOut = () => {
     localStorage.removeItem("token");
   }
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { data: userData } = useSelector(
+    (state: RootState) => state.userInfo
+  );
+
+  useEffect(() => {
+    dispatch(fetchUserData());
+  }, [dispatch]);
+
   return (
     <div className="relative">
       <button
@@ -27,7 +41,7 @@ export default function UserDropdown() {
           <img src="/images/user/owner.jpg" alt="User" />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Rushiraj</span>
+        <span className="block mr-1 font-medium text-theme-sm">{userData?.name || "User"}</span>
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -55,10 +69,10 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Rushiraj
+            {userData?.name || "User"}
           </span>
           <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
+            {userData?.email || "user@email.com"}
           </span>
         </div>
 
