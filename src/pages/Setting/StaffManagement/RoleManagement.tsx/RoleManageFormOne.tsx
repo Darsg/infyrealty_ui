@@ -67,7 +67,7 @@ interface Props {
   data: PermissionResponse;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  roleId?: number | null;
+  roleId: number | null; 
   onSave: () => void;
 }
 
@@ -77,7 +77,7 @@ const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, o
 
   useEffect(() => {
     const fetchRoleDetails = async () => {
-      if (roleId) {
+      if (isOpen && roleId !== null) {
         try {
           const response = await getAssignedRole(roleId);
           if (response?.status_code === 200) {
@@ -90,7 +90,7 @@ const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, o
     };
   
     fetchRoleDetails();
-  }, [roleId]);
+  }, [isOpen, roleId]);
 
   const isViewPermission = (label = "") =>
     label.toLowerCase().includes("view");
@@ -123,10 +123,11 @@ const RoleManageFormOne: React.FC<Props> = ({ roleId, data, isOpen, setIsOpen, o
       formData.append('sub_module2_list', JSON.stringify(payload.sub_module2_list));
       formData.append('sub_module2_permission', JSON.stringify(payload.sub_module2_permission));
 
-      if(roleId) {
-        formData.append("role_id", roleId.toString());
+      if (roleId !== 0) {
+        formData.append("role_id", (roleId ?? 0).toString());
         response = await updateRole(formData);
       } else {
+        formData.append("role_id", "0");
         response = await createRole(formData);
       }
 
