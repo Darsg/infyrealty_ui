@@ -14,6 +14,8 @@ interface ComponentCardProps {
   onButtonClick?: () => void; // Callback when button is clicked
   buttonTwoTitle?: string;
   onSecondButtonClick?: () => void;
+  buttonThreeTitle?: string;
+  onThirdButtonClick?: () => void;
 }
 
 const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
@@ -25,7 +27,9 @@ const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
   buttonTitle,
   onButtonClick, // Receive callback function
   buttonTwoTitle,
-  onSecondButtonClick
+  onSecondButtonClick,
+  buttonThreeTitle,
+  onThirdButtonClick
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,6 +53,11 @@ const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
 
           {/* Buttons for Large Screens */}
           <div className="hidden sm:flex gap-2">
+            {buttonThreeTitle && (
+              <Button size="sm" variant="outline" onClick={onThirdButtonClick}>
+                {buttonThreeTitle}
+              </Button>
+            )}
             {buttonTwoTitle && (
               <Button size="sm" variant="outline" onClick={onSecondButtonClick}>
                 {buttonTwoTitle}
@@ -76,6 +85,18 @@ const ComponentCardWithButton: React.FC<ComponentCardProps> = ({
                 className="absolute right-0 mt-[17px] flex w-[260px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
               >
                 <ul className="flex flex-col gap-1 pt-4 pb-3">
+                  {buttonThreeTitle && (
+                    <li>
+                      <DropdownItem
+                        onItemClick={() => setIsOpen(false)}
+                        tag="button"
+                        className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5"
+                        onClick={onThirdButtonClick}
+                      >
+                        {buttonThreeTitle}
+                      </DropdownItem>
+                    </li>
+                  )}
                   {buttonTwoTitle && (
                     <li>
                       <DropdownItem

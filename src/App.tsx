@@ -31,6 +31,7 @@ import SettingRoleManage from "./pages/Setting/StaffManagement/RoleManagement.ts
 import DynamicForm from "./pages/HiddenPages/DynamicForm/DynamicForm";
 import Support from "./pages/Support/Support";
 import Ticket from "./pages/Ticket/Ticket";
+import SettingUserManage from "./pages/Setting/StaffManagement/UserManagement/SettingUserManage";
 
 export default function App() {
   return (
@@ -81,6 +82,7 @@ export default function App() {
               <Route path="/setting/profile" element={<SettingProfile />} />
               <Route path="/setting/staff-management" element={<SettingStaffManage />} />
               <Route path="/setting/role-management" element={<SettingRoleManage />} />
+              <Route path="/setting/user-management" element={<SettingUserManage />} />
 
               {/* Ticket Page */}
               <Route path="/ticket" element={<Ticket />} />
