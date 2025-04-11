@@ -19,6 +19,7 @@ const handleRequest = async <T>(request: Promise<ApiResponse<T>>): Promise<T> =>
 };
 
 /* Authentication APIs */
+/* Organization Authentication */
 export const signUp = async (formData: FormData) => handleRequest(apiClient.post("bm_organization/sign_up", formData));
 
 export const sendOTP = async (formData: FormData) => handleRequest(apiClient.post("bm_otp/send_otp", formData));
@@ -34,6 +35,11 @@ export const forgotPassword = async (formData: FormData) => handleRequest(apiCli
 export const resetPassword = async (formData: FormData) => handleRequest(apiClient.post("bm_user/reset_password", formData));
 
 export const logOut = async () => handleRequest(apiClient.post("bm_user/logout", ""));
+
+/* User Authentication */
+export const createUser = async (formData: FormData) => handleRequest(apiClient.post("bm_user/create", formData));
+
+export const updateUser = async (formData: FormData) => handleRequest(apiClient.put("bm_user/update", formData));
 
 /* Project Configuration APIs */
 export const getProjectList = async () => handleRequest(apiClient.get("bm_project/get_project_list"));
@@ -119,6 +125,8 @@ export const createRole = async (formData: FormData) => handleRequest(apiClient.
 export const updateRole = async (formData: FormData) => handleRequest(apiClient.put("bm_role_permission/update", formData));
 
 export const getAssignedRole = async (roleId: number) => handleRequest(apiClient.get(`bm_role_permission/get_assign_permission_list?role_id=${roleId}`));
+
+export const getOrgRoleList = async () => handleRequest(apiClient.get("bm_role_permission/get_roles"));
 
 // This is used when user will login or refresh page call this and based on this show UI - status: pending
 export const getRoleDetails = async (roleId: number) => handleRequest(apiClient.get(`bm_role_permission/get_role_permission?role_id=${roleId}`));

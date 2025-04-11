@@ -1,36 +1,80 @@
-import { useState } from "react";
-import ComponentCardWithButton from "../../../../components/common/ComponentCardWithButton";
-import PageMeta from "../../../../components/common/PageMeta";
+import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router";
+import PageMeta from "../../../../components/common/PageMeta";
+import ComponentCardWithButton from "../../../../components/common/ComponentCardWithButton";
 import RoleManageTable from "./RoleManageTable";
 import RoleManageFormOne from "./RoleManageFormOne";
+import { getOrgRoleList } from "../../../../service/apis/AuthService";
+
+interface RoleProps {
+  id: number;
+  description: string;
+  is_deleted: number;
+  name: string;
+  org_id: number;
+}
 
 export default function SettingRoleManage() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [roleList, setRoleList] = useState<RoleProps[]>([]);
+  const [selectedRole, setSelectedRole] = useState<RoleProps | null>(null);
+  const navigate = useNavigate();
 
-    const [isOpen, setIsOpen] = useState(false);
-    const navigate = useNavigate();
-
-    const handleStaffManage = () => {
-        console.log("Click fire", isOpen);
-        navigate("/setting/staff-management", { replace: true })
+  // Fetch roles
+  const fetchRoleList = useCallback(async () => {
+    try {
+      const response = await getOrgRoleList();
+      if (response?.records) {
+        setRoleList(response.records);
+      } else {
+        console.warn("No role records found.");
+      }
+    } catch (error) {
+      console.error("Error fetching role list:", error);
     }
+  }, []);
 
-    return (
-        <>
-            <PageMeta
-                title="React.js Role Management"
-                description="This is React.js Profile Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
-            />
-            <ComponentCardWithButton title="Role Management" 
-                backButton={true} onBackButtonClick={handleStaffManage}
-                buttonTitle="Add Role" onButtonClick={() => setIsOpen(true)} 
-            >
-                <div className="space-y-6">
-                    <RoleManageTable onEdit={() => console.log("clicked...")}/>
-                    {/* <RoleManageForm isOpen={isOpen} setIsOpen={setIsOpen} onCancel={() => setIsOpen(false)} onSave={handleSave} /> */}
-                    <RoleManageFormOne roleId={29} isOpen={isOpen} setIsOpen={setIsOpen} onSave={() => console.log("Refresh role table")}/>
-                </div>
-            </ComponentCardWithButton>
-        </>
-    );
+  useEffect(() => {
+    fetchRoleList();
+  }, [fetchRoleList]);
+
+  // Button handlers
+  const handleNavigateBack = () => navigate("/setting/staff-management", { replace: true });
+  const handleEditRole = (role: RoleProps) => {
+    setSelectedRole(role);
+    setIsOpen(true);
+  };
+  const handleAddRole = () => {
+    setSelectedRole(null);
+    setIsOpen(true);
+  };
+
+  return (
+    <>
+      <PageMeta
+        title="React.js Role Management"
+        description="This is React.js Profile Dashboard page for TailAdmin - React.js Tailwind CSS Admin Dashboard Template"
+      />
+
+      <ComponentCardWithButton
+        title="Role Management"
+        backButton
+        onBackButtonClick={handleNavigateBack}
+        buttonTitle="Add Role"
+        onButtonClick={handleAddRole}
+      >
+        <div className="space-y-6">
+          <RoleManageTable roleList={roleList} onEdit={handleEditRole} />
+          <RoleManageFormOne
+            roleId={selectedRole?.id ?? 0}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onSave={() => {
+              fetchRoleList();
+            }}
+          />
+        </div>
+      </ComponentCardWithButton>
+    </>
+  );
 }
