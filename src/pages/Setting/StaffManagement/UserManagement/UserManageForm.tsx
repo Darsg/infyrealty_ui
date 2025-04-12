@@ -3,15 +3,18 @@ import Input from "../../../../components/form/input/InputField";
 import Label from "../../../../components/form/Label";
 import Button from "../../../../components/ui/button/Button";
 import { Modal } from "../../../../components/ui/modal";
+import { createUser, updateUser } from "../../../../service/apis/AuthService";
+import { toast } from "react-toastify";
 
 interface UserForm {
-    user_id?: number;
+    id?: number;
     name: string;
-    contact_code: number;
-    mobile_no: string;
+    contact_code: string;
+    contact_no: string;
     email: string;
     address1: string;
     description: string;
+    password?: string;
 }
 
 interface UserManageFormProps {
@@ -30,17 +33,24 @@ export default function UserManageForm({
     userForm,
 }: UserManageFormProps) {
     const [formData, setFormData] = useState<UserForm>({
+        id: undefined,
         name: "",
-        contact_code: 91,
-        mobile_no: "",
+        contact_code: "91",
+        contact_no: "",
         email: "",
         address1: "",
         description: "",
+        password: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData(prev => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     const handleBack = () => {
@@ -48,22 +58,58 @@ export default function UserManageForm({
         onCancel();
     };
 
-    const handleAdd = (e: React.FormEvent) => {
+    const handleAdd = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("New Record looks like", formData);
-        onSave();
+    
+        try {
+            let payload;
+            if (formData.id) {
+                const { id, ...rest } = formData;
+                payload = { ...rest, user_id: id }; // only user_id, no id
+            } else {
+                payload = formData;
+            }
+            
+            const response = formData.id
+                ? await updateUser(payload)
+                : await createUser(payload);
+    
+            if (response?.error?.[0]?.msg) {
+                toast(response.error[0].msg, { type: "error" });
+                return;
+            }
+    
+            toast(response.msg, { type: response.alert || "success" });
+            setIsOpen(false);
+            onSave();
+        } catch (error) {
+            console.error("Error creating/updating user:", error);
+            toast("Something went wrong.", { type: "error" });
+        }
     };
 
     useEffect(() => {
         if (userForm) {
             setFormData({
+                id: userForm.id,
                 name: userForm.name || "",
-                contact_code: userForm.contact_code || 0,
-                mobile_no: userForm.mobile_no || "",
+                contact_code: userForm.contact_code || "91",
+                contact_no: userForm.contact_no || "",
                 email: userForm.email || "",
                 address1: userForm.address1 || "",
                 description: userForm.description || "",
-                user_id: userForm.user_id,
+                password: "",
+            });
+        } else {
+            setFormData({
+                id: undefined,
+                name: "",
+                contact_code: "91",
+                contact_no: "",
+                email: "",
+                address1: "",
+                description: "",
+                password: "",
             });
         }
     }, [userForm]);
@@ -76,7 +122,7 @@ export default function UserManageForm({
                         {userForm ? "Update User Details" : "Add User Details"}
                     </h4>
                     <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
-                        All fields are required and user will only be able to login via email, so please verify it carefully.
+                        All fields are required. The user will only be able to login via email, so please verify it carefully.
                     </p>
                 </div>
 
@@ -88,31 +134,68 @@ export default function UserManageForm({
                         <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                             <div>
                                 <Label>Name</Label>
-                                <Input type="text" name="name" value={formData.name} onChange={handleChange} />
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                />
                             </div>
                             <div>
                                 <Label>Contact Code</Label>
-                                <Input type="number" name="contact_code" value={formData.contact_code} onChange={handleChange} />
+                                <Input
+                                    type="text"
+                                    name="contact_code"
+                                    value={formData.contact_code}
+                                    onChange={handleChange}
+                                />
                             </div>
                             <div>
                                 <Label>Mobile Number</Label>
-                                <Input type="text" name="mobile_no" value={formData.mobile_no} onChange={handleChange} />
+                                <Input
+                                    type="text"
+                                    name="contact_no"
+                                    value={formData.contact_no}
+                                    onChange={handleChange}
+                                />
                             </div>
                             <div>
                                 <Label>Email</Label>
-                                <Input type="email" name="email" value={formData.email} onChange={handleChange} />
+                                <Input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                />
                             </div>
+                            {!userForm && (
+                                <div>
+                                    <Label>Password</Label>
+                                    <Input
+                                        type="text"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                            )}
                             <div>
                                 <Label>Address</Label>
-                                <Input type="text" name="address1" value={formData.address1} onChange={handleChange} />
-                            </div>
-                            <div>
-                                <Label>Address</Label>
-                                <Input type="text" name="address1" value={formData.address1} onChange={handleChange} />
+                                <Input
+                                    type="text"
+                                    name="address1"
+                                    value={formData.address1}
+                                    onChange={handleChange}
+                                />
                             </div>
                             <div>
                                 <Label>Description</Label>
-                                <Input type="text" name="description" value={formData.description} onChange={handleChange} />
+                                <Input
+                                    type="text"
+                                    name="description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                />
                             </div>
                         </div>
                     </div>
@@ -122,7 +205,7 @@ export default function UserManageForm({
                             Cancel
                         </Button>
                         <Button size="sm">
-                            {userForm?.user_id ? "Update User" : "Create User"}
+                            {userForm ? "Update User" : "Create User"}
                         </Button>
                     </div>
                 </form>

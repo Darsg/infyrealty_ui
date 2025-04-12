@@ -41,6 +41,8 @@ export const createUser = async (formData: FormData) => handleRequest(apiClient.
 
 export const updateUser = async (formData: FormData) => handleRequest(apiClient.put("bm_user/update", formData));
 
+export const getUserList = async () => handleRequest(apiClient.get("bm_user/get_user_list"));
+
 /* Project Configuration APIs */
 export const getProjectList = async () => handleRequest(apiClient.get("bm_project/get_project_list"));
 

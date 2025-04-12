@@ -55,8 +55,8 @@ export default function SettingStaffManage () {
             />
             <ComponentCardWithButton title="Staff Management" 
                 buttonTitle="Add Staff" onButtonClick={() => setIsOpen(true)} 
-                buttonTwoTitle="View Role" onSecondButtonClick={handleRoleManage}
-                buttonThreeTitle="View User" onThirdButtonClick={() => navigate("/setting/user-management", { replace: true })}
+                buttonTwoTitle="View Roles" onSecondButtonClick={handleRoleManage}
+                buttonThreeTitle="View Users" onThirdButtonClick={() => navigate("/setting/user-management", { replace: true })}
             >
                 <div className="space-y-6">
                     <ProjectSelectionDropDown />

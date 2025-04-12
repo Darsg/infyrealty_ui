@@ -1,29 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ComponentCardWithButton from "../../../../components/common/ComponentCardWithButton";
 import { useNavigate } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
 import UserManageTable from "./UserManageTable";
 import UserManageForm from "./UserManageForm";
+import { getUserList } from "../../../../service/apis/AuthService";
 
 interface UserForm {
-    user_id?: number;
+    id?: number;
     name: string;
-    contact_code: number;
-    mobile_no: string;
+    contact_code: string;
+    contact_no: string;
     email: string;
     address1: string;
     description: string;
+    password?: string;
 }
 
 export default function SettingUserManage() {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const [selectedUser, setSelectedUser] = useState<UserForm | null>(null);
+    const [userList, setUserList] = useState<UserForm[]>([]); 
+
+    const fetchUsers = async () => {
+        try {
+            const response = await getUserList();
+            setUserList(response.records || []);
+        } catch (error) {
+            console.error("Failed to fetch user list:", error);
+        }
+    };
 
     const handleSave = () => {
         setIsOpen(false);
         setSelectedUser(null);
-        console.log("Clicked on save and data will be saved here.");
+        fetchUsers();
     };
 
     const handleAddClick = () => {
@@ -50,6 +62,10 @@ export default function SettingUserManage() {
         navigate("/setting/staff-management", { replace: true });
     };
 
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
     return (
         <>
             <PageMeta
@@ -64,7 +80,8 @@ export default function SettingUserManage() {
                 <div className="space-y-6">
                     <UserManageTable 
                         onEdit={(user) => handleEdit(user)} 
-                        onDelete={(user) => handleDelete(user)} />
+                        onDelete={(user) => handleDelete(user)}
+                        userList={userList} />
                 </div>
             </ComponentCardWithButton>
 

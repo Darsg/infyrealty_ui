@@ -1,45 +1,23 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../../../components/ui/table";
 import { PencilIcon, TrashBinIcon } from "../../../../icons";
-import { useState } from "react";
 
 interface UserManageTableProps {
     onEdit: (user: UserForm) => void;
     onDelete: (user: UserForm) => void;
+    userList: UserForm[];
 }
 
 interface UserForm {
-    user_id?: number;
+    id?: number;
     name: string;
-    contact_code: number;
-    mobile_no: string;
+    contact_code: string;
+    contact_no: string;
     email: string;
     address1: string;
     description: string;
 }
 
-export default function UserManageTable({ onEdit, onDelete }: UserManageTableProps) {
-
-    const [userList] = useState<UserForm[]>([
-        {
-            user_id: 1,
-            name: "John Doe",
-            contact_code: 91,
-            mobile_no: "9876543210",
-            email: "johndoe@example.com",
-            address1: "Doctor",
-            description: "true",
-        },
-        {
-            user_id: 2,
-            name: "Jane Smith",
-            contact_code: 91,
-            mobile_no: "9123456789",
-            email: "janesmith@example.com",
-            address1: "Nurse",
-            description: "true",
-        },
-    ]);
-
+export default function UserManageTable({ onEdit, onDelete, userList }: UserManageTableProps) {
     return (
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="max-w-full overflow-x-auto">
@@ -72,7 +50,7 @@ export default function UserManageTable({ onEdit, onDelete }: UserManageTablePro
                         {/* Table Body */}
                         <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
                             {userList.map((user, index) => {
-                                const userId = user.user_id ?? index; // fallback to index if undefined
+                                const userId = user.id ?? index; // fallback to index if undefined
 
                                 return (
                                     <TableRow key={userId}>
@@ -83,7 +61,7 @@ export default function UserManageTable({ onEdit, onDelete }: UserManageTablePro
                                             {user.name}
                                         </TableCell>
                                         <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                            +{user.contact_code} {user.mobile_no}
+                                            +{user.contact_code} {user.contact_no}
                                         </TableCell>
                                         <TableCell className="px-4 py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                                             {user.email}
