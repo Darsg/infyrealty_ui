@@ -12,7 +12,7 @@ interface UserForm {
     contact_code: string;
     contact_no: string;
     email: string;
-    address1: string;
+    address: string;
     description: string;
     password?: string;
 }
@@ -38,7 +38,7 @@ export default function UserManageForm({
         contact_code: "91",
         contact_no: "",
         email: "",
-        address1: "",
+        address: "",
         description: "",
         password: "",
     });
@@ -66,8 +66,10 @@ export default function UserManageForm({
             if (formData.id) {
                 const { id, ...rest } = formData;
                 payload = { ...rest, user_id: id }; // only user_id, no id
+                payload.address1 = formData.address || "";
             } else {
                 payload = formData;
+                payload.address1 = formData.address || "";
             }
             
             const response = formData.id
@@ -96,7 +98,7 @@ export default function UserManageForm({
                 contact_code: userForm.contact_code || "91",
                 contact_no: userForm.contact_no || "",
                 email: userForm.email || "",
-                address1: userForm.address1 || "",
+                address: userForm.address || "",
                 description: userForm.description || "",
                 password: "",
             });
@@ -107,7 +109,7 @@ export default function UserManageForm({
                 contact_code: "91",
                 contact_no: "",
                 email: "",
-                address1: "",
+                address: "",
                 description: "",
                 password: "",
             });
@@ -183,8 +185,8 @@ export default function UserManageForm({
                                 <Label>Address</Label>
                                 <Input
                                     type="text"
-                                    name="address1"
-                                    value={formData.address1}
+                                    name="address"
+                                    value={formData.address}
                                     onChange={handleChange}
                                 />
                             </div>

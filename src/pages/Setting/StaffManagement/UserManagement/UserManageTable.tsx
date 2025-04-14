@@ -13,7 +13,7 @@ interface UserForm {
     contact_code: string;
     contact_no: string;
     email: string;
-    address1: string;
+    address: string;
     description: string;
 }
 

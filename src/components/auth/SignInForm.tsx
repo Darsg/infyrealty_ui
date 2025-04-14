@@ -26,7 +26,9 @@ export default function SignInForm() {
       if (response.status_code === 200) {
         toast(response.msg, { type: response.alert});
         localStorage.setItem("token", response.jwtToken);
-        navigate("/dashboard", { replace: true });
+        if(response.user_type === "Admin"){
+          navigate("/dashboard", { replace: true });
+        }
       } else {
         toast.error(response.msg);
       }

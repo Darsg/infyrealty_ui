@@ -10,6 +10,7 @@ const ProtectedRoute = () => {
 
   useEffect(() => {
     if (token) {
+      console.log("Fetching user data...");
       dispatch(fetchUserData());
     }
   }, [dispatch, token]);
