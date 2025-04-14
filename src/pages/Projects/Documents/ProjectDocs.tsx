@@ -3,8 +3,9 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import PageMeta from "../../../components/common/PageMeta";
 import { getProjectDetails, getProjectDocuments } from "../../../service/apis/AuthService";
 import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
-import ProjectDocsList from "./ProjectDocsList";
 import DocGroup from "./Form/DocGroup";
+import { ProjectDocsLists } from "./DocsInterface";
+import ProjectDocsList from "./ProjectDocsList";
 
 interface ProjectDetail {
     id: number;
@@ -20,36 +21,6 @@ interface ProjectDetail {
     country: string;
     zipcode: string;
     project_type: string;
-}
-
-interface ProjectDocsLists {
-    photos: ProjectDocsDetails[];
-    video: ProjectDocsDetails[];
-    documents: ProjectDocsDetails[];
-    groups: ProjectDocsDetails[];
-}
-
-interface ProjectDocsDetails {
-    id: number;
-    org_id: number;
-    project_id: number;
-    group_name: string;
-    description: string;
-    created_by: number;
-    updated_by: number;
-    created_at: string;
-    updated_at: string;
-    document_list: DocsDetail[];
-}
-
-interface DocsDetail {
-    id: number;
-    org_id: number;
-    project_id: number;
-    group_id: number;
-    doc_name: string;
-    doc_description: string;
-    doc_path: string;
 }
 
 export default function ProjectDocs() {
@@ -78,10 +49,10 @@ export default function ProjectDocs() {
         navigate("/projects", { replace: true })
     };
 
-    const handleAddDocGroup = () => {
-        setIsOpen(true);
-        console.log("Add Group button clicked");
-    };
+    // const handleAddEditDocGroup = () => {
+    //     setIsOpen(true);
+    //     console.log("Add Group button clicked");
+    // };
 
     const fetchProjectDetails = useCallback(async () => {
         if (!projectId) return;
@@ -115,7 +86,7 @@ export default function ProjectDocs() {
                         buttonTitle="Add Group" 
                         onButtonClick={() => setIsOpen(true)}
                     >
-                        <ProjectDocsList projectDocsList={projectDocsList} />
+                        <ProjectDocsList projectDocsList={projectDocsList} setProjectDocList={setProjectDocsList} projectId={projectId || ""}/>
                     </ComponentCardWithButton>
                 ) : (
                     <div className="flex justify-center items-center h-64 text-gray-500 text-lg font-semibold">

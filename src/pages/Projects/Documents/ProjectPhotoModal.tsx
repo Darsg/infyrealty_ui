@@ -1,16 +1,23 @@
 import { useState } from "react";
+import { Photo } from "./DocsInterface";
+import { MoreDotIcon } from "../../../icons";
 import { Dropdown } from "../../../components/ui/dropdown/Dropdown";
 import { DropdownItem } from "../../../components/ui/dropdown/DropdownItem";
-import { MoreDotIcon } from "../../../icons";
 
-export default function ProjectPhotoModal() {
+interface PhotoProps{
+    photo: Photo;
+    setImage?: (id: number) => void;
+    onDelete: () => void;
+}
+
+export default function ProjectPhotoModal( {photo, setImage, onDelete}: PhotoProps ) {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div className="relative w-[300px] aspect-[16/9] inline-block flex-shrink-0 border-4 border-brand-500 rounded-3xl overflow-hidden">
             <div className="relative w-full h-full">
                 <img 
-                    src="https://tinyurl.com/2pcpvfu3" 
+                    src={photo?.link} 
                     alt="Project Photo" 
                     className="w-full h-full object-cover rounded-2xl hover:cursor-pointer"
                 />
@@ -32,13 +39,13 @@ export default function ProjectPhotoModal() {
                     className="absolute right-2 top-12 z-50 w-40 p-2 bg-white dark:bg-gray-900 shadow-lg rounded-lg border border-gray-200 dark:border-gray-700"
                 >
                     <DropdownItem
-                        onItemClick={() => setIsOpen(false)}
+                        onItemClick={() => setImage && setImage(photo?.id)}
                         className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
                     >
                         Set Picture
                     </DropdownItem>
                     <DropdownItem
-                        onItemClick={() => setIsOpen(false)}
+                        onItemClick={onDelete}
                         className="flex w-full font-normal text-left text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
                     >
                         Delete
