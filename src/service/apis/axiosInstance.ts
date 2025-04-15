@@ -25,7 +25,7 @@ apiClient.interceptors.request.use(
       return Promise.reject(new Error('No internet connection'));
     }
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('infytoken');
     if (token) {
       config.headers.Authorization = `${token}`; // Ensure correct Bearer token format
     }
@@ -44,10 +44,10 @@ apiClient.interceptors.response.use(
     const { status_code } = response.data;
 
     if (status_code === 401) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('infytoken');
       window.location.href = '/signin';
     } else if (status_code === 400) {
-      localStorage.removeItem('token');
+      localStorage.removeItem('infytoken');
       window.location.href = '/signin';
     }
 
@@ -60,10 +60,10 @@ apiClient.interceptors.response.use(
       console.log("Error Response:", error.response); 
 
       if (status === 40) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('infytoken');
         window.location.href = '/signin';
       } else if (status === 400) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('infytoken');
         window.location.href = '/signin';
       } else if (status === 500) {
         console.log('Server error. Please try again later.');

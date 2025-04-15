@@ -131,4 +131,4 @@ export const getAssignedRole = async (roleId: number) => handleRequest(apiClient
 export const getOrgRoleList = async () => handleRequest(apiClient.get("bm_role_permission/get_roles"));
 
 // This is used when user will login or refresh page call this and based on this show UI - status: pending
-export const getRoleDetails = async (roleId: number) => handleRequest(apiClient.get(`bm_role_permission/get_role_permission?role_id=${roleId}`));
+export const getRoleDetails = async (roleId: string) => handleRequest(apiClient.get(`bm_role_permission/get_role_permission?role_id=${roleId}`));

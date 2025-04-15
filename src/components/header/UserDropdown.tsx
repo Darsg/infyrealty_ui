@@ -18,7 +18,7 @@ export default function UserDropdown() {
   }
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("infytoken");
   }
 
   const dispatch = useDispatch<AppDispatch>();

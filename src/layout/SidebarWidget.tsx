@@ -1,7 +1,7 @@
 export default function SidebarWidget() {
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("infytoken");
     window.location.href = "/signin";
   };
 

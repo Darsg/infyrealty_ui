@@ -1,26 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 // Assume these icons are imported from an icon library
 import {
   BoxCubeIcon,
-  CalenderIcon,
-  ProjectIcon,
   ChevronDownIcon,
-  GridIcon,
   HorizontaLDots,
-  ListIcon,
-  PageIcon,
   PieChartIcon,
   PlugInIcon,
-  TableIcon,
-  UserCircleIcon,
-  SettingIcon,
-  CallIcon,
-  TicketIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
+import { useSelector } from "react-redux";
+import { Utility } from "../service/utility/Utility";
+import { RootState } from "../service/store/store";
 
 type NavItem = {
   name: string;
@@ -28,65 +21,6 @@ type NavItem = {
   path?: string;
   subItems?: { name: string; path: string; pro?: boolean; new?: boolean }[];
 };
-
-const navItems: NavItem[] = [
-  {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/dashboard", pro: false }],
-  },
-  {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank", pro: false },
-      { name: "404 Error", path: "/error-404", pro: false },
-    ],
-  },
-  {
-    icon: <ProjectIcon />,
-    name: "Projects",
-    path: "/projects",
-  },
-  {
-    name: "Setting",
-    icon: <SettingIcon />,
-    subItems: [
-      { name: "Profile", path: "/setting/profile", pro: false },
-      { name: "Staff Management", path: "/setting/staff-management", pro: false },
-    ]
-  },
-  {
-    name: "Support",
-    icon: <CallIcon />,
-    path: "/support",
-  },
-  {
-    name: "Ticket",
-    icon: <TicketIcon />,
-    path: "/ticket",
-  }
-];
 
 const othersItems: NavItem[] = [
   {
@@ -122,6 +56,19 @@ const othersItems: NavItem[] = [
 const AppSidebar: React.FC = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
+
+  const rootState = useSelector((state: RootState) => state);
+  const permissionState = useSelector((state: RootState) => state.userPermission);
+
+  const navItems: NavItem[] = useMemo(() => {
+    // If data is not yet loaded, return an empty array
+    if (!permissionState || permissionState.modules.length === 0) {
+      return [];
+    }
+  
+    // When permission modules are available, generate nav from permissions
+    return Utility.generateNavBarItem(rootState);
+  }, [permissionState, rootState]);
 
   const [openSubmenu, setOpenSubmenu] = useState<{
     type: "main" | "others";
@@ -160,7 +107,7 @@ const AppSidebar: React.FC = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [location, isActive]);
+  }, [location, isActive, navItems]);
 
   useEffect(() => {
     if (openSubmenu !== null) {
