@@ -14,7 +14,7 @@ export default function ProjectPhotoModal( {photo, setImage, onDelete}: PhotoPro
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="relative w-[300px] aspect-[16/9] inline-block flex-shrink-0 border-4 border-brand-500 rounded-3xl overflow-hidden">
+        <div className={`relative w-[300px] aspect-[16/9] inline-block flex-shrink-0 ${photo.set_default ? 'border-4 border-brand-500' : 'border-1 border-gray-400'} rounded-3xl overflow-hidden`}>
             <div className="relative w-full h-full">
                 <img 
                     src={photo?.link} 

@@ -14,6 +14,7 @@ interface Project {
   country: string;
   zipcode: string;
   project_type: string;
+  photo_link: string;
 }
 
 interface ProjectListProps {

@@ -19,6 +19,7 @@ interface Project {
   country: string;
   zipcode: string;
   project_type: string;
+  photo_link: string;
 }
 
 interface ProjectListModelProps {
@@ -41,7 +42,7 @@ export default function ProjectListModel({ project, onEdit, onDelete }: ProjectL
         {/* Image Section */}
         <div className="col-span-1">
           <img
-            src="/images/grid-image/image-04.png"
+            src={project?.photo_link ? project.photo_link : "/images/grid-image/image-04.png"}
             alt="grid"
             className="border border-gray-200 rounded-xl dark:border-gray-800 w-full"
           />

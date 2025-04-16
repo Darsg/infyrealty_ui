@@ -59,23 +59,29 @@ export class Utility {
                         icon: React.createElement(ProjectIcon),
                         path: "/projects",
                     };
-                } else if (module.module_name === "Setting") {
-
+                }else if (module.module_name === "Setting") {
                     const settingSubItems = module?.sub_modules.map((subModule1) => {
-                        if(subModule1.module_name === "Staff Management") {
+                        if (subModule1.module_name === "Staff Management") {
                             return {
                                 name: subModule1.module_name,
                                 path: "/setting/staff-management",
                                 pro: false,
                             };
                         }
+                        return null;
+                    }).filter(item => item !== null); 
+                
+                    settingSubItems.push({
+                        name: "Profile",
+                        path: "/setting/profile",
+                        pro: false,
                     });
-
+                
                     return {
                         name: module.module_name,
                         icon: React.createElement(SettingIcon),
                         subItems: settingSubItems,
-                    }
+                    };
                 }
 
                 return null;
@@ -124,5 +130,27 @@ export class Utility {
             ];
         
         return navItems.concat(staticPages);
+    }
+
+    /**
+     * Checks if a path exists in the navigation structure.
+     */
+    static isPathAllowed(state: RootState, targetPath: string): boolean {
+        const navItems = Utility.generateNavBarItem(state);
+
+        const searchPath = (items: NavItem[]): boolean => {
+            for (const item of items) {
+                if (item.path === targetPath) {
+                    return true;
+                }
+                if (item.subItems) {
+                    const found = item.subItems.some(sub => sub.path === targetPath);
+                    if (found) return true;
+                }
+            }
+            return false;
+        };
+
+        return searchPath(navItems);
     }
 }

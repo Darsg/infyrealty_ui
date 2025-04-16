@@ -5,8 +5,9 @@ import Button from "../../../../components/ui/button/Button";
 import { Modal } from "../../../../components/ui/modal";
 import { createDocumentGroup, updateDocumentGroup } from "../../../../service/apis/AuthService";
 import { toast } from "react-toastify";
+import { ProjectDocsLists } from "../DocsInterface";
 
-interface DocGroupDetail {
+export interface DocGroupDetail {
     id?: number;
     name: string;
     description?: string;
@@ -19,9 +20,10 @@ interface DocGroupProps {
     setIsOpen: (isOpen: boolean) => void;
     docGroup?: DocGroupDetail | null;
     projectId?: number;
+    setProjectDocList?: React.Dispatch<React.SetStateAction<ProjectDocsLists | null>>;
 }
 
-export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup, projectId }: DocGroupProps) {
+export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup, projectId, setProjectDocList }: DocGroupProps) {
     const [groupName, setGroupName] = useState("");
     const [description, setDescription] = useState("");
 
@@ -50,13 +52,14 @@ export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup,
 
             let response;
             if (docGroup) {
-                formData.append("id", docGroup.id?.toString() || "");
+                formData.append("group_id", docGroup.id?.toString() || "");
                 response = await updateDocumentGroup(formData);
             } else {
                 response = await createDocumentGroup(formData);
             }
 
             if(response?.status_code === 200){
+                setProjectDocList?.(response?.records);
                 onSave();
             }
             toast(response?.msg, { type: response.alert })
@@ -70,7 +73,7 @@ export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup,
             <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
                 <div className="px-2 pr-14">
                     <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-                        {document ? "Edit" : "Add"} Document Group
+                        {docGroup ? "Edit" : "Add"} Document Group
                     </h4>
                     <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
                         Enter the details for the document group.

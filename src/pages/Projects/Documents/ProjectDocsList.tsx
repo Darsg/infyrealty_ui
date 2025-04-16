@@ -4,9 +4,10 @@ import ProjectPhotoModal from "./ProjectPhotoModal";
 import { ProjectDocsLists } from "./DocsInterface";
 import DocDetails from "./Form/DocDetails";
 import ProjectDocsTable from "./ProjectDocsTable";
-import { addPhotoVideo, deletePhotoVideo, updatePhotoVideo } from "../../../service/apis/AuthService";
+import { addPhotoVideo, deletePhotoVideo, setProjectPhoto, updatePhotoVideo } from "../../../service/apis/AuthService";
 import { toast } from "react-toastify";
 import BoxAlerts from "../../UiElements/BoxAlerts";
+import DocGroup, { DocGroupDetail } from "./Form/DocGroup";
 
 interface ProjectDocsProps {
     projectDocsList: ProjectDocsLists | null;
@@ -21,6 +22,8 @@ export default function ProjectDocsList({
 }: ProjectDocsProps) {
     const [isDocDetailOpen, setIsDetailOpen] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [isDocOpen, setIsDocOpen] = useState(false);
+    const [docGroup, setDocGroup] = useState<DocGroupDetail | null>(null);
     const [groupId, setGroupId] = useState<number | null>(null);
     const [groupName, setGroupName] = useState<string | null>(null);
     const [docId, setDocId] = useState<number | null>(null);
@@ -133,6 +136,41 @@ export default function ProjectDocsList({
         }
     };
 
+    const handleSelectImage = async (id: number) => {
+        try {
+            const formData = new FormData();
+            formData.append("project_id", projectId);
+            formData.append("id", String(id));
+
+            const response = await setProjectPhoto(formData);
+            if(response?.status_code === 200){
+                setProjectDocList(response?.records);
+            }
+
+            if(response?.msg){
+                toast(response.msg, {type: response.alert});
+            } else {
+                toast(response?.error[0]?.msg, {type: "error"});
+            }
+
+        } catch(error){
+            console.log("error while set project image", error);
+        }
+    }
+
+    const handleEditDocName = (id: number, title: string, description: string) => {
+        setDocGroup({
+            id,
+            name: title,
+            description,
+        });
+    
+        console.log("Wow");
+        setIsDocOpen(true);
+        console.log("isDocOpen", isDocOpen);
+
+    };
+    
     return (
         <>
             <div className="space-y-6 flex flex-col">
@@ -144,7 +182,12 @@ export default function ProjectDocsList({
                 >
                     <div className="flex flex-nowrap gap-4 overflow-x-auto rounded-2xl p-4 border border-gray-200 bg-white dark:border-gray-800 dark:bg-white/[0.03] scrollbar-thin scrollbar-thumb-gray-400">
                     {(projectDocsList?.photos || []).map((photo) => (
-                        <ProjectPhotoModal key={photo.id} photo={photo} onDelete={() => confirmDialoge(null, "Photo", photo.id)}/>
+                        <ProjectPhotoModal 
+                            key={photo.id} 
+                            photo={photo}
+                            setImage={(id) => handleSelectImage(id)}
+                            onDelete={() => confirmDialoge(null, "Photo", photo.id)}
+                        />
                     ))}
                     </div>
                 </ComponentCardWithButton>
@@ -167,10 +210,14 @@ export default function ProjectDocsList({
                 {/* Grouped Documents */}
                 {(projectDocsList?.groups || []).map((group) => (
                     <ComponentCardWithButton
-                    key={group.id}
-                    title={group.group_name}
-                    buttonTitle="Add Doc"
-                    onButtonClick={() => handleOpenDialoge(group.id, group.group_name, null, null)}
+                        key={group.id}
+                        title={group.group_name}
+                        buttonTitle="Add File"
+                        onButtonClick={() => handleOpenDialoge(group.id, group.group_name, null, null)}
+                        buttonTwoTitle="Edit"
+                        onSecondButtonClick={() => handleEditDocName(group.id, group.group_name ?? "", group.description ?? "")}
+                        buttonThreeTitle="Delete"
+                        onThirdButtonClick={() => console.log("delete click ...")}
                     >
                     <ProjectDocsTable
                         projectDocsList={group.document_list}
@@ -190,6 +237,18 @@ export default function ProjectDocsList({
                         onSave={handleAddUpdateDocs}
                         docName={docName}
                         groupName={groupName ?? ""}
+                    />
+                )}
+
+                {isDocOpen && (
+                    <DocGroup
+                        projectId={Number(projectId)}
+                        isOpen={isDocOpen}
+                        setIsOpen={setIsOpen}
+                        onClose={() => {setIsDocOpen(false); setDocGroup(null);}}
+                        onSave={() => {setIsDocOpen(false); setDocGroup(null)}}
+                        docGroup={docGroup}
+                        setProjectDocList={setProjectDocList}
                     />
                 )}
 
