@@ -1,26 +1,9 @@
 import { useState } from "react";
 import Badge from "../../components/ui/badge/Badge";
-import Project from "./Project";
 import { HeartIcon, PencilIcon } from "../../icons";
 import { Dropdown } from "../../components/ui/dropdown/Dropdown";
 import { useNavigate } from "react-router";
-
-interface Project {
-  id: number;
-  name: string;
-  email: string;
-  contact_code: string;
-  contact_no: string;
-  address1: string;
-  address2?: string | null;
-  locality?: string | null;
-  city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  project_type: string;
-  photo_link: string;
-}
+import { Project } from "../../type/project";
 
 interface ProjectListModelProps {
   project: Project;
@@ -42,9 +25,9 @@ export default function ProjectListModel({ project, onEdit, onDelete }: ProjectL
         {/* Image Section */}
         <div className="col-span-1">
           <img
-            src={project?.photo_link ? project.photo_link : "/images/grid-image/image-04.png"}
+            src={project?.photos[0]?.link ? project?.photos[0]?.link : "/images/grid-image/image-04.png"}
             alt="grid"
-            className="border border-gray-200 rounded-xl dark:border-gray-800 w-full"
+            className="border border-gray-200 rounded-xl dark:border-gray-800 w-full h-full min-h-[200px] object-cover hover:cursor-pointer"
           />
         </div>
 

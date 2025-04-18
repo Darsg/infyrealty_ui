@@ -59,7 +59,9 @@ export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup,
             }
 
             if(response?.status_code === 200){
-                setProjectDocList?.(response?.records);
+                if(setProjectDocList){
+                    setProjectDocList(response?.records as ProjectDocsLists);
+                }
                 onSave();
             }
             toast(response?.msg, { type: response.alert })

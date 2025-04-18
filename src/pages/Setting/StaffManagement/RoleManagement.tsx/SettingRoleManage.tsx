@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import PageMeta from "../../../../components/common/PageMeta";
 import ComponentCardWithButton from "../../../../components/common/ComponentCardWithButton";
 import RoleManageTable from "./RoleManageTable";
-import RoleManageFormOne from "./RoleManageFormOne";
 import { getOrgRoleList } from "../../../../service/apis/AuthService";
+import RoleManageForm from "./RoleManageForm";
 
 interface RoleProps {
   id: number;
@@ -65,7 +65,7 @@ export default function SettingRoleManage() {
       >
         <div className="space-y-6">
           <RoleManageTable roleList={roleList} onEdit={handleEditRole} />
-          <RoleManageFormOne
+          <RoleManageForm
             roleId={selectedRole?.id ?? 0}
             isOpen={isOpen}
             setIsOpen={setIsOpen}

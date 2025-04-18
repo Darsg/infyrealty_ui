@@ -4,7 +4,7 @@ import ProjectPhotoModal from "./ProjectPhotoModal";
 import { ProjectDocsLists } from "./DocsInterface";
 import DocDetails from "./Form/DocDetails";
 import ProjectDocsTable from "./ProjectDocsTable";
-import { addPhotoVideo, deletePhotoVideo, setProjectPhoto, updatePhotoVideo } from "../../../service/apis/AuthService";
+import { addPhotoVideo, deleteDocumentGroup, deletePhotoVideo, setProjectPhoto, updatePhotoVideo } from "../../../service/apis/AuthService";
 import { toast } from "react-toastify";
 import BoxAlerts from "../../UiElements/BoxAlerts";
 import DocGroup, { DocGroupDetail } from "./Form/DocGroup";
@@ -121,7 +121,7 @@ export default function ProjectDocsList({
             );
               
             if(response.status_code === 200){
-                setProjectDocList(response?.records);
+                setProjectDocList(response);
             }
 
             if(response?.msg){
@@ -144,7 +144,7 @@ export default function ProjectDocsList({
 
             const response = await setProjectPhoto(formData);
             if(response?.status_code === 200){
-                setProjectDocList(response?.records);
+                setProjectDocList(response);
             }
 
             if(response?.msg){
@@ -165,12 +165,26 @@ export default function ProjectDocsList({
             description,
         });
     
-        console.log("Wow");
         setIsDocOpen(true);
-        console.log("isDocOpen", isDocOpen);
-
     };
-    
+
+    const handleDeleteDocGroup = async(id: number) => {
+        try {
+            const response = await deleteDocumentGroup(projectId, String(id));
+            if(response?.status_code === 200){
+                setProjectDocList(response?.records);
+            }
+
+            if(response?.msg){
+                toast(response.msg, {type: response.alert});
+            } else {
+                toast(response?.error[0]?.msg, {type: "error"});
+            }
+        }  catch(error){
+            console.log("Error while deleting group ", error);
+        }    
+    }
+
     return (
         <>
             <div className="space-y-6 flex flex-col">
@@ -217,7 +231,7 @@ export default function ProjectDocsList({
                         buttonTwoTitle="Edit"
                         onSecondButtonClick={() => handleEditDocName(group.id, group.group_name ?? "", group.description ?? "")}
                         buttonThreeTitle="Delete"
-                        onThirdButtonClick={() => console.log("delete click ...")}
+                        onThirdButtonClick={() => handleDeleteDocGroup(group.id)}
                     >
                     <ProjectDocsTable
                         projectDocsList={group.document_list}

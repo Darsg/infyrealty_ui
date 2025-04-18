@@ -1,21 +1,5 @@
+import { Project } from "../../type/project";
 import ProjectListModel from "./ProjectListModel";
-
-interface Project {
-  id: number;
-  name: string;
-  email: string;
-  contact_code: string;
-  contact_no: string;
-  address1: string;
-  address2: string | null;
-  locality: string | null;
-  city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  project_type: string;
-  photo_link: string;
-}
 
 interface ProjectListProps {
   projectList: Project[];

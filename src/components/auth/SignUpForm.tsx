@@ -13,7 +13,6 @@ export default function SignUpForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Form submitted!");
   
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());

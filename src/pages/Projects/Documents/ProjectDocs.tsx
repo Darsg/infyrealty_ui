@@ -6,28 +6,13 @@ import ComponentCardWithButton from "../../../components/common/ComponentCardWit
 import DocGroup from "./Form/DocGroup";
 import { ProjectDocsLists } from "./DocsInterface";
 import ProjectDocsList from "./ProjectDocsList";
-
-interface ProjectDetail {
-    id: number;
-    name: string;
-    email: string;
-    contact_code: string;
-    contact_no: string;
-    address1: string;
-    address2: string | null;
-    locality: string | null;
-    city: string;
-    state: string;
-    country: string;
-    zipcode: string;
-    project_type: string;
-}
+import { Project } from "../../../type/project";
 
 export default function ProjectDocs() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const projectId = searchParams.get("project_id");
-    const [projectDetail, setProjectDetail] = useState<ProjectDetail | null>(null);
+    const [projectDetail, setProjectDetail] = useState<Project | null>(null);
     const [projectDocsList, setProjectDocsList] = useState<ProjectDocsLists | null>(null);
     const [isOpen, setIsOpen] = useState(false);
 
@@ -102,6 +87,7 @@ export default function ProjectDocs() {
                     onClose={() => setIsOpen(false)}
                     onSave={() => setIsOpen(false)}
                     setIsOpen={setIsOpen}
+                    setProjectDocList={setProjectDocsList}
                 />
             )}
         </div>
