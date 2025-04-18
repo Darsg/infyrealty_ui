@@ -67,6 +67,12 @@ export class Utility {
                                 path: "/setting/staff-management",
                                 pro: false,
                             };
+                        } else if (subModule1.module_name === "User Management") {
+                            return {
+                                name: subModule1.module_name,
+                                path: "/setting/user-management",
+                                pro: false,
+                            };
                         }
                         return null;
                     }).filter(item => item !== null); 

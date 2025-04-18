@@ -5,14 +5,7 @@ import ComponentCardWithButton from "../../../../components/common/ComponentCard
 import RoleManageTable from "./RoleManageTable";
 import { getOrgRoleList } from "../../../../service/apis/AuthService";
 import RoleManageForm from "./RoleManageForm";
-
-interface RoleProps {
-  id: number;
-  description: string;
-  is_deleted: number;
-  name: string;
-  org_id: number;
-}
+import { RoleProps } from "../../../../type/permission";
 
 export default function SettingRoleManage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +32,7 @@ export default function SettingRoleManage() {
   }, [fetchRoleList]);
 
   // Button handlers
-  const handleNavigateBack = () => navigate("/setting/staff-management", { replace: true });
+  const handleNavigateBack = () => navigate("/setting/user-management", { replace: true });
   const handleEditRole = (role: RoleProps) => {
     setSelectedRole(role);
     setIsOpen(true);

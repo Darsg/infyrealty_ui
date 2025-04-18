@@ -1,21 +1,11 @@
 import { useEffect, useState } from "react";
-import Input from "../../../../components/form/input/InputField";
-import Label from "../../../../components/form/Label";
-import Button from "../../../../components/ui/button/Button";
-import { Modal } from "../../../../components/ui/modal";
-import { createUser, updateUser } from "../../../../service/apis/AuthService";
 import { toast } from "react-toastify";
-
-interface UserForm {
-    id?: number;
-    name: string;
-    contact_code: string;
-    contact_no: string;
-    email: string;
-    address: string;
-    description: string;
-    password?: string;
-}
+import { createUser, updateUser } from "../../../service/apis/AuthService";
+import { Modal } from "../../../components/ui/modal";
+import Label from "../../../components/form/Label";
+import Input from "../../../components/form/input/InputField";
+import Button from "../../../components/ui/button/Button";
+import { UserForm } from "../../../type/usermanagment";
 
 interface UserManageFormProps {
     isOpen: boolean;

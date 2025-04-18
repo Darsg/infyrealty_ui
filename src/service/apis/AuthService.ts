@@ -36,7 +36,7 @@ export const resetPassword = async (formData: FormData) => handleRequest(apiClie
 
 export const logOut = async () => handleRequest(apiClient.post("bm_user/logout", ""));
 
-/* User Authentication */
+/* User Authentication for User-Managment in Setting */
 export const createUser = async (formData: FormData) => handleRequest(apiClient.post("bm_user/create", formData));
 
 export const updateUser = async (formData: FormData) => handleRequest(apiClient.put("bm_user/update", formData));
@@ -129,6 +129,9 @@ export const updateRole = async (formData: FormData) => handleRequest(apiClient.
 export const getAssignedRole = async (roleId: number) => handleRequest(apiClient.get(`bm_role_permission/get_assign_permission_list?role_id=${roleId}`));
 
 export const getOrgRoleList = async () => handleRequest(apiClient.get("bm_role_permission/get_roles"));
+
+/* User Managment APIs */
+// export const 
 
 // This is used when user will login or refresh page call this and based on this show UI - status: pending
 export const getRoleDetails = async (roleId: string) => handleRequest(apiClient.get(`bm_role_permission/get_role_permission?role_id=${roleId}`));

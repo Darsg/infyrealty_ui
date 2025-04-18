@@ -1,14 +1,14 @@
-import Switch from "../../../components/form/switch/Switch";
+import Switch from "../../../../components/form/switch/Switch";
 import {
     Table,    
     TableBody,
     TableCell,
     TableHeader,
     TableRow,
-} from "../../../components/ui/table";
+} from "../../../../components/ui/table";
 import { useState } from "react";
-import { PencilIcon } from "../../../icons";
-import { Dropdown } from "../../../components/ui/dropdown/Dropdown";
+import { PencilIcon } from "../../../../icons";
+import { Dropdown } from "../../../../components/ui/dropdown/Dropdown";
 
 interface StaffForm {
     id?: number,

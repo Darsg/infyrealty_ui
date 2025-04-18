@@ -1,10 +1,10 @@
 import { useState } from "react";
-import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
-import PageMeta from "../../../components/common/PageMeta";
+import ComponentCardWithButton from "../../../../components/common/ComponentCardWithButton";
+import PageMeta from "../../../../components/common/PageMeta";
 import StaffManageTable from "./StaffManageTable";
 import StaffManageForm from "./StaffManageForm";
 import { useNavigate } from "react-router";
-import ProjectSelectionDropDown from "../../../components/infyrealty/ProjectSelectionDropDown";
+import ProjectSelectionDropDown from "../../../../components/infyrealty/ProjectSelectionDropDown";
 
 interface StaffForm {
     id?: number,
@@ -34,7 +34,6 @@ export default function SettingStaffManage () {
     }
 
     const handleEdit = (staff: StaffForm) => {
-        console.log("Editing Staff:", staff);
         setSelectedStaff(staff);
         setIsOpen(true);
     };

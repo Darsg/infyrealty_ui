@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Input from "../../../components/form/input/InputField";
-import Label from "../../../components/form/Label";
-import Button from "../../../components/ui/button/Button";
-import { Modal } from "../../../components/ui/modal";
-import Switch from "../../../components/form/switch/Switch";
+import Input from "../../../../components/form/input/InputField";
+import Label from "../../../../components/form/Label";
+import Button from "../../../../components/ui/button/Button";
+import { Modal } from "../../../../components/ui/modal";
+import Switch from "../../../../components/form/switch/Switch";
 
 interface StaffForm {
     id?: number,

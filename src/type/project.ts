@@ -1,3 +1,4 @@
+// This is use for Project section related APIs
 export interface PhotoModel {
     id: number;
     org_id: number;

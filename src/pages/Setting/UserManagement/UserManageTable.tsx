@@ -1,23 +1,15 @@
-import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../../../components/ui/table";
-import { PencilIcon, TrashBinIcon } from "../../../../icons";
+import { Table, TableBody, TableCell, TableHeader, TableRow } from "../../../components/ui/table";
+import { PencilIcon, TrashBinIcon, UserRoleIcon } from "../../../icons";
+import { UserForm } from "../../../type/usermanagment";
 
 interface UserManageTableProps {
     onEdit: (user: UserForm) => void;
+    onRoleClick: (user: UserForm) => void;
     onDelete: (user: UserForm) => void;
     userList: UserForm[];
 }
 
-interface UserForm {
-    id?: number;
-    name: string;
-    contact_code: string;
-    contact_no: string;
-    email: string;
-    address: string;
-    description: string;
-}
-
-export default function UserManageTable({ onEdit, onDelete, userList }: UserManageTableProps) {
+export default function UserManageTable({ onEdit, onRoleClick, onDelete, userList }: UserManageTableProps) {
     return (
         <div className="overflow-hidden rounded-xl border border-gray-200 bg-white dark:border-white/[0.05] dark:bg-white/[0.03]">
             <div className="max-w-full overflow-x-auto">
@@ -75,6 +67,12 @@ export default function UserManageTable({ onEdit, onDelete, userList }: UserMana
                                                 className="p-2 transition-all duration-150 ease-in-out transform rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-90"
                                             >
                                                 <PencilIcon className="h-5 w-5 text-gray-500 transition-colors duration-150 hover:text-blue-600" />
+                                            </button>
+                                            <button
+                                                onClick={() => onRoleClick(user)}
+                                                className="p-2 transition-all duration-150 ease-in-out transform rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 active:scale-90"
+                                            >
+                                                <UserRoleIcon className="h-5 w-5 text-gray-500 transition-colors duration-150 hover:text-blue-600" />
                                             </button>
                                             <button
                                                 onClick={() => onDelete(user)}

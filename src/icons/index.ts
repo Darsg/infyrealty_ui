@@ -62,6 +62,7 @@ import { ReactComponent as TicketIcon } from "./ticket.svg?react"
 import { ReactComponent as AcceptIcon } from "./accept.svg?react"
 import { ReactComponent as AcceptAllIcon } from "./accept-all.svg?react"
 import { ReactComponent as ArrowLeftIcon } from "./arrow-left.svg?react"
+import { ReactComponent as UserRoleIcon } from "./user-role.svg?react"
 
 export {
   ErrorHexaIcon,
@@ -127,5 +128,6 @@ export {
   TicketIcon,
   AcceptIcon,
   AcceptAllIcon,
-  ArrowLeftIcon
+  ArrowLeftIcon,
+  UserRoleIcon
 };
