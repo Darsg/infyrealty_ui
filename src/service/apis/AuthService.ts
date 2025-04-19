@@ -43,6 +43,10 @@ export const updateUser = async (formData: FormData) => handleRequest(apiClient.
 
 export const getUserList = async () => handleRequest(apiClient.get("bm_user/get_user_list"));
 
+export const getUserProjectDetail = async (userId: string) => handleRequest(apiClient.get(`bm_user/get_assign_project_role?user_id=${userId}`))
+
+export const setProjectRole = async (formData: FormData) => handleRequest(apiClient.post("bm_user/assign_project_role", formData));
+
 /* Project Configuration APIs */
 export const getProjectList = async () => handleRequest(apiClient.get("bm_project/get_project_list"));
 
@@ -135,3 +139,8 @@ export const getOrgRoleList = async () => handleRequest(apiClient.get("bm_role_p
 
 // This is used when user will login or refresh page call this and based on this show UI - status: pending
 export const getRoleDetails = async (roleId: string) => handleRequest(apiClient.get(`bm_role_permission/get_role_permission?role_id=${roleId}`));
+
+
+
+// curl --location ‘http://127.0.0.1:8181/bm_user/get_assign_project_list’ \
+// --header ‘Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJvcmdfaWQiOjF9LCJpYXQiOjE3NDQzMDc0Nzh9.pbFoMOHhR-N_WhX0EJQmuCwbC_zeQ1tDHzPad7O_oWg’

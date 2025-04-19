@@ -59,7 +59,7 @@ apiClient.interceptors.response.use(
 
       console.log("Error Response:", error.response); 
 
-      if (status === 40) {
+      if (status === 401) {
         localStorage.removeItem('infytoken');
         window.location.href = '/signin';
       } else if (status === 400) {
