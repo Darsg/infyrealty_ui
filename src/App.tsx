@@ -31,6 +31,7 @@ import DynamicForm from "./pages/HiddenPages/DynamicForm/DynamicForm";
 import Support from "./pages/Support/Support";
 import Ticket from "./pages/Ticket/Ticket";
 import SettingUserManage from "./pages/Setting/UserManagement/SettingUserManage";
+import ProjectDetails from "./pages/Projects/ProjectDetails/ProjectDetails";
 
 export default function App() {
   return (
@@ -92,6 +93,8 @@ export default function App() {
               {/* Hidden Page */}
               <Route path="/setting/dynamic-form" element={<DynamicForm />} />
             </Route>
+
+            <Route path="/project-detail" element={<ProjectDetails />} />
           </Route>
 
           {/* Redirect authenticated users away from SignIn, SignUp, OtpVerification */}

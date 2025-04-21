@@ -5,9 +5,10 @@ interface ProjectListProps {
   projectList: Project[];
   onEdit: (project: Project) => void;
   onDelete: (projectId: Project) => void;
+  onView: (projectId: Project) => void;
 }
 
-export default function ProjectList({ projectList, onEdit, onDelete }: ProjectListProps) {
+export default function ProjectList({ projectList, onEdit, onDelete, onView }: ProjectListProps) {
 
   if (projectList.length === 0) {
     return (
@@ -20,7 +21,7 @@ export default function ProjectList({ projectList, onEdit, onDelete }: ProjectLi
   return (
     <div className="space-y-6">
       {projectList.map((project) => (
-        <ProjectListModel key={project.id} project={project} onEdit={() => onEdit(project)} onDelete={() => onDelete(project)} />
+        <ProjectListModel key={project.id} project={project} onEdit={() => onEdit(project)} onDelete={() => onDelete(project)} onView={() => onView(project)} />
       ))}
     </div>
   );

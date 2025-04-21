@@ -9,9 +9,10 @@ interface ProjectListModelProps {
   project: Project;
   onEdit: (id: Project) => void;
   onDelete: (id: Project) => void;
+  onView: (id: Project) => void;
 }
 
-export default function ProjectListModel({ project, onEdit, onDelete }: ProjectListModelProps) {
+export default function ProjectListModel({ project, onEdit, onDelete, onView }: ProjectListModelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -70,7 +71,9 @@ export default function ProjectListModel({ project, onEdit, onDelete }: ProjectL
                   >
                     Delete
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                    onClick={() => onView(project)}
+                  >
                     View Details
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">

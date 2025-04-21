@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { UserForm } from "../../../type/usermanagment";
 import { getOrgRoleList, getUserProjectDetail, setProjectRole } from "../../../service/apis/AuthService";
 import { Modal } from "../../../components/ui/modal";
-import Label from "../../../components/form/Label";
 import Button from "../../../components/ui/button/Button";
 import { RoleProps } from "../../../type/permission";
 import Select from "../../../components/form/Select";

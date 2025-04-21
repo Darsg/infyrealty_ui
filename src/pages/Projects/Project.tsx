@@ -6,22 +6,8 @@ import { deleteProject, getProjectList } from "../../service/apis/AuthService";
 import ProjectForm from "./Form/ProjectForm";
 import { toast } from "react-toastify";
 import BoxAlerts from "../UiElements/BoxAlerts";
-
-interface Project {
-  id: number;
-  name: string;
-  email: string;
-  contact_code: string;
-  contact_no: string;
-  address1: string;
-  address2: string | null;
-  locality: string | null;
-  city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  project_type: string;
-}
+import type { Project } from "../../type/project";
+import { useNavigate } from "react-router";
 
 export default function Project() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +15,7 @@ export default function Project() {
   const [projectId, setProjectId] = useState<number | null>(null);
   const [projectList, setProjectList] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const navigate = useNavigate();
 
   const handleCreateProject = () => {
     setSelectedProject(null); // Clear previous selection for new project
@@ -87,7 +74,19 @@ export default function Project() {
 
       <div className="space-y-6">
         <ComponentCardWithButton title="Project List" buttonTitle="Create Project" onButtonClick={handleCreateProject}>
-          <ProjectList projectList={projectList} onEdit={handleEdit} onDelete={confirmDelete} />
+          <ProjectList 
+            projectList={projectList} 
+            onEdit={handleEdit}
+            onDelete={confirmDelete} 
+            onView={(projectId) => {
+              const id = Number(projectId.id);
+              if (!isNaN(id)) {
+                navigate(`/project-detail?projectId=${id}`);
+              } else {
+                toast("Invalid project ID", { type: "error" });
+              }
+            }}
+          />
         </ComponentCardWithButton>
       </div>
 
