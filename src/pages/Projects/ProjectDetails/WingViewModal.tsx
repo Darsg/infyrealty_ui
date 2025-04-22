@@ -1,12 +1,12 @@
 import { Table, TableBody, TableCell, TableRow } from "../../../components/ui/table";
-import { PencilIcon } from "../../../icons";
-import { Floor } from "../../../type/project";
+import { InfoIcon, PencilIcon } from "../../../icons";
+import { Flat, Floor } from "../../../type/project";
 import FlatBox from "./FlatBoxProps";
 
 interface WingModalProps {
     floorList: Floor[];
     onFloorEdit?: (floor: Floor) => void;
-    onFlatEdit?: (flat: Floor) => void;
+    onFlatEdit?: (flat?: Flat) => void;
 }
 
 export default function WingViewModal({ floorList, onFloorEdit, onFlatEdit }: WingModalProps) {
@@ -50,10 +50,16 @@ export default function WingViewModal({ floorList, onFloorEdit, onFlatEdit }: Wi
                                                                 flatName={flat.name}
                                                                 isShop={flat.type === "Shop"}
                                                                 enabled={true}
-                                                                onClick={() => console.log("nothing")};
-                                                                // onClick={() => onFlatEdit?.(flat)}
+                                                                onClick={() => onFlatEdit?.(flat)}
                                                             />
                                                         ))}
+
+                                                        <button
+                                                            onClick={() => onFlatEdit?.()}
+                                                            className="text-blue-500 underline hover:text-blue-700"
+                                                        >
+                                                            <InfoIcon className="w-5 h-5 text-gray-500" />
+                                                        </button>
                                                     </div>
                                                 )}
                                             </div>

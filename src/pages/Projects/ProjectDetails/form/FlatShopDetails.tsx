@@ -101,7 +101,7 @@ export default function FlatShopDetails({
                             <div>
                                 <Label>Type</Label>
                                 <select
-                                    className="form-input w-full rounded-md border border-gray-300 p-2 dark:bg-gray-800 dark:text-white"
+                                    className="w-full h-11 p-2 border rounded-md mb-1.5 text-sm font-medium text-gray-700 dark:text-gray-400"
                                     value={type}
                                     onChange={(e) => setType(e.target.value as "Flat" | "Shop")}
                                 >

@@ -187,7 +187,7 @@ export default function ProjectDetails() {
                                                     <WingViewModal 
                                                         floorList={wing.floor_list}
                                                         onFloorEdit={(floor) => openFloorDialog(floor.id)}
-                                                        onFlatEdit={(flat) => openFlatDialog(flat.id)}
+                                                        onFlatEdit={(flat) => openFlatDialog(flat ? flat.id : undefined)}
                                                     />
                                                 </WingListModal>
                                             ))}
