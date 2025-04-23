@@ -9,7 +9,7 @@ interface WingDetailsProps {
     wingDetails: Wing | null;
     isOpen: boolean;
     onClose: () => void;
-    onDelete?: (id: number) => void;
+    onDelete?: (data: Wing) => void;
     onSave?: (data: Wing) => void;
 }
 
@@ -38,21 +38,37 @@ export default function WingDetails({
     useEffect(() => {
         if (wingDetails) {
             setForm({
-                name: wingDetails.name || "",
-                prefix: wingDetails.prefix || "",
-                total_floors: wingDetails.total_floors || 0,
-                total_basement: wingDetails.total_basement || 0,
-                total_shop_floors: wingDetails.total_shop_floors || 0,
-                flats_on_floor: wingDetails.flats_on_floor || 0,
-                shops_on_floor: wingDetails.shops_on_floor || 0,
-                flat_size: wingDetails.flat_size || "",
-                shop_size: wingDetails.shop_size || "",
-                basement_size: wingDetails.basement_size || "",
-                type: wingDetails.type || "",
-                description: wingDetails.description || "",
+                name: wingDetails.name ?? "",
+                prefix: wingDetails.prefix ?? "",
+                total_floors: wingDetails.total_floors ?? 0,
+                total_basement: wingDetails.total_basement ?? 0,
+                total_shop_floors: wingDetails.total_shop_floors ?? 0,
+                flats_on_floor: wingDetails.flats_on_floor ?? 0,
+                shops_on_floor: wingDetails.shops_on_floor ?? 0,
+                flat_size: wingDetails.flat_size ?? "",
+                shop_size: wingDetails.shop_size ?? "",
+                basement_size: wingDetails.basement_size ?? "",
+                type: wingDetails.type ?? "",
+                description: wingDetails.description ?? "",
+            });
+        } else {
+            setForm({
+                name: "",
+                prefix: "",
+                total_floors: 0,
+                total_basement: 0,
+                total_shop_floors: 0,
+                flats_on_floor: 0,
+                shops_on_floor: 0,
+                flat_size: "",
+                shop_size: "",
+                basement_size: "",
+                type: "Residentials",
+                description: "",
             });
         }
-    }, [wingDetails]);
+    }, [wingDetails, isOpen]);
+    
 
     const handleChange = (key: keyof typeof form, value: string | number) => {
         if (typeof value === "number") {
@@ -63,11 +79,26 @@ export default function WingDetails({
 
     const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (wingDetails && onSave) {
-            onSave({
-                ...wingDetails,
+    
+        if (onSave) {
+            const now = new Date().toISOString();
+    
+            const base: Wing = {
+                id: wingDetails?.id ?? 0,
+                org_id: wingDetails?.org_id ?? 0,
+                project_id: wingDetails?.project_id ?? 0,
+                tower_id: wingDetails?.tower_id ?? 0,
+                created_by: wingDetails?.created_by ?? 1,
+                updated_by: wingDetails?.updated_by ?? null,
+                is_visible: wingDetails?.is_visible ?? 1,
+                is_deleted: wingDetails?.is_deleted ?? 0,
+                createdAt: wingDetails?.createdAt ?? now,
+                updatedAt: now,
+                floor_list: wingDetails?.floor_list ?? [],
                 ...form,
-            });
+            };
+    
+            onSave(base);
         }
     };
 
@@ -207,7 +238,7 @@ export default function WingDetails({
 
                     <div className="mt-6 flex items-center justify-between px-2">
                         {wingDetails?.id ? (
-                            <Button size="sm" variant="outline" onClick={() => onDelete && onDelete(wingDetails.id)}>
+                            <Button size="sm" variant="outline" onClick={() => onDelete && onDelete(wingDetails)}>
                                 Delete
                             </Button>
                         ) : (
@@ -216,7 +247,7 @@ export default function WingDetails({
 
                         <div className="flex gap-3">
                             <Button size="sm" variant="outline" onClick={onClose}>Close</Button>
-                            <Button size="sm">Save Changes</Button>
+                            <Button size="sm" type="submit">Save Changes</Button>
                         </div>
                     </div>
                 </form>

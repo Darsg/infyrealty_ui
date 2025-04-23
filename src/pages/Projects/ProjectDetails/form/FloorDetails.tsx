@@ -9,7 +9,7 @@ interface FloorDetailsProps {
     floorDetails: Floor | null;
     isOpen: boolean;
     onClose: () => void;
-    onDelete?: (id: number) => void;
+    onDelete?: (data: Floor) => void;
     onSave?: (data: Floor) => void;
 }
 
@@ -23,27 +23,44 @@ export default function FloorDetails({
     const [prefix, setPrefix] = useState("");
     const [floorNo, setFloorNo] = useState<number | string>("");
     const [description, setDescription] = useState("");
+    const [type, setType] = useState<"Residentials" | "Commercials">("Residentials");
 
     useEffect(() => {
-        setPrefix(floorDetails?.prefix || "");
-        setFloorNo(floorDetails?.floor_no ?? "");
-        setDescription(
-            floorDetails?.description && floorDetails.description !== "undefined"
-                ? floorDetails.description
-                : ""
-        );
+        if (floorDetails) {
+            setPrefix(floorDetails.prefix || "");
+            setFloorNo(floorDetails.floor_no ?? "");
+            setDescription(
+                floorDetails.description && floorDetails.description !== "undefined"
+                    ? floorDetails.description
+                    : ""
+            );
+            setType(
+                floorDetails.type === "Commercials" ? "Commercials" : "Residentials"
+            );
+        } else {
+            setPrefix("");
+            setFloorNo("");
+            setDescription("");
+            setType("Residentials");
+        }
     }, [floorDetails]);
 
     const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (floorDetails && onSave) {
-            onSave({
-                ...floorDetails,
-                prefix,
-                floor_no: Number(floorNo),
-                description,
-            });
-        }
+        const data: Floor = {
+            ...floorDetails!,
+            id: floorDetails?.id ?? 0,
+            prefix,
+            floor_no: floorNo === "" ? 0 : Number(floorNo),
+            type,
+            description,
+            org_id: floorDetails?.org_id ?? 0,
+            project_id: floorDetails?.project_id ?? 0,
+            tower_id: floorDetails?.tower_id ?? 0,
+            createdAt: floorDetails?.createdAt ?? new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        };
+        onSave?.(data);
     };
 
     return (
@@ -59,19 +76,25 @@ export default function FloorDetails({
                     <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
                         <div className="grid grid-cols-1 gap-x-6 gap-y-5 lg:grid-cols-2">
                             <div>
-                                <Label>Prefix</Label>
-                                <Input
-                                    type="text"
-                                    value={prefix}
-                                    onChange={(e) => setPrefix(e.target.value)}
-                                />
+                                <Label>Type</Label>
+                                <select
+                                    className="w-full h-11 p-2 border rounded-md text-sm font-medium text-gray-700 dark:text-gray-400"
+                                    value={type}
+                                    onChange={(e) => setType(e.target.value as "Residentials" | "Commercials")}
+                                >
+                                    <option value="Residentials">Residentials</option>
+                                    <option value="Commercials">Commercials</option>
+                                </select>
                             </div>
                             <div>
                                 <Label>Floor No.</Label>
                                 <Input
                                     type="number"
                                     value={floorNo}
-                                    onChange={(e) => setFloorNo(Number(e.target.value))}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setFloorNo(value === "" ? "" : Number(value));
+                                    }}
                                 />
                             </div>
                             <div>
@@ -90,7 +113,7 @@ export default function FloorDetails({
                             <Button
                                 size="sm"
                                 variant="outline"
-                                onClick={() => onDelete && onDelete(floorDetails.id)}
+                                onClick={() => onDelete?.(floorDetails)}
                             >
                                 Delete
                             </Button>
@@ -99,10 +122,10 @@ export default function FloorDetails({
                         )}
 
                         <div className="flex gap-3">
-                            <Button size="sm" variant="outline" onClick={onClose}>
+                            <Button type="button" size="sm" variant="outline" onClick={onClose}>
                                 Close
                             </Button>
-                            <Button size="sm">
+                            <Button type="submit" size="sm">
                                 Save Changes
                             </Button>
                         </div>

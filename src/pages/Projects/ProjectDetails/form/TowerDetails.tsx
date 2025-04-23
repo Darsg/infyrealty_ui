@@ -9,7 +9,7 @@ interface TowerDetailsProps {
     towerDetails: ProjectTower | null;
     isOpen: boolean;
     onClose: () => void;
-    onDelete?: (id: number) => void;
+    onDelete?: (data: ProjectTower) => void;
     onSave?: (data: ProjectTower) => void;
 }
 
@@ -30,13 +30,23 @@ export default function TowerDetails({
 
     const handleSave = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (towerDetails && onSave) {
-            onSave({
-                ...towerDetails,
-                name,
-                description,
-            });
-        }
+    
+        const newTower: ProjectTower = {
+            id: towerDetails?.id ?? 0,
+            org_id: towerDetails?.org_id ?? 0,
+            project_id: towerDetails?.project_id ?? 0,
+            name,
+            description,
+            created_by: towerDetails?.created_by ?? 0,
+            updated_by: towerDetails?.updated_by ?? null,
+            is_visible: towerDetails?.is_visible ?? 1,
+            is_deleted: towerDetails?.is_deleted ?? 0,
+            createdAt: towerDetails?.createdAt ?? new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            wing_list: towerDetails?.wing_list ?? [],
+        };
+    
+        onSave?.(newTower);
     };
 
     return (
@@ -73,11 +83,11 @@ export default function TowerDetails({
                     <div className="mt-6 flex items-center justify-between px-2">
                         {/* Left side: Delete button */}
                         {towerDetails?.id ? (
-                            <Button size="sm" variant="outline" onClick={() => onDelete && onDelete(towerDetails.id)}>
+                            <Button size="sm" variant="outline" onClick={() => onDelete && onDelete(towerDetails)}>
                                 Delete
                             </Button>
                         ) : (
-                            <div /> // placeholder to keep spacing consistent
+                            <div />
                         )}
 
                         {/* Right side: Close and Save buttons */}
@@ -85,7 +95,7 @@ export default function TowerDetails({
                             <Button size="sm" variant="outline" onClick={onClose}>
                                 Close
                             </Button>
-                            <Button size="sm">
+                            <Button size="sm" type="submit">
                                 Save Changes
                             </Button>
                         </div>

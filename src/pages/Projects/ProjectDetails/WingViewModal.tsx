@@ -6,7 +6,7 @@ import FlatBox from "./FlatBoxProps";
 interface WingModalProps {
     floorList: Floor[];
     onFloorEdit?: (floor: Floor) => void;
-    onFlatEdit?: (flat?: Flat) => void;
+    onFlatEdit?: (floor: Floor, flat?: Flat) => void;
 }
 
 export default function WingViewModal({ floorList, onFloorEdit, onFlatEdit }: WingModalProps) {
@@ -16,57 +16,57 @@ export default function WingViewModal({ floorList, onFloorEdit, onFlatEdit }: Wi
                 <div className="min-w-[400px]">
                     <Table>
                         <TableBody className="divide-y divide-gray-100 dark:divide-white/[0.05]">
-                            {floorList.map((floor) => {
-                                const hasFlats = floor?.flat_list?.length > 0 || floor.type === "Basement";
+                        {floorList.map((floor) => {
+                            return (
+                                <TableRow key={floor.id}>
+                                    <TableCell className="pl-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                                        <button
+                                            className="text-blue-500 underline hover:text-blue-700"
+                                            onClick={() => onFloorEdit?.(floor)}
+                                        >
+                                            <PencilIcon className="h-5 w-5 text-gray-500" />
+                                        </button>
+                                    </TableCell>
 
-                                if (!hasFlats) return null;
+                                    <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
+                                        <div className="overflow-x-auto">
+                                            {floor.type === "Basement" || floor.type === "Ground Floor" ? (
+                                                <FlatBox
+                                                    flatName={`${floor.type === "Ground Floor" ? "Ground Floor" : `${floor.type} ${floor.floor_no}`}`}
+                                                    isBasement={true}
+                                                    customClass="w-full border-yellow-500"
+                                                    enabled={true}
+                                                    onClick={() => console.log("nothing")}
+                                                />
+                                            ) : (
+                                                <div className="flex flex-nowrap gap-2">
+                                                    {floor.flat_list?.map((flat) => (
+                                                        <FlatBox
+                                                            key={flat.id}
+                                                            flatName={flat.name}
+                                                            isShop={flat.type === "Shop"}
+                                                            enabled={true}
+                                                            onClick={() => onFlatEdit?.(floor, flat)}
+                                                        />
+                                                    ))}
 
-                                return (
-                                    <TableRow key={floor.id}>
-                                        <TableCell className="pl-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                            <button
-                                                className="text-blue-500 underline hover:text-blue-700"
-                                                onClick={() => onFloorEdit?.(floor)}
-                                            >
-                                                <PencilIcon className="h-5 w-5 text-gray-500" />
-                                            </button>
-                                        </TableCell>
+                                                    {/* Always display the Info button, regardless of flat_list */}
+                                                    <button
+                                                        onClick={() => onFlatEdit?.(floor)}
+                                                        className="text-blue-500 underline hover:text-blue-700"
+                                                    >
+                                                        <InfoIcon className="w-5 h-5 text-gray-500" />
+                                                    </button>
+                                                </div>
+                                            )}
 
-                                        <TableCell className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400">
-                                            <div className="overflow-x-auto">
-                                                {floor.type === "Basement" ? (
-                                                    <FlatBox
-                                                        flatName={`${floor.type}${floor.floor_no}`}
-                                                        isBasement={true}
-                                                        customClass="w-full border-yellow-500"
-                                                        enabled={true}
-                                                        onClick={() => console.log("nothing")}
-                                                    />
-                                                ) : (
-                                                    <div className="flex flex-nowrap gap-2">
-                                                        {floor.flat_list.map((flat) => (
-                                                            <FlatBox
-                                                                key={flat.id}
-                                                                flatName={flat.name}
-                                                                isShop={flat.type === "Shop"}
-                                                                enabled={true}
-                                                                onClick={() => onFlatEdit?.(flat)}
-                                                            />
-                                                        ))}
+                                            
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
 
-                                                        <button
-                                                            onClick={() => onFlatEdit?.()}
-                                                            className="text-blue-500 underline hover:text-blue-700"
-                                                        >
-                                                            <InfoIcon className="w-5 h-5 text-gray-500" />
-                                                        </button>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
                         </TableBody>
                     </Table>
                 </div>
