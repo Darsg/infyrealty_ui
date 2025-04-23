@@ -448,8 +448,8 @@ export default function ProjectDetails() {
                     >
                         <div>
                             {(projectDetails?.res_tower_list?.length ?? 0) > 0 && 
-                                (projectDetails?.com_tower_list?.length ?? 0 > 0) &&
-                                    [...(projectDetails?.res_tower_list ?? []), ...(projectDetails?.com_tower_list ?? [])].map((tower) => (
+                                (projectDetails?.com_tower_list?.length ?? 0 > 0) && 
+                                    projectDetails?.res_tower_list.map((tower) => (
 
                                         // Going to print towerList here
                                         <TowerListModal
