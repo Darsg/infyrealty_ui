@@ -447,41 +447,42 @@ export default function ProjectDetails() {
                         onButtonClick={() => openTowerDialog()}
                     >
                         <div>
-                            {(projectDetails?.res_tower_list?.length ?? 0) > 0 && 
-                                    projectDetails?.res_tower_list.map((tower) => (
-
-                                        // Going to print towerList here
-                                        <TowerListModal
-                                            key={tower.id}
-                                            title={tower.name}
-                                            description={tower.description || ""}
-                                            buttonTitle="Add Wing"
-                                            onButtonClick={() => openWingDialog(tower)}
-                                            onTitleClick={() => openTowerDialog(tower.id)}
-                                        >
-                                            {tower?.wing_list?.length > 0 &&
-                                                tower.wing_list.map((wing) => (
-                                                    
-                                                    // Going to print wingList here
-                                                    <WingListModal
-                                                        key={wing.id}
-                                                        title={wing.name}
-                                                        description={wing.description || ""}
-                                                        buttonTitle="Add Floor"
-                                                        onButtonClick={() => openFloorDialog(tower, wing)}
-                                                        onTitleClick={() => openWingDialog(tower, wing.id)}
-                                                    >
-                                                        <WingViewModal 
-                                                            floorList={wing.floor_list}
-                                                            onFloorEdit={(floor) => openFloorDialog(tower, wing, floor.id)}
-                                                            onFlatEdit={(floor, flat) => openFlatDialog(tower, wing, floor, flat ? flat.id : undefined)}
-                                                        />
-                                                    </WingListModal>
-                                                ))}
-                                        </TowerListModal>
-                                    )
-                                )
-                                }
+                            {((projectDetails?.res_tower_list?.length ?? 0) > 0 ||
+                                (projectDetails?.com_tower_list?.length ?? 0) > 0) &&
+                                [
+                                    ...(projectDetails?.com_tower_list ?? []),
+                                    ...(projectDetails?.res_tower_list ?? [])
+                                ].map((tower) => (
+                                    // Going to print towerList here
+                                    <TowerListModal
+                                        key={tower.id}
+                                        title={tower.name}
+                                        description={tower.description || ""}
+                                        buttonTitle="Add Wing"
+                                        onButtonClick={() => openWingDialog(tower)}
+                                        onTitleClick={() => openTowerDialog(tower.id)}
+                                    >
+                                        {tower?.wing_list?.length > 0 &&
+                                            tower.wing_list.map((wing) => (
+                                                
+                                                // Going to print wingList here
+                                                <WingListModal
+                                                    key={wing.id}
+                                                    title={wing.name}
+                                                    description={wing.description || ""}
+                                                    buttonTitle="Add Floor"
+                                                    onButtonClick={() => openFloorDialog(tower, wing)}
+                                                    onTitleClick={() => openWingDialog(tower, wing.id)}
+                                                >
+                                                    <WingViewModal 
+                                                        floorList={wing.floor_list}
+                                                        onFloorEdit={(floor) => openFloorDialog(tower, wing, floor.id)}
+                                                        onFlatEdit={(floor, flat) => openFlatDialog(tower, wing, floor, flat ? flat.id : undefined)}
+                                                    />
+                                                </WingListModal>
+                                            ))}
+                                    </TowerListModal>
+                                ))}
                         </div>
                     </ComponentCardWithButton>
                 )}
