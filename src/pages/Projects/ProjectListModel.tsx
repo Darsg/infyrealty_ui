@@ -4,6 +4,7 @@ import { HeartIcon, PencilIcon } from "../../icons";
 import { Dropdown } from "../../components/ui/dropdown/Dropdown";
 import { useNavigate } from "react-router";
 import { Project } from "../../type/project";
+import { DropdownItem } from "../../components/ui/dropdown/DropdownItem";
 
 interface ProjectListModelProps {
   project: Project;
@@ -59,31 +60,41 @@ export default function ProjectListModel({ project, onEdit, onDelete, onView }: 
                 className="absolute right-0 mt-[32px] flex w-[200px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark"
               >
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-300">
-                  <li
-                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                    onClick={() => onEdit(project)}
-                  >
-                    Edit
+                  <li>
+                    <DropdownItem
+                      onItemClick={() => onEdit(project)}
+                      tag="button"
+                      className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5"
+                    >
+                      Edit
+                    </DropdownItem>
                   </li>
-                  <li
-                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                    onClick={() => onDelete(project)}
-                  >
-                    Delete
+                  <li>
+                    <DropdownItem
+                      onItemClick={() => onDelete(project)}
+                      tag="button"
+                      className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5"
+                    >
+                      Delete
+                    </DropdownItem>
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                    onClick={() => onView(project)}
-                  >
-                    View Details
+                  <li>
+                    <DropdownItem
+                      onItemClick={() => onView(project)}
+                      tag="button"
+                      className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5"
+                    >
+                      View Details
+                    </DropdownItem>
                   </li>
-                  <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-                    Permission
-                  </li>
-                  <li 
-                    className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-                    onClick={handleDocumentClick}
-                  >
-                    Documents
+                  <li>
+                    <DropdownItem
+                      onItemClick={handleDocumentClick}
+                      tag="button"
+                      className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-white/5"
+                    >
+                      Documents
+                    </DropdownItem>
                   </li>
                 </ul>
               </Dropdown>

@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableRow } from "../../../components/ui/table";
-import { InfoIcon, PencilIcon } from "../../../icons";
+import { PencilIcon, PlusIcon } from "../../../icons";
 import { Flat, Floor } from "../../../type/project";
 import FlatBox from "./FlatBoxProps";
 
@@ -36,7 +36,7 @@ export default function WingViewModal({ floorList, onFloorEdit, onFlatEdit }: Wi
                                                     isBasement={true}
                                                     customClass="w-full border-yellow-500"
                                                     enabled={true}
-                                                    onClick={() => console.log("nothing")}
+                                                    onClick={() => console.log("basement or ground floor clicked.")}
                                                 />
                                             ) : (
                                                 <div className="flex flex-nowrap gap-2">
@@ -51,16 +51,16 @@ export default function WingViewModal({ floorList, onFloorEdit, onFlatEdit }: Wi
                                                     ))}
 
                                                     {/* Always display the Info button, regardless of flat_list */}
-                                                    <button
-                                                        onClick={() => onFlatEdit?.(floor)}
-                                                        className="text-blue-500 underline hover:text-blue-700"
-                                                    >
-                                                        <InfoIcon className="w-5 h-5 text-gray-500" />
-                                                    </button>
+                                                    <div className="flex items-center">
+                                                        <button
+                                                            onClick={() => onFlatEdit?.(floor)}
+                                                            className="group flex h-10 w-10 items-center justify-center rounded-full border border-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+                                                        >
+                                                            <PlusIcon className="h-5 w-5 text-gray-500 transition-colors duration-150 group-hover:text-blue-600" />
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             )}
-
-                                            
                                         </div>
                                     </TableCell>
                                 </TableRow>

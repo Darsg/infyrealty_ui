@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import PageMeta from "../../../components/common/PageMeta";
 import ComponentCardWithButton from "../../../components/common/ComponentCardWithButton";
 import TowerListModal from "./TowerListModal";
@@ -36,6 +36,7 @@ export default function ProjectDetails() {
     const [msg, setMsg] = useState("");
 
     const isValidProjectId = projectIdParam !== null && projectIdParam.trim() !== "";
+    const navigate = useNavigate();
 
     /**
      * Function that use for open delete confirmation dialoge
@@ -126,7 +127,6 @@ export default function ProjectDetails() {
      * Function that use for create or update tower
      */
     const handleTowerSave = async (tower: ProjectTower) => {
-        console.log("tower", tower);
         try {
             const formData = new FormData();
             formData.append("tower_name", tower.name);
@@ -197,9 +197,6 @@ export default function ProjectDetails() {
      */
     const handleWingSave = async (wing: Wing) => {
         try {
-
-            console.log("wing", wing);
-
             const formData = new FormData();
             formData.append("project_id", String(projectDetails?.id));
             formData.append("tower_id", String(selectedTower?.id));
@@ -411,6 +408,17 @@ export default function ProjectDetails() {
     }
 
     /**
+     * Function that use for navigate to project list page
+     */
+    const handleBackClick = () => {
+        if (document.referrer.includes("/projects")) {
+            navigate(-1); 
+        } else {
+            navigate("/projects", { replace: true }); 
+        }
+    };
+    
+    /**
      * It takes projectId from params and fetches project details
      */
     useEffect(() => {
@@ -432,6 +440,8 @@ export default function ProjectDetails() {
                     <div className="text-center text-gray-500">Loading project details...</div>
                 ) : (
                     <ComponentCardWithButton
+                        backButton={true}
+                        onBackButtonClick={() => handleBackClick()}
                         title={`${projectDetails?.name ?? "Details"}`}
                         buttonTitle="Add Tower"
                         onButtonClick={() => openTowerDialog()}

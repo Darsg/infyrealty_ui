@@ -30,8 +30,6 @@ export default function FlatShopDetails({
 
     useEffect(() => {
 
-        console.log(floorDetails);
-
         if (flatShopDetails && floorDetails) {
             setName(flatShopDetails.name || "");
             setFloorNo(floorDetails.floor_no);
