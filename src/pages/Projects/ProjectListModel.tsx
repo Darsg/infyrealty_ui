@@ -27,9 +27,9 @@ export default function ProjectListModel({ project, onEdit, onDelete, onView }: 
         {/* Image Section */}
         <div className="col-span-1">
           <img
-            src={project?.photos[0]?.link ? project?.photos[0]?.link : "/images/grid-image/image-04.png"}
+            src={project?.photos[0]?.link ? project?.photos[0]?.link : "/images/grid-image/project_initial_2.jpg"}
             alt="grid"
-            className="border border-gray-200 rounded-xl dark:border-gray-800 w-full h-full min-h-[200px] object-cover hover:cursor-pointer"
+            className="border border-gray-200 rounded-xl dark:border-gray-800 w-full h-[200px] object-cover hover:cursor-pointer"
           />
         </div>
 

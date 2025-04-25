@@ -5,11 +5,6 @@ import {
     GridIcon,
     ProjectIcon,
     SettingIcon,
-    CalenderIcon,
-    UserCircleIcon,
-    ListIcon,
-    TableIcon,
-    PageIcon,
     CallIcon,
     TicketIcon,
 
@@ -105,37 +100,38 @@ export class Utility {
                     icon: React.createElement(TicketIcon),
                     path: "/ticket",
                 },
-                {
-                    icon: React.createElement(CalenderIcon),
-                    name: "Calendar",
-                    path: "/calendar",
-                },
-                {
-                    icon: React.createElement(UserCircleIcon),
-                    name: "User Profile",
-                    path: "/profile",
-                },
-                {
-                    name: "Forms",
-                    icon: React.createElement(ListIcon),
-                    subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
-                },
-                {
-                    name: "Tables",
-                    icon: React.createElement(TableIcon),
-                    subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
-                },
-                {
-                    name: "Pages",
-                    icon: React.createElement(PageIcon),
-                    subItems: [
-                    { name: "Blank Page", path: "/blank", pro: false },
-                    { name: "404 Error", path: "/error-404", pro: false },
-                    ],
-                }
+                // {
+                //     icon: React.createElement(CalenderIcon),
+                //     name: "Calendar",
+                //     path: "/calendar",
+                // },
+                // {
+                //     icon: React.createElement(UserCircleIcon),
+                //     name: "User Profile",
+                //     path: "/profile",
+                // },
+                // {
+                //     name: "Forms",
+                //     icon: React.createElement(ListIcon),
+                //     subItems: [{ name: "Form Elements", path: "/form-elements", pro: false }],
+                // },
+                // {
+                //     name: "Tables",
+                //     icon: React.createElement(TableIcon),
+                //     subItems: [{ name: "Basic Tables", path: "/basic-tables", pro: false }],
+                // },
+                // {
+                //     name: "Pages",
+                //     icon: React.createElement(PageIcon),
+                //     subItems: [
+                //     { name: "Blank Page", path: "/blank", pro: false },
+                //     { name: "404 Error", path: "/error-404", pro: false },
+                //     ],
+                // }
             ];
         
         return navItems.concat(staticPages);
+        // return navItems;
     }
 
     /**
