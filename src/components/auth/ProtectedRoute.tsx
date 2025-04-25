@@ -1,18 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../service/store/store";
 import { fetchUserData } from "../../service/reducer/UserInfoReducer";
 import { getRoleDetails } from "../../service/apis/AuthService";
 import { setPermissionData } from "../../service/reducer/permissionSlice";
-import { Module, PermissionDetails, RoleForm, RoleResponse, SubModule } from "../../type/permission";
+import {
+  Module,
+  PermissionDetails,
+  RoleForm,
+  RoleResponse,
+  SubModule,
+} from "../../type/permission";
+import SplashScreen from "../../pages/SplashScreen";
 
 const ProtectedRoute = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [isLoading, setIsLoading] = useState(true);
+
   const token = localStorage.getItem("infytoken");
   const roleId = localStorage.getItem("infyRoleId");
-  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchUserPermission = async (role_id: string) => {
       try {
         const response = await getRoleDetails(role_id);
@@ -65,17 +76,35 @@ const ProtectedRoute = () => {
           modules: modules,
         };
 
-        dispatch(setPermissionData(roleForm));
+        if (isMounted) {
+          dispatch(setPermissionData(roleForm));
+          dispatch(fetchUserData());
+        }
       } catch (error) {
-        console.log("Error while fetching user permission", error);
+        if (isMounted) {
+          console.error("Error while fetching user permission", error);
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     if (token && roleId) {
       fetchUserPermission(roleId);
-      dispatch(fetchUserData());
+    } else {
+      setIsLoading(false); // no auth info, skip loading
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, token, roleId]);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
 
   return token ? <Outlet /> : <Navigate to="/signin" replace />;
 };

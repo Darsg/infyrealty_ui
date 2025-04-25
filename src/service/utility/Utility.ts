@@ -7,6 +7,8 @@ import {
     SettingIcon,
     CallIcon,
     TicketIcon,
+    WorkSpaceIcon,
+    VisitorsIcon,
 
 } from '../../icons';
 import React from "react";
@@ -100,6 +102,16 @@ export class Utility {
                     icon: React.createElement(TicketIcon),
                     path: "/ticket",
                 },
+                {
+                    name: "Workspace",
+                    icon: React.createElement(WorkSpaceIcon),
+                    path: "/workspace",
+                },
+                {
+                    name: "Visitors",
+                    icon: React.createElement(VisitorsIcon),
+                    path: "/visitors",
+                }
                 // {
                 //     icon: React.createElement(CalenderIcon),
                 //     name: "Calendar",
