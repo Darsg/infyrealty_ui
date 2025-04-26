@@ -29,7 +29,7 @@ export default function BMUserInfoCard( { data, onEdit }: UserDataProps ) {
                 Email address
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {userData?.email}
+                {userData?.email || "-"}
               </p>
             </div>
 
@@ -38,7 +38,7 @@ export default function BMUserInfoCard( { data, onEdit }: UserDataProps ) {
                 Phone
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {userData?.phone_number}
+                {`${userData?.contact_code} ${userData?.contact_no}` || "-"}
               </p>
             </div>
 
@@ -47,7 +47,7 @@ export default function BMUserInfoCard( { data, onEdit }: UserDataProps ) {
                 Bio
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {userData?.bio} 
+                {userData?.description || "-"} 
               </p>
             </div>
           </div>

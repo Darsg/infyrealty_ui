@@ -53,6 +53,7 @@ export interface UserProfile {
     state: string;
     country: string;
     postal_code: string;
+    zipcode: string;
     gstin: string;
   }
   
