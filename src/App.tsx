@@ -19,6 +19,9 @@ import Ticket from "./pages/Ticket/Ticket";
 import SettingUserManage from "./pages/Setting/UserManagement/SettingUserManage";
 import ProjectDetails from "./pages/Projects/ProjectDetails/ProjectDetails";
 import Home from "./pages/Dashboard/Home";
+import UserProjectList from "./pages/AuthPages/UserProjectList";
+import ProjectAuth from "./components/auth/ProjectAuth";
+import UserProfiles from "./pages/UserProfiles";
 
 export default function App() {
   return (
@@ -39,7 +42,7 @@ export default function App() {
               <Route index path="/dashboard" element={<Home />} />
 
               {/* Others Page */}
-              {/* <Route path="/profile" element={<UserProfiles />} /> */}
+              <Route path="/profile" element={<UserProfiles />} />
               {/* <Route path="/calendar" element={<Calendar />} /> */}
               {/* <Route path="/blank" element={<Blank />} /> */}
 
@@ -91,6 +94,10 @@ export default function App() {
             <Route path="/otp-verification" element={<OtpVerification />} />
             <Route path="/reset-password" element={<ResetPassword />} />
           </Route>         
+
+          <Route element={<ProjectAuth />}>
+            <Route path="/select-project" element={<UserProjectList />} />
+          </Route>
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />

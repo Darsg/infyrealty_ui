@@ -1,10 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userInfoReducer from "../reducer/UserInfoReducer";
 import userPermissionReducer from "../reducer/permissionSlice";
 
 const store = configureStore({
   reducer: {
-    userInfo: userInfoReducer,
     userPermission: userPermissionReducer,
   },
 });

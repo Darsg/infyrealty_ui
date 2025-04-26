@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../service/store/store";
-import { fetchUserData } from "../../service/reducer/UserInfoReducer";
 import { getRoleDetails } from "../../service/apis/AuthService";
 import { setPermissionData } from "../../service/reducer/permissionSlice";
 import {
@@ -19,7 +18,10 @@ const ProtectedRoute = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const token = localStorage.getItem("infytoken");
-  const roleId = localStorage.getItem("infyRoleId");
+  const rawRoleId = localStorage.getItem("infyRoleId");
+  const roleId = rawRoleId !== "undefined" ? rawRoleId : null;
+  const isAdmin = localStorage.getItem("infyIsAdmin") === "Admin";
+  const projectId = localStorage.getItem("infyProjectId");
 
   useEffect(() => {
     let isMounted = true;
@@ -78,7 +80,6 @@ const ProtectedRoute = () => {
 
         if (isMounted) {
           dispatch(setPermissionData(roleForm));
-          dispatch(fetchUserData());
         }
       } catch (error) {
         if (isMounted) {
@@ -94,7 +95,7 @@ const ProtectedRoute = () => {
     if (token && roleId) {
       fetchUserPermission(roleId);
     } else {
-      setIsLoading(false); // no auth info, skip loading
+      setIsLoading(false);
     }
 
     return () => {
@@ -106,7 +107,7 @@ const ProtectedRoute = () => {
     return <SplashScreen />;
   }
 
-  return token ? <Outlet /> : <Navigate to="/signin" replace />;
+  return (token && ((isAdmin && roleId) || (projectId && roleId))) ? <Outlet /> : <Navigate to="/signin" replace />;
 };
 
 export default ProtectedRoute;

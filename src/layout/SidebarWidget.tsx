@@ -1,7 +1,11 @@
 export default function SidebarWidget() {
 
   const handleSignOut = () => {
+    
     localStorage.removeItem("infytoken");
+    localStorage.removeItem("infyIsAdmin");
+    localStorage.removeItem("infyRoleId");
+    localStorage.removeItem("infyProjectId");
     window.location.href = "/signin";
   };
 

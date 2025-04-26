@@ -196,7 +196,7 @@ export default function UserManageForm({
                         <Button size="sm" variant="outline" onClick={handleBack}>
                             Cancel
                         </Button>
-                        <Button size="sm">
+                        <Button size="sm" type="submit">
                             {userForm ? "Update User" : "Create User"}
                         </Button>
                     </div>

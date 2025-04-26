@@ -1,32 +1,14 @@
 import { useEffect, useState } from "react";
-
-interface UserData {
-  name: string;
-  email: string;
-  facebook_link: string;
-  twitter_link: string;
-  instagram_link: string;
-  linkedin_link: string;
-  phone_number: string;
-  bio: string;
-  address1: string;
-  address2: string;
-  region: string;
-  city: string;
-  state: string;
-  country: string;
-  postal_code: string;
-  gstin: string;
-}
+import { UserProfile } from "../../../type/usermanagment";
 
 interface UserDataProps {
-  data: UserData;
+  data: UserProfile;
   onEdit: () => void;
 }
 
 export default function BMUserInfoCard( { data, onEdit }: UserDataProps ) {
 
-   const [userData, setUserData] = useState<UserData | null>(null);
+   const [userData, setUserData] = useState<UserProfile | null>(null);
   
     useEffect(() => {
       setUserData(data);

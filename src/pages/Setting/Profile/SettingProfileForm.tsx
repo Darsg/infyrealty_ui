@@ -3,31 +3,13 @@ import Input from "../../../components/form/input/InputField";
 import Label from "../../../components/form/Label";
 import { Modal } from "../../../components/ui/modal";
 import Button from "../../../components/ui/button/Button";
-
-interface UserData {
-  name: string;
-  email: string;
-  facebook_link: string;
-  twitter_link: string;
-  instagram_link: string;
-  linkedin_link: string;
-  phone_number: string;
-  bio: string;
-  address1: string;
-  address2: string;
-  region: string;
-  city: string;
-  state: string;
-  country: string;
-  postal_code: string;
-  gstin: string;
-}
+import { UserProfile } from "../../../type/usermanagment";
 
 interface ProfileProps {
-  data: UserData;
+  data: UserProfile;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
-  onSave: (updatedData: UserData) => void;
+  onSave: (updatedData: UserProfile) => void;
 }
 
 export default function SettingProfileForm({
@@ -36,13 +18,13 @@ export default function SettingProfileForm({
   setIsOpen,
   onSave,
 }: ProfileProps) {
-  const [formData, setFormData] = useState<UserData>(data);
+  const [formData, setFormData] = useState<UserProfile>(data);
 
   useEffect(() => {
     setFormData(data);
   }, [data]);
 
-  const handleChange = (field: keyof UserData, value: string) => {
+  const handleChange = (field: keyof UserProfile, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 

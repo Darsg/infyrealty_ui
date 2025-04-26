@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { UserProfile } from "../../type/usermanagment";
+import { fetchUserDetails } from "../../service/apis/AuthService";
 import { Dropdown } from "../ui/dropdown/Dropdown";
-import { Link } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../service/store/store";
-import { fetchUserData } from "../../service/reducer/UserInfoReducer";
+import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { Link } from "react-router-dom";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [userData, setUserData] = useState<UserProfile | null>(null);
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -19,17 +19,28 @@ export default function UserDropdown() {
 
   const handleSignOut = () => {
     localStorage.removeItem("infytoken");
+    localStorage.removeItem("infyIsAdmin");
+    localStorage.removeItem("infyRoleId");
+    localStorage.removeItem("infyProjectId");
+    window.location.href = "/signin";
   }
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  const { data: userData } = useSelector(
-    (state: RootState) => state.userInfo
-  );
-
   useEffect(() => {
-    dispatch(fetchUserData());
-  }, [dispatch]);
+      const fetchData = async () => {
+        try {
+          const response = await fetchUserDetails();
+          if (response.status_code === 200) {
+            setUserData(response.record);
+          } else {
+            console.error("Error fetching user data: ", response.msg);
+          }
+        } catch (error) {
+          console.error("Error fetching user data: ", error);
+        }
+      };
+  
+      fetchData();
+    }, []);
 
   return (
     <div className="relative">
@@ -81,7 +92,7 @@ export default function UserDropdown() {
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
-              to="/profile"
+              to="/setting/profile"
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg
@@ -106,7 +117,7 @@ export default function UserDropdown() {
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
-              to="/profile"
+              to="/setting/profile"
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg
@@ -131,7 +142,7 @@ export default function UserDropdown() {
             <DropdownItem
               onItemClick={closeDropdown}
               tag="a"
-              to="/profile"
+              to="/setting/profile"
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg

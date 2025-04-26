@@ -26,10 +26,12 @@ export default function SignInForm() {
       if (response.status_code === 200) {
         toast(response.msg, { type: response.alert});
         localStorage.setItem("infytoken", response.jwtToken);
-        localStorage.setItem("infyRoleId", response.role_id);
         localStorage.setItem("infyIsAdmin", response.user_type);
         if(response.user_type === "Admin"){
+          localStorage.setItem("infyRoleId", response.role_id);
           navigate("/dashboard", { replace: true });
+        } else {
+          navigate("/select-project", { replace: true });
         }
       } else {
         toast.error(response.msg);

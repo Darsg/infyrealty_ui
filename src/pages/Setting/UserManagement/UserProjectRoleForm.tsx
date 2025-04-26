@@ -155,7 +155,7 @@ export default function UserProjectRoleForm({
                         <Button size="sm" variant="outline" onClick={onCancel}>
                             Cancel
                         </Button>
-                        <Button size="sm">
+                        <Button size="sm" type="submit">
                             {userForm ? "Update User" : "Create User"}
                         </Button>
                     </div>

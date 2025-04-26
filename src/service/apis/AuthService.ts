@@ -36,6 +36,8 @@ export const resetPassword = async (formData: FormData) => handleRequest(apiClie
 
 export const logOut = async () => handleRequest(apiClient.post("bm_user/logout", ""));
 
+export const fetchUserDetails = async () => handleRequest(apiClient.get("bm_user/get_auth_user"));
+
 /* User Authentication for User-Managment in Setting */
 export const createUser = async (formData: FormData) => handleRequest(apiClient.post("bm_user/create", formData));
 
@@ -135,12 +137,8 @@ export const getAssignedRole = async (roleId: number) => handleRequest(apiClient
 export const getOrgRoleList = async () => handleRequest(apiClient.get("bm_role_permission/get_roles"));
 
 /* User Managment APIs */
-// export const 
+// This API use for fetch project list which is assigned to user
+export const getAssignProjectList = async () => handleRequest(apiClient.get("bm_user/get_assign_project_list"));
 
 // This is used when user will login or refresh page call this and based on this show UI - status: pending
 export const getRoleDetails = async (roleId: string) => handleRequest(apiClient.get(`bm_role_permission/get_role_permission?role_id=${roleId}`));
-
-
-
-// curl --location ‘http://127.0.0.1:8181/bm_user/get_assign_project_list’ \
-// --header ‘Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJvcmdfaWQiOjF9LCJpYXQiOjE3NDQzMDc0Nzh9.pbFoMOHhR-N_WhX0EJQmuCwbC_zeQ1tDHzPad7O_oWg’

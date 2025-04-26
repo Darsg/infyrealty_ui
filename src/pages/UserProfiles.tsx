@@ -1,26 +1,7 @@
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
-import BmUserMetaCard from "../components/UserProfile/BuilderModule/BMUserMetaCard";
-import BMUserInfoCard from "../components/UserProfile/BuilderModule/BMUserInfoCard";
-import BMUserAddressCard from "../components/UserProfile/BuilderModule/BMUserAddressCard";
-import SettingProfileForm from "./Setting/Profile/SettingProfileForm";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { AppDispatch, RootState } from "../service/store/store";
-import { fetchUserData } from "../service/reducer/UserInfoReducer";
 
 export default function UserProfiles() {
-
-  const dispatch = useDispatch<AppDispatch>();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const { data: userData, loading, error } = useSelector(
-    (state: RootState) => state.userInfo
-  );
-
-  useEffect(() => {
-    dispatch(fetchUserData());
-  }, [dispatch]);
 
 
   return (
@@ -35,7 +16,7 @@ export default function UserProfiles() {
           Profile
         </h3>
         
-        {loading && <p>Loading...</p>}
+        {/* {loading && <p>Loading...</p>}
           {error && <p className="text-red-500">Error: {error}</p>}
   
           {userData && (
@@ -44,10 +25,10 @@ export default function UserProfiles() {
               <BMUserInfoCard data={userData} onEdit={() => setIsOpen(true)}/>
               <BMUserAddressCard data={userData} onEdit={() => setIsOpen(true)}/>
             </div>
-          )}
+          )} */}
       </div>
 
-      {isOpen && userData && (<SettingProfileForm data={userData} isOpen={isOpen} setIsOpen={setIsOpen} onSave={() => console.log("save clicked ...")}/>)}
+      {/* {isOpen && userData && (<SettingProfileForm data={userData} isOpen={isOpen} setIsOpen={setIsOpen} onSave={() => console.log("save clicked ...")}/>)} */}
       
     </>
   );

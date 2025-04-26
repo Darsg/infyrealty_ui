@@ -1,24 +1,33 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../service/store/store";
 import PageMeta from "../../../components/common/PageMeta";
-import BMUserAddressCard from "../../../components/UserProfile/BuilderModule/BMUserAddressCard";
-import BMUserInfoCard from "../../../components/UserProfile/BuilderModule/BMUserInfoCard";
+import { UserProfile } from "../../../type/usermanagment"; // Assuming you have a `UserProfile` type
+import { fetchUserDetails } from "../../../service/apis/AuthService";
 import BmUserMetaCard from "../../../components/UserProfile/BuilderModule/BMUserMetaCard";
-import { fetchUserData } from "../../../service/reducer/UserInfoReducer";
+import BMUserInfoCard from "../../../components/UserProfile/BuilderModule/BMUserInfoCard";
+import BMUserAddressCard from "../../../components/UserProfile/BuilderModule/BMUserAddressCard";
 import SettingProfileForm from "./SettingProfileForm";
 
 export default function SettingProfile() {
-  const dispatch = useDispatch<AppDispatch>();
   const [isOpen, setIsOpen] = useState(false);
+  const [userData, setUserData] = useState<UserProfile | null>(null);
 
-  const { data: userData } = useSelector(
-    (state: RootState) => state.userInfo
-  );
-
+  // Dhruvil API will be call here
   useEffect(() => {
-    dispatch(fetchUserData());
-  }, [dispatch]);
+    const fetchData = async () => {
+      try {
+        const response = await fetchUserDetails();
+        if (response.status_code === 200) {
+          setUserData(response.record);
+        } else {
+          console.error("Error fetching user data: ", response.msg);
+        }
+      } catch (error) {
+        console.error("Error fetching user data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -32,16 +41,25 @@ export default function SettingProfile() {
           Profile
         </h3>
 
-        {userData && (
+        {userData ? (
           <div className="space-y-6">
-            <BmUserMetaCard data={userData} onEdit={() => setIsOpen(true)}/>
-            <BMUserInfoCard data={userData} onEdit={() => setIsOpen(true)}/>
-            <BMUserAddressCard data={userData} onEdit={() => setIsOpen(true)}/>
+            <BmUserMetaCard data={userData} onEdit={() => setIsOpen(true)} />
+            <BMUserInfoCard data={userData} onEdit={() => setIsOpen(true)} />
+            <BMUserAddressCard data={userData} onEdit={() => setIsOpen(true)} />
           </div>
+        ) : (
+          <p>No user data available</p>
         )}
       </div>
 
-      {isOpen && userData && (<SettingProfileForm data={userData} isOpen={isOpen} setIsOpen={setIsOpen} onSave={() => console.log("save clicked ...")}/>)}
+      {isOpen && userData && (
+        <SettingProfileForm
+          data={userData}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          onSave={() => console.log("save clicked ...")}
+        />
+      )}
     </>
   );
 }
