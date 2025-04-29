@@ -15,7 +15,7 @@ export default function SignUpForm() {
     event.preventDefault();
   
     const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());//  --- Darsh
+    // const data = Object.fromEntries(formData.entries());//  --- Darsh
 
     try {
       const response = await signUp(formData);

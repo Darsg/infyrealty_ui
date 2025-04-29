@@ -12,17 +12,17 @@ import { RootState } from "../../service/store/store";
 export default function LineChart() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { userPermission, userInfo } = useSelector((state: RootState) => state);
+  const { userPermission } = useSelector((state: RootState) => state);
 
   // Loading state to control content rendering
   const [isLoading, setIsLoading] = useState(true);
 
   // Memoize the result to avoid recomputation
   const isAllowed = useMemo(() => {
-    const allowed = Utility.isPathAllowed({ userPermission, userInfo }, location.pathname);
+    const allowed = Utility.isPathAllowed({ userPermission }, location.pathname);
     setIsLoading(false); // Set loading to false once the check is done
     return allowed;
-  }, [userPermission, userInfo, location.pathname]);
+  }, [userPermission, location.pathname]);
 
   // Perform the check only once and avoid nesting inside useEffect
   useEffect(() => {

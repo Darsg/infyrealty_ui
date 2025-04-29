@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { createUser, updateUser } from "../../../service/apis/AuthService";
 import { Modal } from "../../../components/ui/modal";
 import Label from "../../../components/form/Label";
 import Input from "../../../components/form/input/InputField";
@@ -46,6 +44,7 @@ export default function UserManageForm({
     const handleBack = () => {
         setIsOpen(false);
         onCancel();
+        onSave(); // -- darsh
     };
 
     const handleAdd = async (e: React.FormEvent) => {
