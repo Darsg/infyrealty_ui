@@ -83,7 +83,7 @@ export default function DocDetails({ isOpen, onClose, onSave, docName, groupName
                 </div>
             </div>
             <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                <Button size="sm" disabled={!name.trim() || !selectedFile}>
+                <Button size="sm" disabled={!name.trim() || !selectedFile} type="submit">
                 {docName ? "Update" : "Add"}
                 </Button>
                 <Button size="sm" variant="outline" onClick={onClose}>

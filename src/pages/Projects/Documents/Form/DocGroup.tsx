@@ -105,7 +105,7 @@ export default function DocGroup({ isOpen, onClose, onSave, setIsOpen, docGroup,
                         </div>
                     </div>
                     <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                        <Button size="sm">
+                        <Button size="sm" type="submit">
                             {docGroup ? "Update" : "Add"}
                         </Button>
                     </div>
