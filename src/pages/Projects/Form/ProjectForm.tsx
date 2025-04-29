@@ -94,21 +94,9 @@ export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: Proj
         let response;
 
         if (project?.id) {
-            const formDataToSend = new FormData();
-            Object.entries(formData).forEach(([key, value]) => {
-                if (value !== null && value !== undefined) {
-                    formDataToSend.append(key, value.toString());
-                }
-            });
-            response = await updateProject(formDataToSend);
+            response = await updateProject(formData);
         } else {
-            const formDataToSend = new FormData();
-            Object.entries(formData).forEach(([key, value]) => {
-                if (value !== null && value !== undefined) {
-                    formDataToSend.append(key, value.toString());
-                }
-            });
-            response = await createProject(formDataToSend);
+            response = await createProject(formData);
         }
         console.log("Create/Update Project Response:", response);
 

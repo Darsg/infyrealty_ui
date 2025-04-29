@@ -50,33 +50,33 @@ export default function UserManageForm({
     const handleAdd = async (e: React.FormEvent) => {
         e.preventDefault();
     
-        // try { --- Darsh
-        //     let payload;
-        //     if (formData.id) {
-        //         const { id, ...rest } = formData;
-        //         payload = { ...rest, user_id: id }; // only user_id, no id
-        //         payload.address1 = formData.address || "";
-        //     } else {
-        //         payload = formData;
-        //         payload.address1 = formData.address || "";
-        //     }
+        try {
+            let payload;
+            if (formData.id) {
+                const { id, ...rest } = formData;
+                payload = { ...rest, user_id: id }; // only user_id, no id
+                payload.address1 = formData.address || "";
+            } else {
+                payload = formData;
+                payload.address1 = formData.address || "";
+            }
             
-        //     const response = formData.id
-        //         ? await updateUser(payload)
-        //         : await createUser(payload);
+            const response = formData.id
+                ? await updateUser(payload)
+                : await createUser(payload);
     
-        //     if (response?.error?.[0]?.msg) {
-        //         toast(response.error[0].msg, { type: "error" });
-        //         return;
-        //     }
+            if (response?.error?.[0]?.msg) {
+                toast(response.error[0].msg, { type: "error" });
+                return;
+            }
     
-        //     toast(response.msg, { type: response.alert || "success" });
-        //     setIsOpen(false);
-        //     onSave();
-        // } catch (error) {
-        //     console.error("Error creating/updating user:", error);
-        //     toast("Something went wrong.", { type: "error" });
-        // }
+            toast(response.msg, { type: response.alert || "success" });
+            setIsOpen(false);
+            onSave();
+        } catch (error) {
+            console.error("Error creating/updating user:", error);
+            toast("Something went wrong.", { type: "error" });
+        }
     };
 
     useEffect(() => {

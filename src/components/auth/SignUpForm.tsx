@@ -15,10 +15,10 @@ export default function SignUpForm() {
     event.preventDefault();
   
     const formData = new FormData(event.currentTarget);
-    // const data = Object.fromEntries(formData.entries());//  --- Darsh
+    const data = Object.fromEntries(formData.entries());
 
     try {
-      const response = await signUp(formData);
+      const response = await signUp(data);
 
       if(response.status_code === 200) {
         console.log("Sign Up Response:", response);
