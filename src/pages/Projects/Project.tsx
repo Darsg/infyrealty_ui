@@ -91,9 +91,11 @@ export default function Project() {
       </div>
 
       {/* Project Form for Create/Edit */}
-      {isOpen && (
+      {/* {isOpen && (
         <ProjectForm isOpen={isOpen} project={selectedProject} setIsOpen={setIsOpen} onSave={handleSaveProject} />
-      )}
+      )} */} 
+
+      {/* --- Darsh */}
 
       {/* Confirmation Dialog for Delete */}
       <BoxAlerts
