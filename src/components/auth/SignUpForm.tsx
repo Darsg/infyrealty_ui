@@ -15,7 +15,10 @@ export default function SignUpForm() {
     event.preventDefault();
   
     const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());
+    const data = new FormData();
+    formData.forEach((value, key) => {
+      data.append(key, value);
+    });
 
     try {
       const response = await signUp(data);
@@ -23,6 +26,8 @@ export default function SignUpForm() {
       if(response.status_code === 200) {
         console.log("Sign Up Response:", response);
         toast.success(response.msg);
+        localStorage.setItem("email", response.email);
+        localStorage.setItem("user_id", response.user_id.toString());
         handleSendOtp(response.email, response.user_id);
       } else {
         toast.error(response.msg);
