@@ -51,19 +51,27 @@ export default function UserManageForm({
         e.preventDefault();
     
         try {
-            let payload;
+            const data = new FormData();
+    
             if (formData.id) {
-                const { id, ...rest } = formData;
-                payload = { ...rest, user_id: id }; // only user_id, no id
-                payload.address1 = formData.address || "";
-            } else {
-                payload = formData;
-                payload.address1 = formData.address || "";
+                data.append("user_id", formData.id.toString());
+            }else if (formData.password) {
+                data.append("password", formData.password);
+                data.append("city", "");
+                data.append("state", "");
+                data.append("country", "");
             }
-            
+    
+            data.append("name", formData.name);
+            data.append("contact_code", formData.contact_code);
+            data.append("contact_no", formData.contact_no);
+            data.append("email", formData.email);
+            data.append("description", formData.description);
+            data.append("address1", formData.address || "");
+    
             const response = formData.id
-                ? await updateUser(payload)
-                : await createUser(payload);
+                ? await updateUser(data)
+                : await createUser(data);
     
             if (response?.error?.[0]?.msg) {
                 toast(response.error[0].msg, { type: "error" });
@@ -78,6 +86,7 @@ export default function UserManageForm({
             toast("Something went wrong.", { type: "error" });
         }
     };
+    
 
     useEffect(() => {
         if (userForm) {

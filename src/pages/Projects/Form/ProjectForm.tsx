@@ -14,8 +14,8 @@ interface Project {
   contact_code: string;
   contact_no: string;
   address1: string;
-  address2: string | null;
-  locality: string | null;
+  address2?: string | null;
+  locality?: string | null;
   city: string;
   state: string;
   country: string;
@@ -94,9 +94,21 @@ export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: Proj
         let response;
 
         if (project?.id) {
-            response = await updateProject(formData);
+            const formDataToSend = new FormData();
+            Object.entries(formData).forEach(([key, value]) => {
+                if (value !== null && value !== undefined) {
+                    formDataToSend.append(key, value.toString());
+                }
+            });
+            response = await updateProject(formDataToSend);
         } else {
-            response = await createProject(formData);
+            const formDataToSend = new FormData();
+            Object.entries(formData).forEach(([key, value]) => {
+                if (value !== null && value !== undefined) {
+                    formDataToSend.append(key, value.toString());
+                }
+            });
+            response = await createProject(formDataToSend);
         }
         console.log("Create/Update Project Response:", response);
 
@@ -186,7 +198,7 @@ export default function ProjectForm({ isOpen, setIsOpen, project, onSave }: Proj
           </div>
           <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
             <Button size="sm" variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
-            <Button size="sm" >{project ? "Update Project" : "Create Project"}</Button>
+            <Button size="sm" type="submit">{project ? "Update Project" : "Create Project"}</Button>
           </div>
         </form>
       </div>
