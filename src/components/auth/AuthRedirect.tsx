@@ -10,6 +10,8 @@ const AuthRedirect = () => {
     return <Navigate to="/dashboard" replace />;
   } else if (token && !isAdmin && roleId && roleId !== "undefined") {
     return <Navigate to="/dashboard" replace />;
+  } else if(token && !isAdmin && roleId === null) {
+    return <Navigate to="/select-project" replace />;
   } else {
     return <Outlet />;
   }
