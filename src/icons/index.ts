@@ -65,6 +65,7 @@ import { ReactComponent as ArrowLeftIcon } from "./arrow-left.svg?react"
 import { ReactComponent as UserRoleIcon } from "./user-role.svg?react"
 import { ReactComponent as WorkSpaceIcon } from "./workspace.svg?react"
 import { ReactComponent as VisitorsIcon } from "./visitors.svg?react"
+import { ReactComponent as OrganizationIcon } from "./organization.svg?react"
 
 export {
   ErrorHexaIcon,
@@ -133,5 +134,6 @@ export {
   ArrowLeftIcon,
   UserRoleIcon,
   WorkSpaceIcon,
-  VisitorsIcon
+  VisitorsIcon,
+  OrganizationIcon
 };

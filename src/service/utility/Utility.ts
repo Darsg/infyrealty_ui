@@ -9,6 +9,7 @@ import {
     TicketIcon,
     WorkSpaceIcon,
     VisitorsIcon,
+    OrganizationIcon,
 
 } from '../../icons';
 import React from "react";
@@ -90,6 +91,14 @@ export class Utility {
                 return null;
             })
             .filter((item) => item !== null) as NavItem[];
+
+            if(localStorage.getItem("infyIsAdmin") !== "Admin"){
+                navItems.push({
+                    name: "Swith Organization",
+                    icon: React.createElement(OrganizationIcon),
+                    path: "/select-organization",
+                });
+            }
 
             const staticPages: NavItem[] = [
                 {

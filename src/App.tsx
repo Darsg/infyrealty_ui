@@ -22,6 +22,7 @@ import Home from "./pages/Dashboard/Home";
 import UserProjectList from "./pages/AuthPages/UserProjectList";
 import ProjectAuth from "./components/auth/ProjectAuth";
 import UserProfiles from "./pages/UserProfiles";
+import SelectOrganization from "./pages/SelectOrganization/SelectOrganization";
 
 export default function App() {
   return (
@@ -67,6 +68,9 @@ export default function App() {
               {/* Project Page */}
               <Route path="/projects" element={<Project />} />
               <Route path="/project/documents" element={<ProjectDocs />} />
+
+              {/* Select Organization */}
+              <Route path="select-organization" element={<SelectOrganization />} />
 
               {/* Setting Page */}
               <Route path="/setting/profile" element={<SettingProfile />} />
