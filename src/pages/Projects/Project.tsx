@@ -7,18 +7,19 @@ import { toast } from "react-toastify";
 import BoxAlerts from "../UiElements/BoxAlerts";
 import type { Project } from "../../type/project";
 import { useNavigate } from "react-router";
+import ProjectForm from "./Form/ProjectForm";
 
 export default function Project() {
-  // const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isConfirmDialogOpen, setConfirmDialogOpen] = useState(false);
   const [projectId, setProjectId] = useState<number | null>(null);
   const [projectList, setProjectList] = useState<Project[]>([]);
-  // const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const navigate = useNavigate();
 
   const handleCreateProject = () => {
-    // setSelectedProject(null); // Clear previous selection for new project
-    // setIsOpen(true);
+    setSelectedProject(null); // Clear previous selection for new project
+    setIsOpen(true);
   };
 
   const fetchProjects = async () => {
@@ -36,15 +37,15 @@ export default function Project() {
     fetchProjects();
   }, []);
 
-  // const handleSaveProject = () => {
-  //   setIsOpen(false);
-  //   fetchProjects();
-  // };
+  const handleSaveProject = () => {
+    setIsOpen(false);
+    fetchProjects();
+  };
 
-  // const handleEdit = (project: Project) => {
-    // setSelectedProject(project);
-    // setIsOpen(true);
-  // };
+  const handleEdit = (project: Project) => {
+    setSelectedProject(project);
+    setIsOpen(true);
+  };
 
   const handleDelete = async () => {
     
@@ -75,8 +76,7 @@ export default function Project() {
         <ComponentCardWithButton title="Project List" buttonTitle="Create Project" onButtonClick={handleCreateProject}>
           <ProjectList 
             projectList={projectList} 
-            // onEdit={handleEdit}
-            onEdit={() => console.log("Edit project")} // Placeholder for edit function
+            onEdit={(project) => handleEdit(project)}
             onDelete={confirmDelete} 
             onView={(projectId) => {
               const id = Number(projectId.id);
