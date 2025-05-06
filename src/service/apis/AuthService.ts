@@ -36,7 +36,12 @@ export const resetPassword = async (formData: FormData) => handleRequest(apiClie
 
 export const logOut = async () => handleRequest(apiClient.post("bm_user/logout", ""));
 
+// Normally
 export const fetchUserDetails = async () => handleRequest(apiClient.get("bm_user/get_auth_user"));
+// For setting profile
+export const fetchUserDetailsForSetting = async () => handleRequest(apiClient.get("bm_user/get_profile"));
+
+export const saveUserDetails = async (formData: FormData) => handleRequest(apiClient.put("bm_user/update_profile", formData));
 
 /* User Authentication for User-Managment in Setting */
 export const createUser = async (formData: FormData) => handleRequest(apiClient.post("bm_user/create", formData));

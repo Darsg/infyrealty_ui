@@ -29,7 +29,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   Address One
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.address1}
+                  {userData?.address1 || "-"}
                 </p>
               </div>
 
@@ -38,7 +38,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   Address Two
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.address2}
+                  {userData?.address2 || "-"}
                 </p>
               </div>
 
@@ -47,7 +47,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   Region
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.region}
+                  {userData?.region || "-"}
                 </p>
               </div>
 
@@ -56,7 +56,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   City
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.city}
+                  {userData?.city || "-"}
                 </p>
               </div>
 
@@ -65,7 +65,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   State
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.state}
+                  {userData?.state || "-"}
                 </p>
               </div>
 
@@ -74,7 +74,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   Country
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.country}
+                  {userData?.country || "-"}
                 </p>
               </div>
 
@@ -83,7 +83,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   Postal Code
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.postal_code}
+                  {userData?.zipcode || "-"}
                 </p>
               </div>
 
@@ -92,7 +92,7 @@ export default function BMUserAddressCard( { data, onEdit }: UserDataProps ) {
                   TAX ID
                 </p>
                 <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                  {userData?.gstin}
+                  {userData?.gstin || "-"}
                 </p>
               </div>
             </div>

@@ -61,7 +61,7 @@ export default function SettingProfileForm({
                   <Label>Facebook</Label>
                   <Input
                     type="text"
-                    value={formData.facebook_link}
+                    value={formData.facebook_link || ""}
                     onChange={(e) => handleChange("facebook_link", e.target.value)}
                   />
                 </div>
@@ -69,7 +69,7 @@ export default function SettingProfileForm({
                   <Label>X.com</Label>
                   <Input
                     type="text"
-                    value={formData.twitter_link}
+                    value={formData.twitter_link || ""}
                     onChange={(e) => handleChange("twitter_link", e.target.value)}
                   />
                 </div>
@@ -77,7 +77,7 @@ export default function SettingProfileForm({
                   <Label>LinkedIn</Label>
                   <Input
                     type="text"
-                    value={formData.linkedin_link}
+                    value={formData.linkedin_link || ""}
                     onChange={(e) => handleChange("linkedin_link", e.target.value)}
                   />
                 </div>
@@ -85,7 +85,7 @@ export default function SettingProfileForm({
                   <Label>Instagram</Label>
                   <Input
                     type="text"
-                    value={formData.instagram_link}
+                    value={formData.instagram_link || ""}
                     onChange={(e) => handleChange("instagram_link", e.target.value)}
                   />
                 </div>
@@ -102,7 +102,7 @@ export default function SettingProfileForm({
                   <Label>Name</Label>
                   <Input
                     type="text"
-                    value={formData.name}
+                    value={formData.name || ""}
                     onChange={(e) => handleChange("name", e.target.value)}
                   />
                 </div>
@@ -110,23 +110,31 @@ export default function SettingProfileForm({
                   <Label>Email Address</Label>
                   <Input
                     type="text"
-                    value={formData.email}
+                    value={formData.email || ""}
                     onChange={(e) => handleChange("email", e.target.value)}
+                  />
+                </div>
+                <div>
+                  <Label>Contact Code</Label>
+                  <Input
+                    type="text"
+                    value={formData.contact_code || ""}
+                    onChange={(e) => handleChange("contact_code", e.target.value)}
                   />
                 </div>
                 <div>
                   <Label>Phone</Label>
                   <Input
                     type="text"
-                    value={formData.phone_number}
-                    onChange={(e) => handleChange("phone_number", e.target.value)}
+                    value={formData.contact_no || ""}
+                    onChange={(e) => handleChange("contact_no", e.target.value)}
                   />
                 </div>
                 <div className="col-span-2">
                   <Label>Bio</Label>
                   <Input
                     type="text"
-                    value={formData.bio}
+                    value={formData.description || ""}
                     onChange={(e) => handleChange("bio", e.target.value)}
                   />
                 </div>
@@ -143,7 +151,7 @@ export default function SettingProfileForm({
                   <Label>Address One</Label>
                   <Input
                     type="text"
-                    value={formData.address1}
+                    value={formData.address1 || ""}
                     onChange={(e) => handleChange("address1", e.target.value)}
                   />
                 </div>
@@ -151,7 +159,7 @@ export default function SettingProfileForm({
                   <Label>Address Two</Label>
                   <Input
                     type="text"
-                    value={formData.address2}
+                    value={formData.address2 || ""}
                     onChange={(e) => handleChange("address2", e.target.value)}
                   />
                 </div>
@@ -159,7 +167,7 @@ export default function SettingProfileForm({
                   <Label>Region</Label>
                   <Input
                     type="text"
-                    value={formData.region}
+                    value={formData.region || ""}
                     onChange={(e) => handleChange("region", e.target.value)}
                   />
                 </div>
@@ -167,7 +175,7 @@ export default function SettingProfileForm({
                   <Label>City</Label>
                   <Input
                     type="text"
-                    value={formData.city}
+                    value={formData.city || ""}
                     onChange={(e) => handleChange("city", e.target.value)}
                   />
                 </div>
@@ -175,7 +183,7 @@ export default function SettingProfileForm({
                   <Label>State</Label>
                   <Input
                     type="text"
-                    value={formData.state}
+                    value={formData.state || ""}
                     onChange={(e) => handleChange("state", e.target.value)}
                   />
                 </div>
@@ -183,7 +191,7 @@ export default function SettingProfileForm({
                   <Label>Country</Label>
                   <Input
                     type="text"
-                    value={formData.country}
+                    value={formData.country || ""}
                     onChange={(e) => handleChange("country", e.target.value)}
                   />
                 </div>
@@ -191,15 +199,15 @@ export default function SettingProfileForm({
                   <Label>Postal Code</Label>
                   <Input
                     type="text"
-                    value={formData.postal_code}
-                    onChange={(e) => handleChange("postal_code", e.target.value)}
+                    value={formData.zipcode || ""}
+                    onChange={(e) => handleChange("zipcode", e.target.value)}
                   />
                 </div>
                 <div>
                   <Label>GSTIN</Label>
                   <Input
                     type="text"
-                    value={formData.gstin}
+                    value={formData.gstin || ""}
                     onChange={(e) => handleChange("gstin", e.target.value)}
                   />
                 </div>
