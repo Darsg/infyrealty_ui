@@ -66,6 +66,7 @@ import { ReactComponent as UserRoleIcon } from "./user-role.svg?react"
 import { ReactComponent as WorkSpaceIcon } from "./workspace.svg?react"
 import { ReactComponent as VisitorsIcon } from "./visitors.svg?react"
 import { ReactComponent as OrganizationIcon } from "./organization.svg?react"
+import { ReactComponent as EmptyProfileIcon } from "./empty_profile.svg?react"
 
 export {
   ErrorHexaIcon,
@@ -135,5 +136,6 @@ export {
   UserRoleIcon,
   WorkSpaceIcon,
   VisitorsIcon,
-  OrganizationIcon
+  OrganizationIcon,
+  EmptyProfileIcon
 };

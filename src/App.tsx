@@ -23,6 +23,8 @@ import UserProjectList from "./pages/AuthPages/UserProjectList";
 import ProjectAuth from "./components/auth/ProjectAuth";
 import UserProfiles from "./pages/UserProfiles";
 import SelectOrganization from "./pages/SelectOrganization/SelectOrganization";
+import Visitors from "./pages/Visitors/Visitors";
+import WorkSpace from "./pages/WorkSpace/WorkSpace";
 
 export default function App() {
   return (
@@ -70,7 +72,13 @@ export default function App() {
               <Route path="/project/documents" element={<ProjectDocs />} />
 
               {/* Select Organization */}
-              <Route path="select-organization" element={<SelectOrganization />} />
+              <Route path="/select-organization" element={<SelectOrganization />} />
+
+              {/* Select Visitor Space */}
+              <Route path="/visitors" element={<Visitors />} />
+
+              {/* Select WorkSpace */}
+              <Route path="/workspace" element={<WorkSpace />} />
 
               {/* Setting Page */}
               <Route path="/setting/profile" element={<SettingProfile />} />

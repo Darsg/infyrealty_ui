@@ -110,6 +110,7 @@ export default function SettingProfileForm({
                   <Label>Email Address</Label>
                   <Input
                     type="text"
+                    disabled
                     value={formData.email || ""}
                     onChange={(e) => handleChange("email", e.target.value)}
                   />
