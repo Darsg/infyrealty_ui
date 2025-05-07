@@ -105,7 +105,7 @@ export default function OtpVerification() {
                         </p>
                     </div>
                     <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
-                        <Button size="sm" disabled={otp.length !== 6}>
+                        <Button size="sm" disabled={otp.length !== 6} type="submit">
                             Verify
                         </Button>
                     </div>

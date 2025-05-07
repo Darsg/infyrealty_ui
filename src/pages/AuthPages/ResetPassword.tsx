@@ -2,16 +2,22 @@ import { useState } from "react";
 import Input from "../../components/form/input/InputField";
 import Label from "../../components/form/Label";
 import Button from "../../components/ui/button/Button";
-import { sendOTP } from "../../service/apis/AuthService";
+import { resetPassword, sendOTP } from "../../service/apis/AuthService";
+import { toast } from "react-toastify";
+import { EyeCloseIcon, EyeIcon } from "../../icons";
 
 export default function ResetPassword() {
     const [email, setEmail] = useState("");
+    const [otp, setOtp] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [otpSend, setOtpSend] = useState(true);
     const [timer, setTimer] = useState(0);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleSendOtp = async () => {
         if (!email) {
-            alert("Please enter your email.");
+            toast("Please enter your email.", { type: "error" });
             return;
         }
 
@@ -23,8 +29,8 @@ export default function ResetPassword() {
 
             if (response.status_code === 200) {
                 setOtpSend(true);
-                setTimer(60);
-                
+                setTimer(30);
+
                 const countdown = setInterval(() => {
                     setTimer(prev => {
                         if (prev === 1) {
@@ -34,8 +40,47 @@ export default function ResetPassword() {
                     });
                 }, 1000);
             }
+
+            toast(response.msg, { type: response.alert });
         } catch (error) {
             console.error("Error while sending OTP:", error);
+        }
+    };
+
+    const handleResetPassword = async () => {
+        if (otp.length !== 6) {
+            toast("OTP must be 6 digits.", { type: "error" });
+            return;
+        }
+
+        if (newPassword.trim().length < 8) {
+            toast("Enter a password with at least 8 characters.", { type: "error" });
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            toast("Passwords do not match.", { type: "error" });
+            return;
+        }
+
+        try {
+            const formData = new FormData();
+            formData.append("email", email); // Change base on payload - darsh
+            formData.append("otp", otp); // Change base on payload - darsh
+            formData.append("new_password", newPassword); // Change base on payload - darsh
+            // Add base on payload - darsh
+
+            const response = await resetPassword(formData);
+
+            toast(response.msg, { type: response.alert });
+
+            if (response.status_code === 200) {
+                setTimeout(() => {
+                    window.location.href = "/signin";
+                }, 2000);
+            }
+        } catch (error) {
+            console.error("Error while resetting password:", error);
         }
     };
 
@@ -55,11 +100,11 @@ export default function ResetPassword() {
                             <div>
                                 <Label>Email</Label>
                                 <Input 
-                                        type="email" 
-                                        name="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                    />
+                                    type="email" 
+                                    name="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
                                 <button 
                                     onClick={handleSendOtp} 
                                     disabled={timer > 0}
@@ -76,22 +121,51 @@ export default function ResetPassword() {
                                 <>
                                     <div>
                                         <Label>OTP</Label>
-                                        <Input type="text" name="otp" />
+                                        <Input 
+                                            type="text" 
+                                            name="otp" 
+                                            value={otp}
+                                            onChange={(e) => setOtp(e.target.value)} 
+                                        />
                                     </div>
 
                                     <div>
                                         <Label>Enter New Password</Label>
-                                        <Input type="password" name="newpassword" />
+                                        <div className="relative">
+                                            <Input
+                                                type={showPassword ? "text" : "password"}
+                                                name="newpassword"
+                                                value={newPassword}
+                                                onChange={(e) => setNewPassword(e.target.value)}
+                                                placeholder="Enter your password"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute z-30 -translate-y-1/2 cursor-pointer right-4 top-1/2"
+                                            >
+                                                {showPassword ? (
+                                                    <EyeIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                                                ) : (
+                                                    <EyeCloseIcon className="fill-gray-500 dark:fill-gray-400 size-5" />
+                                                )}
+                                            </button>
+                                        </div>
                                     </div>
 
                                     <div>
                                         <Label>Re-Enter New Password</Label>
-                                        <Input type="password" name="password" />
+                                        <Input 
+                                            type="password" 
+                                            name="password"
+                                            value={confirmPassword}
+                                            onChange={(e) => setConfirmPassword(e.target.value)} 
+                                        />
                                     </div>
 
                                     <div className="flex justify-end gap-3">
-                                        <Button size="sm" variant="outline">Cancel</Button>
-                                        <Button size="sm">Reset Password</Button>
+                                        <Button size="sm" variant="outline" onClick={() => window.history.back()}>Cancel</Button>
+                                        <Button size="sm" onClick={handleResetPassword}>Reset Password</Button>
                                     </div>
                                 </>
                             )}

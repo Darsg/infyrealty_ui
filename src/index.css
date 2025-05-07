@@ -776,3 +776,19 @@ span.flatpickr-weekday,
 .simplebar-scrollbar.simplebar-visible:before {
   @apply opacity-100;
 }
+
+@layer utilities {
+  .progress-bar {
+    animation: move-progress 1.2s linear infinite;
+  }
+
+  @keyframes move-progress {
+    0% {
+      left: -33%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+}
+
